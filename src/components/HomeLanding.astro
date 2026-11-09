@@ -5,6 +5,22 @@ import type { ContentPage } from "../lib/pages";
 import { t, localizedPath, markerLines, type Locale } from "../i18n";
 import HomeHero from "./HomeHero.astro";
 import EditorialImage from "./EditorialImage.astro";
+import benefit0Svg from "../../public/assets/brand/benefit-0.svg?raw";
+import benefit1Svg from "../../public/assets/brand/benefit-1.svg?raw";
+import benefit2Svg from "../../public/assets/brand/benefit-2.svg?raw";
+import benefit3Svg from "../../public/assets/brand/benefit-3.svg?raw";
+import benefit4Svg from "../../public/assets/brand/benefit-4.svg?raw";
+import benefit5Svg from "../../public/assets/brand/benefit-5.svg?raw";
+const benefitSvgs = [
+  benefit0Svg,
+  benefit1Svg,
+  benefit2Svg,
+  benefit3Svg,
+  benefit4Svg,
+  benefit5Svg,
+];
+const svgDataUri = (svg: string) =>
+  `data:image/svg+xml,${encodeURIComponent(svg)}`;
 interface Props {
   page: ContentPage;
   lang: Locale;
@@ -56,7 +72,7 @@ const markerAnchors: Record<string, [string, string]> = {
       {benefitPairs.map(([title, copy], i) => (
         <div class="home-benefit">
           <img
-            src={`/assets/brand/benefit-${i}.svg`}
+            src={svgDataUri(benefitSvgs[i]!)}
             alt=""
             width="32"
             height="32"
@@ -126,7 +142,7 @@ const markerAnchors: Record<string, [string, string]> = {
         data-home-scene={`gallery-${index}`}
       >
         <div class="home-scene-background" data-background-cycle={index === 2 ? "5000" : undefined}>
-          <div class="home-background-frame is-active">{index === 0 ? <img src="/assets/buildings/pyatnitskaya-day.png" width="5079" height="3677" alt={t(lang, image.altKey)} loading="lazy" /> : <EditorialImage src={image.src} alt={t(lang, image.altKey)} hero />}</div>
+          <div class="home-background-frame is-active">{index === 0 ? <img src="/assets/buildings/pyatnitskaya-day.webp" width="5079" height="3677" alt={t(lang, image.altKey)} loading="lazy" /> : <EditorialImage src={image.src} alt={t(lang, image.altKey)} hero />}</div>
           {index === 2 && <div class="home-background-frame"><EditorialImage src={gallery!.media[3]!.src} alt={t(lang, gallery!.media[3]!.altKey)} hero /></div>}
         </div>
         {index === 1 && <div class="home-photo-points home-photo-points--pool">

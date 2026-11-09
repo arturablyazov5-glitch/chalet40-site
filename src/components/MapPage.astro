@@ -15,8 +15,8 @@ const mapStyle = `--map-aspect-w: ${mapAspectW}; --map-aspect-h: ${mapAspectH}`;
 <div class="location-map" style={mapStyle}>
   <h1 class="sr-only">{t(lang, page.sections[0]!.headings[0]!.key)}</h1>
   <div class="location-map__continuation" aria-hidden="true">
-    <img class="location-map__side location-map__side--left" src="/assets/maps/continuation-left.svg" alt="" />
-    <img class="location-map__side location-map__side--right" src="/assets/maps/continuation-right.svg" alt="" />
+    <img class="location-map__side location-map__side--left" src="/assets/maps/continuation-left.svg" alt="" loading="lazy" decoding="async" />
+    <img class="location-map__side location-map__side--right" src="/assets/maps/continuation-right.svg" alt="" loading="lazy" decoding="async" />
   </div>
   <LocationMap lang={lang} altKey={page.sections[0]!.media[0]!.altKey} />
 </div>

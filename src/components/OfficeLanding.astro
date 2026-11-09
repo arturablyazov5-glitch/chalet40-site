@@ -12,7 +12,7 @@ const anchors:Record<string,[string,string]>={golikovsky:["0.60","0.26"],pyatnit
 <link rel="stylesheet" href={componentStyles} />
 <section class="office-selector">
   <h1 class="sr-only">{t(lang,section.headings[0]!.key)}</h1>
-  <div class="office-selector__background"><img src="/assets/buildings/pyatnitskaya-day.png" width="5079" height="3677" alt={t(lang,section.media[0]!.altKey)} loading="eager" /></div>
+  <div class="office-selector__background"><img src="/assets/buildings/pyatnitskaya-day.webp" width="5079" height="3677" alt={t(lang,section.media[0]!.altKey)} loading="eager" /></div>
   <nav class="office-selector__targets" aria-label={t(lang,section.headings[0]!.key)}>
     {(['golikovsky','pyatnitskaya','parking'] as const).map(id=>{
       const [l1,l2]=markerLines(id==='parking'?t(lang,'home.undergroundParking'):t(lang,'home.buildingLabel',{name:t(lang,`building.${id}`)}));

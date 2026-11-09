@@ -8,6 +8,9 @@ import { buildingPath, lotText, lotMetrics, priceText } from "../lib/lots";
 import { t, localizedPath, currency, number, type Locale } from "../i18n";
 import LotImage from "./LotImage.astro";
 import ConsultButton from "./ConsultButton.astro";
+import compassSvg from "../../public/assets/icons/compass.svg?raw";
+const svgDataUri = (svg: string) =>
+  `data:image/svg+xml,${encodeURIComponent(svg)}`;
 interface Props {
   lot: Lot;
   lang: Locale;
@@ -120,14 +123,14 @@ const metricAreaLabels = {
     <figure class="property-figure room-plan">
       {variants.length ? <div>
 
-        {variants.map((variant, i) => <button class="image-button" type="button" data-zoom data-plan-panel={i} hidden={i !== 0}><img src={variant.src} alt={`${text.name} — ${planLabel(variant)}`} /></button>)}
+        {variants.map((variant, i) => <button class="image-button" type="button" data-zoom data-plan-panel={i} hidden={i !== 0}><img src={variant.src} alt={`${text.name} — ${planLabel(variant)}`} loading="lazy" decoding="async" /></button>)}
       </div> : <button class="image-button" type="button" data-zoom aria-label={t(lang, "ui.zoom")}><LotImage src={lot.media.plan.src} alt={t(lang, `lot.${lot.id}.alt.plan`)} eager /></button>}
       <figcaption class="lot-description">{text.description}</figcaption>
     </figure>
     {lot.media.floor && (
       <figure class="property-figure floor-plan">
         {variants.length > 1 ? variants.map((variant, i) => <div data-secondary-plan={i} hidden={i !== 0}>
-          <button class="image-button" type="button" data-zoom aria-label={t(lang, "ui.zoom")}><img src={variant.src} alt={`${text.name} — ${planLabel(variant)}`} /></button>
+          <button class="image-button" type="button" data-zoom aria-label={t(lang, "ui.zoom")}><img src={variant.src} alt={`${text.name} — ${planLabel(variant)}`} loading="lazy" decoding="async" /></button>
           <figcaption class="eyebrow">{planCaption(variant)}</figcaption>
         </div>) : <>
         <button
@@ -173,7 +176,7 @@ const metricAreaLabels = {
     <figure class="compass" aria-label={t(lang, "ui.north")}>
       <figcaption>N</figcaption>
       <img
-        src="/assets/icons/compass.svg"
+        src={svgDataUri(compassSvg)}
         width="52"
         height="52"
         alt=""

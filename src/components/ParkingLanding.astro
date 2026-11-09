@@ -5,7 +5,7 @@ import { t, type Locale } from "../i18n";
 import EditorialImage from "./EditorialImage.astro";
 import ParkingHero from "./ParkingHero.astro";
 import ParkingSelection from "./ParkingSelection.astro";
-import sizes from "../assets/editorial/parking-sizes.svg?raw";
+const sizes = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 872 441" width="872" height="441" role="presentation"><image href="/assets/editorial/parking-sizes.webp" width="872" height="441"/></svg>`;
 interface Props {
   page: ContentPage;
   lang: Locale;

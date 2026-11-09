@@ -2,6 +2,12 @@
 import { t, localizedPath, unlocalizedPath, type Locale } from "../i18n";
 import { siteData } from "../data/site";
 import ConsultButton from "./ConsultButton.astro";
+import menuBurgerSvg from "../../public/assets/brand/menu-burger.svg?raw";
+import phoneSvg from "../../public/assets/brand/phone.svg?raw";
+import whatsappSvg from "../../public/assets/brand/whatsapp.svg?raw";
+// Inline small icons as data URIs: same <img> markup and CSS, zero HTTP requests.
+const svgDataUri = (svg: string) =>
+  `data:image/svg+xml,${encodeURIComponent(svg)}`;
 interface Props {
   lang: Locale;
 }
@@ -21,7 +27,7 @@ const other = lang === "ru" ? "en" : "ru";
     aria-label={t(lang, "nav.menu")}
   >
     <img
-      src="/assets/brand/menu-burger.svg"
+      src={svgDataUri(menuBurgerSvg)}
       width="38"
       height="38"
       alt=""
@@ -100,7 +106,7 @@ const other = lang === "ru" ? "en" : "ru";
     <div class="navigation-social">
       <a href={siteData.contacts.phoneHref} aria-label={t(lang, "form.phone")}>
         <img
-          src="/assets/brand/phone.svg"
+          src={svgDataUri(phoneSvg)}
           width="30"
           height="30"
           alt=""
@@ -115,7 +121,7 @@ const other = lang === "ru" ? "en" : "ru";
         rel="noopener"
       >
         <img
-          src="/assets/brand/whatsapp.svg"
+          src={svgDataUri(whatsappSvg)}
           width="30"
           height="30"
           alt=""

@@ -62,7 +62,7 @@ const interactiveRegions = hitRegions.filter(region => lots.some(lot => lot.id =
 >
   {lots.map((lot, i) => (
     <div class="selection-background" data-slide={lot.id} hidden={i !== 0}>
-      {usesPyatnitskayaRender ? <img src="/assets/buildings/pyatnitskaya-day.png" width="5079" height="3677" alt={t(lang, `building.${building}`)} loading={i === 0 ? "eager" : "lazy"} /> : (
+      {usesPyatnitskayaRender ? <img src="/assets/buildings/pyatnitskaya-day.webp" width="5079" height="3677" alt={t(lang, `building.${building}`)} loading={i === 0 ? "eager" : "lazy"} /> : (
       <LotImage
         src={lot.media.hero.src}
         alt={t(lang, `lot.${lot.id}.alt.hero`)}

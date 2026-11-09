@@ -1,5 +1,8 @@
 ---
 import { t, localizedPath, type Locale } from "../i18n";
+import contactPhoneSvg from "../../public/assets/icons/contact/phone.svg?raw";
+const svgDataUri = (svg: string) =>
+  `data:image/svg+xml,${encodeURIComponent(svg)}`;
 interface Props {
   lang: Locale;
 }
@@ -54,19 +57,19 @@ const { lang } = Astro.props;
         <label>
           <input type="radio" name="method" value="whatsapp" checked class="visually-hidden" />
           <span class="contact-logo">
-            <img src="https://trace-logos.ru/assets/logos/svgs/whatsapp.svg" width="20" height="20" alt="Логотип WhatsApp" />
+            <img src="https://trace-logos.ru/assets/logos/svgs/whatsapp.svg" width="20" height="20" alt="Логотип WhatsApp" loading="lazy" decoding="async" />
           </span>
           WhatsApp
         </label>
         <label>
           <input type="radio" name="method" value="phone" class="visually-hidden" />
-          <img src="/assets/icons/contact/phone.svg" width="20" height="20" alt="" aria-hidden="true" />
+          <img src={svgDataUri(contactPhoneSvg)} width="20" height="20" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           {t(lang, "form.phone")}
         </label>
         <label>
           <input type="radio" name="method" value="telegram" class="visually-hidden" />
           <span class="contact-logo">
-            <img src="https://trace-logos.ru/assets/logos/svgs/telegram.svg" width="20" height="20" alt="Логотип Telegram" />
+            <img src="https://trace-logos.ru/assets/logos/svgs/telegram.svg" width="20" height="20" alt="Логотип Telegram" loading="lazy" decoding="async" />
           </span>
           Telegram
         </label>
@@ -81,7 +84,7 @@ const { lang } = Astro.props;
             class="visually-hidden"
           />
           <span class="contact-logo">
-            <img src="https://trace-logos.ru/assets/logos/svgs/max.svg" width="20" height="20" alt="Логотип Max" />
+            <img src="https://trace-logos.ru/assets/logos/svgs/max.svg" width="20" height="20" alt="Логотип Max" loading="lazy" decoding="async" />
           </span>
           MAX
         </label>
