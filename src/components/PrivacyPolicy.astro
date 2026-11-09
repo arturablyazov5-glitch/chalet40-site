@@ -1,0 +1,32 @@
+---
+import componentStyles from "./PrivacyPolicy.css?url";
+import sections from "../data/privacy.json";
+import { t, type Locale } from "../i18n";
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+---
+<link rel="stylesheet" href={componentStyles} />
+
+<article class="privacy-policy">
+  <h1>{t(lang, "privacy.heading")}</h1>
+  <nav class="privacy-contents" aria-label={t(lang, "privacy.contents")}>
+    <h2>{t(lang, "privacy.contents")}</h2>
+    <ol>
+      {sections.map((section) => (
+        <li>
+          <a href={`#${section.anchor}`}>{t(lang, section.headingKey)}</a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+  {sections.map((section) => (
+    <section aria-labelledby={section.anchor}>
+      <h2 id={section.anchor}>{t(lang, section.headingKey)}</h2>
+      {section.paragraphKeys.map((key) => (
+        <p>{t(lang, key)}</p>
+      ))}
+    </section>
+  ))}
+</article>

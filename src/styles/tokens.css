@@ -1,0 +1,132 @@
+/* Design tokens. Real viewport bands (CSS @media cannot resolve custom
+   properties): <=359px micro, <=639px compact, 640–767px compact-tall,
+   768–1099px tablet, >=1100px wide. Plan views retain their accepted
+   768/1100px geometry bands. */
+:root {
+  /* Parking status palette. */
+  --parking-available: #10af35;
+  --parking-available-label: #0a7a25;
+  --parking-available-hover-label: #064d18;
+  --parking-reserved: #f59e0b;
+  --parking-reserved-dark: #d97706;
+  --parking-reserved-label: #92400e;
+  --parking-sold: #dc2626;
+  --parking-sold-dark: #b91c1c;
+  --parking-sold-label: #7f1d1d;
+  /* Core colors. */
+  --color-ink: #333;
+  --color-muted: #444;
+  --color-subtle: #888;
+  --color-text: #474747;
+  --color-strong: #000;
+  --color-surface: #fff;
+  --color-line: #ccc;
+  --color-gold-light: #f7eac8;
+  --gold-deep: #d6b56b;
+  --gold-rich: #e3c780;
+  --gold-highlight: #f3e3b7;
+  --color-focus: #8b671a;
+  /* Typography scale. */
+  --font-body: "Chalet Helvetica", Helvetica, Arial, sans-serif;
+  --font-caption: 14px;
+  --font-label: 16px;
+  --font-value: 32px;
+  --font-unit: 20px;
+  --letter-caption: 1.2px;
+  /* Spacing scale. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+  /* Layout and radii. */
+  --content-width: 1200px;
+  --column-padding: 40px;
+  --radius-button: 999px;
+  --radius-field: 12px;
+  --radius-dialog: 12px;
+  --duration-fast: 160ms;
+  --plan-max-height: min(72svh, 720px);
+}
+/* Typography / layout adjustments per viewport band. */
+@media (min-width: 768px) and (max-width: 1099px) {
+  :root {
+    --column-padding: 24px;
+    --font-value: 26px;
+    --font-unit: 17px;
+    --font-label: 15px;
+    --font-caption: 12px;
+  }
+}
+@media (max-width: 767px) {
+  :root {
+    --column-padding: 24px;
+    --font-value: 18px;
+    --font-unit: 14px;
+    --font-label: 14px;
+    --font-caption: 12px;
+  }
+}
+@media (max-width: 359px) {
+  :root {
+    --column-padding: 16px;
+    --font-label: 12px;
+    --font-caption: 10px;
+    --font-value: 16px;
+    --font-unit: 12px;
+  }
+}
+@media (min-width: 1100px) {
+  :root {
+    --content-width: 1800px;
+    --column-padding: clamp(24px, 2.6vw, 48px);
+    --plan-max-height: max(240px, calc(100svh - 320px));
+    --desktop-bottom-space: clamp(24px, 4svh, 48px);
+  }
+}
+@media (min-width: 768px) and (max-width: 1099px) and (max-height: 900px),
+  (min-width: 1100px) and (max-height: 820px) {
+  :root {
+    --font-value: 26px;
+    --font-unit: 17px;
+    --font-label: 14px;
+    --desktop-bottom-space: 20px;
+  }
+}
+@media (max-width: 767px) and (max-height: 860px) {
+  :root {
+    --font-value: 16px;
+    --font-unit: 12px;
+    --font-label: 12px;
+    --font-caption: 10px;
+    --plan-max-height: 18svh;
+  }
+}
+@media (max-width: 767px) {
+  :root {
+    --plan-max-height: min(42svh, 360px);
+  }
+}
+/* Header metrics: 92px on wide screens, 75px up to 1199px. */
+:root {
+  --header-height: 92px;
+}
+@media (max-width: 1199px) {
+  :root {
+    --header-height: 75px;
+  }
+}
+/* Shared outer alignment for header, content and footer. */
+:root {
+  --site-gutter: 28px;
+  --page-gutter: 28px;
+}
+@media (max-width: 767px) {
+  :root {
+    --site-gutter: 20px;
+    --page-gutter: 20px;
+  }
+}

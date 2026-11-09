@@ -1,0 +1,212 @@
+/* Dialogs (consultation + image zoom). */
+.dialog {
+  /* Local token: warm off-white for the checked contact method. No global
+     token matches #f5f4f0 closely enough (--color-gold-light is more
+     saturated), so it stays a dialog-scoped custom property. */
+  --dialog-checked-bg: #f5f4f0;
+  padding: 0;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 0;
+  border-radius: var(--radius-dialog);
+  max-inline-size: calc(100% - 32px);
+  max-block-size: calc(100dvh - 32px);
+  overscroll-behavior: contain;
+}
+/* Single scrim value shared with header.css .navigation-dialog::backdrop
+   (#0008). Was rgb(0 0 0/0.65). */
+.dialog::backdrop {
+  background: #0008;
+}
+.dialog-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-2);
+}
+.icon-button {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  font-size: 32px;
+  line-height: 1;
+}
+.consultation-dialog {
+  inline-size: 560px;
+  --consultation-padding: 40px;
+}
+.consultation-dialog > .dialog-toolbar {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 0;
+}
+.consultation-content {
+  padding: var(--consultation-padding);
+}
+.consultation-content h2 {
+  padding-inline-end: 32px;
+  font-size: clamp(22px, 4vw, 30px);
+  line-height: 1.2;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.consultation-description {
+  margin-block: 20px 28px;
+  letter-spacing: 1px;
+}
+.consultation-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.contact-methods label,
+.dialog-field {
+  border: 1px solid var(--color-line);
+}
+.dialog-field {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  margin-block-start: 6px;
+  padding: 18px;
+  border-radius: var(--radius-field);
+  color: var(--color-strong);
+  background: var(--color-surface);
+}
+.contact-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.contact-methods label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1 1 auto;
+  padding: 12px;
+  border-radius: var(--radius-field);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) ease,
+    background-color var(--duration-fast) ease;
+}
+.contact-methods label img {
+  inline-size: 20px;
+  block-size: 20px;
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: 100px;
+}
+.contact-methods .contact-logo {
+  display: inline-flex;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+.contact-methods label:has(input:focus-visible) {
+  outline: 2px solid var(--color-focus);
+  /* Unified with base.css :focus-visible offset (was 3px). */
+  outline-offset: 4px;
+}
+.contact-methods label:has(:checked) {
+  border-color: var(--color-strong);
+  background: var(--dialog-checked-bg);
+}
+@media (hover: hover) {
+  .contact-methods label:hover {
+    border-color: var(--color-strong);
+  }
+}
+.consent input {
+  accent-color: var(--color-strong);
+}
+.consent {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  font-size: 13px;
+}
+.consent a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.form-notice {
+  font-size: 14px;
+  text-align: center;
+}
+/* Shared visually-hidden pattern (replaces two ad-hoc clip-path hacks).
+   .visually-hidden is applied to the radio inputs in ConsultDialog.astro;
+   .form-notice:empty stays conditional because the notice must become
+   visible once it has text. */
+.visually-hidden,
+.form-notice:empty {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.image-dialog {
+  inline-size: min(1200px, calc(100% - 32px));
+  max-block-size: calc(100dvh - 112px);
+  overflow: visible;
+}
+.image-dialog .dialog-toolbar {
+  position: fixed;
+  inset-block-start: max(16px, env(safe-area-inset-top));
+  inset-inline-end: max(16px, env(safe-area-inset-right));
+  z-index: 1;
+  padding: 0;
+}
+.image-dialog .icon-button {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 0;
+  line-height: 0;
+  color: var(--color-surface);
+  background: rgb(0 0 0/0.55);
+  backdrop-filter: blur(8px);
+}
+.image-dialog [data-zoom-mount] > img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  max-block-size: calc(100dvh - 112px);
+  padding: var(--space-5);
+  object-fit: contain;
+}
+.image-dialog.is-photo {
+  inline-size: fit-content;
+  max-inline-size: calc(100% - 32px);
+  background: none;
+  border-radius: 0;
+  overflow: visible;
+}
+.image-dialog.is-photo [data-zoom-mount] > img {
+  border-radius: var(--radius-field);
+  inline-size: auto;
+  max-inline-size: min(1200px, calc(100vw - 32px));
+  max-block-size: calc(100dvh - 112px);
+  padding: 0;
+}
+@media (max-width: 767px) {
+  .consultation-dialog {
+    --consultation-padding: 24px;
+  }
+  .contact-methods label {
+    flex-basis: calc((100% - var(--space-2)) / 2);
+  }
+}
+.contact-methods legend {
+  margin-bottom: 8px;
+}

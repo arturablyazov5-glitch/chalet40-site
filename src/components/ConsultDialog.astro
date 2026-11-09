@@ -1,0 +1,145 @@
+---
+import { t, localizedPath, type Locale } from "../i18n";
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+---
+
+<dialog
+  class="dialog consultation-dialog"
+  id="consult-dialog"
+  aria-labelledby="consult-title"
+>
+  <div class="dialog-toolbar">
+    <button
+      class="icon-button"
+      type="button"
+      data-close-dialog
+      aria-label={t(lang, "ui.close")}
+    >
+      ×
+    </button>
+  </div>
+  <div class="consultation-content">
+    <h2 id="consult-title">{t(lang, "form.title")}</h2>
+    <p class="consultation-description">{t(lang, "form.intro")}</p>
+    <form
+      id="consult-form"
+      data-consult-form
+      action="/api/consult"
+      method="post"
+      data-success={t(lang, "form.success")}
+      data-error={t(lang, "form.error")}
+      data-invalid={t(lang, "form.invalid")}
+      data-rate={t(lang, "form.rate")}
+      data-unavailable={t(lang, "form.unavailable")}
+      data-sending={t(lang, "form.sending")}
+      data-unknown={t(lang, "form.deliveryUnknown")}
+    >
+      <label>
+        {t(lang, "form.name")}
+        <input
+          class="dialog-field"
+          name="name"
+          placeholder={t(lang, "form.namePlaceholder")}
+          autocomplete="name"
+          required
+          minlength="2"
+          maxlength="100"
+        />
+      </label>
+      <fieldset class="contact-methods">
+        <legend>{t(lang, "form.method")}</legend>
+        <label>
+          <input type="radio" name="method" value="whatsapp" checked class="visually-hidden" />
+          <span class="contact-logo">
+            <img src="https://trace-logos.ru/assets/logos/svgs/whatsapp.svg" width="20" height="20" alt="Логотип WhatsApp" />
+          </span>
+          WhatsApp
+        </label>
+        <label>
+          <input type="radio" name="method" value="phone" class="visually-hidden" />
+          <img src="/assets/icons/contact/phone.svg" width="20" height="20" alt="" aria-hidden="true" />
+          {t(lang, "form.phone")}
+        </label>
+        <label>
+          <input type="radio" name="method" value="telegram" class="visually-hidden" />
+          <span class="contact-logo">
+            <img src="https://trace-logos.ru/assets/logos/svgs/telegram.svg" width="20" height="20" alt="Логотип Telegram" />
+          </span>
+          Telegram
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="method"
+            value="max"
+            data-contact-label={t(lang, "form.maxContact")}
+            data-contact-placeholder={t(lang, "form.phonePlaceholder")}
+            data-input-mode="tel"
+            class="visually-hidden"
+          />
+          <span class="contact-logo">
+            <img src="https://trace-logos.ru/assets/logos/svgs/max.svg" width="20" height="20" alt="Логотип Max" />
+          </span>
+          MAX
+        </label>
+      </fieldset>
+      <label>
+        <span data-contact-label>{t(lang, "form.contact")}</span>
+        <input
+          class="dialog-field"
+          name="contact"
+          placeholder={t(lang, "form.contactPlaceholder")}
+          autocomplete="tel"
+          required
+          minlength="3"
+          maxlength="100"
+        />
+      </label>
+      <div class="honeypot" aria-hidden="true">
+        <label>
+          {t(lang, "form.company")}
+          <input name="company" tabindex="-1" autocomplete="off" />
+        </label>
+      </div>
+      <label class="consent">
+        <input type="checkbox" name="consent" required />
+        <span>
+          {t(lang, "form.consent")}{" "}
+          <a href={localizedPath("/privacy", lang)}>
+            {t(lang, "form.privacy")}
+          </a>
+        </span>
+      </label>
+      <button class="button button-dark" type="submit">
+        {t(lang, "form.submit")}
+      </button>
+      <p class="form-notice" role="status" aria-live="polite" tabindex="-1"></p>
+      <noscript>
+        <p>
+          {t(lang, "form.noScript")}{" "}
+          <a href="tel:+74952259501">+7 (495) 225-95-01</a>
+        </p>
+      </noscript>
+    </form>
+  </div>
+</dialog>
+<dialog
+  class="dialog image-dialog"
+  id="image-dialog"
+  aria-label={t(lang, "ui.zoom")}
+>
+  <div class="dialog-toolbar">
+    <button
+      class="icon-button"
+      type="button"
+      data-close-dialog
+      aria-label={t(lang, "ui.close")}
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+    </button>
+  </div>
+  <div data-zoom-mount></div>
+</dialog>

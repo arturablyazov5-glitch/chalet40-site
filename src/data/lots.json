@@ -1,0 +1,457 @@
+[
+  {
+    "id": "gain",
+    "building": "pyatnitskaya",
+    "area": 143.7,
+    "terrace": null,
+    "roofTerrace": 63,
+    "ceiling": [
+      3.3
+    ],
+    "floors": [
+      3.0
+    ],
+    "pricePerSqm": 2440000,
+    "totalPrice": 333000000,
+    "status": "available",
+    "media": {
+      "plan": {
+        "src": "properties/gain/plan.png",
+        "width": 2322,
+        "height": 1944
+      },
+      "floor": {
+        "src": "properties/gain/floor.svg",
+        "width": 720,
+        "height": 292
+      },
+      "building": {
+        "src": "properties/gain/building.svg",
+        "width": 234,
+        "height": 181
+      },
+      "render": {
+        "src": "properties/gain/render.jpg",
+        "width": 1680,
+        "height": 1008
+      },
+      "hero": {
+        "src": "properties/gain/render.jpg",
+        "width": 1680,
+        "height": 1008
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  },
+  {
+    "id": "value",
+    "building": "pyatnitskaya",
+    "area": 112.5,
+    "terrace": null,
+    "roofTerrace": null,
+    "ceiling": [
+      3.3
+    ],
+    "floors": [
+      2
+    ],
+    "pricePerSqm": 2440000,
+    "totalPrice": 275000000,
+    "status": "available",
+    "media": {
+      "plan": {
+        "src": "properties/value/plan.png",
+        "width": 774,
+        "height": 648
+      },
+      "floor": {
+        "src": "properties/value/floor.svg",
+        "width": 992,
+        "height": 418
+      },
+      "building": {
+        "src": "properties/value/building.svg",
+        "width": 234,
+        "height": 181
+      },
+      "render": {
+        "src": "properties/value/exterior.webp",
+        "width": 1920,
+        "height": 1151
+      },
+      "hero": {
+        "src": "properties/value/hero.jpg",
+        "width": 1680,
+        "height": 1008
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  },
+  {
+    "id": "profit",
+    "building": "pyatnitskaya",
+    "area": 149.3,
+    "terrace": null,
+    "roofTerrace": null,
+    "ceiling": [
+      3.3
+    ],
+    "floors": [
+      2.0
+    ],
+    "pricePerSqm": null,
+    "totalPrice": null,
+    "status": "reserved",
+    "media": {
+      "plan": {
+        "src": "properties/profit/plan.png",
+        "width": 2322,
+        "height": 1944
+      },
+      "floor": {
+        "src": "properties/profit/floor.png",
+        "width": 464,
+        "height": 201
+      },
+      "building": {
+        "src": "properties/profit/building.svg",
+        "width": 234,
+        "height": 181
+      },
+      "render": {
+        "src": "properties/profit/render.webp",
+        "width": 1680,
+        "height": 1008
+      },
+      "hero": {
+        "src": "properties/profit/render.webp",
+        "width": 1680,
+        "height": 1008
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  },
+  {
+    "id": "revenue",
+    "building": "pyatnitskaya",
+    "area": 112.5,
+    "terrace": 39.5,
+    "roofTerrace": null,
+    "ceiling": [
+      3.3
+    ],
+    "floors": [
+      3
+    ],
+    "pricePerSqm": 2200000,
+    "totalPrice": 265000000,
+    "status": "available",
+    "media": {
+      "plan": {
+        "src": "properties/revenue/plan.png",
+        "width": 2322,
+        "height": 1944
+      },
+      "floor": {
+        "src": "properties/revenue/floor.svg",
+        "width": 720,
+        "height": 292
+      },
+      "building": {
+        "src": "properties/revenue/building.svg",
+        "width": 234,
+        "height": 181
+      },
+      "render": {
+        "src": "properties/revenue/render.jpg",
+        "width": 1680,
+        "height": 1008
+      },
+      "hero": {
+        "src": "properties/revenue/render.jpg",
+        "width": 1680,
+        "height": 1008
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  },
+  {
+    "id": "traffic",
+    "building": "pyatnitskaya",
+    "area": 201.4,
+    "terrace": null,
+    "roofTerrace": null,
+    "ceiling": [
+      3.4,
+      4.6
+    ],
+    "floors": [
+      -1,
+      1
+    ],
+    "pricePerSqm": 3000000,
+    "totalPrice": 604000000,
+    "status": "available",
+    "media": {
+      "plan": {
+        "src": "properties/traffic/plan.svg",
+        "width": 720,
+        "height": 300
+      },
+      "building": {
+        "src": "properties/traffic/building.svg",
+        "width": 234,
+        "height": 181
+      },
+      "render": {
+        "src": "properties/traffic/render.jpg",
+        "width": 1680,
+        "height": 1008
+      },
+      "hero": {
+        "src": "properties/traffic/render.jpg",
+        "width": 1680,
+        "height": 1008
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  },
+  {
+    "id": "capital",
+    "building": "golikovsky",
+    "area": 199.5,
+    "terrace": null,
+    "roofTerrace": null,
+    "ceiling": [
+      3.3
+    ],
+    "floors": [
+      3.0,
+      4.0
+    ],
+    "pricePerSqm": 2440000,
+    "totalPrice": 474000000,
+    "status": "available",
+    "media": {
+      "plan": {
+        "src": "properties/capital/plan.svg",
+        "width": 720,
+        "height": 310
+      },
+      "render": {
+        "src": "properties/capital/render.webp",
+        "width": 1680,
+        "height": 945
+      },
+      "hero": {
+        "src": "properties/capital/render.webp",
+        "width": 1680,
+        "height": 945
+      },
+      "building": {
+        "src": "properties/capital/floor.svg",
+        "width": 261,
+        "height": 202
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  },
+  {
+    "id": "fortune",
+    "building": "golikovsky",
+    "area": 271.2,
+    "terrace": null,
+    "roofTerrace": null,
+    "ceiling": [
+      3.3
+    ],
+    "floors": [
+      3.0,
+      4.0
+    ],
+    "pricePerSqm": 2440000,
+    "totalPrice": 662000000,
+    "status": "available",
+    "media": {
+      "plan": {
+        "src": "properties/fortune/plan.png",
+        "width": 856,
+        "height": 716
+      },
+      "render": {
+        "src": "properties/fortune/render.webp",
+        "width": 1680,
+        "height": 945
+      },
+      "hero": {
+        "src": "properties/fortune/render.webp",
+        "width": 1680,
+        "height": 945
+      },
+      "building": {
+        "src": "properties/fortune/floor.svg",
+        "width": 261,
+        "height": 202
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  },
+  {
+    "id": "success",
+    "building": "golikovsky",
+    "area": 110.3,
+    "terrace": null,
+    "roofTerrace": null,
+    "ceiling": [
+      3.3
+    ],
+    "floors": [
+      2
+    ],
+    "pricePerSqm": 2200000,
+    "totalPrice": 243000000,
+    "status": "available",
+    "media": {
+      "plan": {
+        "src": "properties/success/plan.png",
+        "width": 856,
+        "height": 716
+      },
+      "render": {
+        "src": "properties/success/render.webp",
+        "width": 1680,
+        "height": 945
+      },
+      "hero": {
+        "src": "properties/success/render.webp",
+        "width": 1680,
+        "height": 945
+      },
+      "building": {
+        "src": "properties/success/floor.svg",
+        "width": 261,
+        "height": 202
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  },
+  {
+    "id": "benefit",
+    "building": "golikovsky",
+    "area": 146.9,
+    "terrace": null,
+    "roofTerrace": null,
+    "ceiling": [
+      3.3
+    ],
+    "floors": [
+      2.0
+    ],
+    "pricePerSqm": 2200000,
+    "totalPrice": 323000000,
+    "status": "available",
+    "media": {
+      "plan": {
+        "src": "properties/benefit/plan.png",
+        "width": 856,
+        "height": 716
+      },
+      "render": {
+        "src": "properties/benefit/render.webp",
+        "width": 1680,
+        "height": 945
+      },
+      "hero": {
+        "src": "properties/benefit/render.webp",
+        "width": 1680,
+        "height": 945
+      },
+      "building": {
+        "src": "properties/benefit/floor.svg",
+        "width": 261,
+        "height": 202
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  },
+  {
+    "id": "flow",
+    "building": "retail",
+    "area": 136,
+    "terrace": null,
+    "roofTerrace": null,
+    "ceiling": [
+      3.4,
+      4.6
+    ],
+    "floors": [
+      -1,
+      1
+    ],
+    "pricePerSqm": 3000000,
+    "totalPrice": 408000000,
+    "status": "available",
+    "media": {
+      "plan": {
+        "src": "properties/flow/plan.svg",
+        "width": 720,
+        "height": 300
+      },
+      "building": {
+        "src": "properties/flow/building.svg",
+        "width": 234,
+        "height": 181
+      },
+      "render": {
+        "src": "properties/flow/render.webp",
+        "width": 1680,
+        "height": 1008
+      },
+      "hero": {
+        "src": "properties/flow/render.webp",
+        "width": 1680,
+        "height": 1008
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  },
+  {
+    "id": "spa",
+    "building": "golikovsky",
+    "area": 187.1,
+    "terrace": null,
+    "roofTerrace": null,
+    "ceiling": [
+      3.3
+    ],
+    "floors": [
+      1
+    ],
+    "pricePerSqm": null,
+    "totalPrice": null,
+    "status": "onrequest",
+    "media": {
+      "plan": {
+        "src": "properties/benefit/plan.png",
+        "width": 856,
+        "height": 716
+      },
+      "render": {
+        "src": "properties/benefit/render.webp",
+        "width": 1680,
+        "height": 945
+      },
+      "hero": {
+        "src": "properties/benefit/render.webp",
+        "width": 1680,
+        "height": 945
+      },
+      "building": {
+        "src": "properties/benefit/floor.svg",
+        "width": 261,
+        "height": 202
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  }
+]

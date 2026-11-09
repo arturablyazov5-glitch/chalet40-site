@@ -1,0 +1,400 @@
+/* Footer. BEM-ish order: base → content grid → blocks → page variants →
+   viewport bands → shared refinements. Cascade order is preserved from the
+   previous patch-style file so computed styles stay identical. */
+
+.site-footer {
+  --footer-image: url("../assets/editorial/contact-background.webp");
+  display: block;
+  /* Effective min-height is 100svh at every width (later rules always won
+     over the old calc(100svh - var(--header-height))). */
+  min-height: 100svh;
+  /* Final padding comes from the shared-gutter refinement that used to live
+     in the minified patch at the end of this file. */
+  padding: calc(var(--header-height) + 12px) var(--site-gutter) var(--site-gutter);
+  background:
+    linear-gradient(0deg, #000b 28%, #0000) center bottom / cover no-repeat,
+    var(--footer-image) center bottom / cover no-repeat;
+  color: var(--color-surface);
+  border: 0;
+  font-size: 16px;
+}
+.site-footer button {
+  background: none;
+  border: 1px solid var(--color-line);
+  padding: 12px;
+  border-color: #fff8;
+}
+.site-footer > .footer-content {
+  display: grid;
+  grid-template-columns: 0.81fr 0.74fr 1.35fr;
+  grid-template-rows: 1fr auto;
+  gap: 60px;
+  /* Effective min-height (shared-gutter refinement, formerly the last
+     minified patch). All earlier calc() variants were always overridden. */
+  min-height: calc(100svh - var(--header-height) - 12px - var(--site-gutter));
+  align-items: start;
+  align-content: initial;
+}
+.site-footer h1,
+.site-footer h2 {
+  font-weight: 300;
+  font-size: 32px;
+  line-height: 42px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--color-surface);
+}
+.footer-sales {
+  display: grid;
+  gap: 24px;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.9px;
+}
+.footer-sales > div:not(.footer-links) {
+  display: grid;
+  margin-top: -12px;
+}
+.footer-form form,
+.footer-links,
+.footer-partners {
+  display: grid;
+}
+.footer-links a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.footer-partners {
+  padding: 0;
+}
+/* Gaps live only at this higher specificity: every .footer-partners gap
+   declaration below loses to it (row-gap 24px / column-gap 32px at all
+   widths — the old per-band gap values were dead code). */
+.site-footer .footer-partners {
+  margin-inline: 0;
+  min-width: 0;
+  max-width: 100%;
+  row-gap: 24px;
+  column-gap: 32px;
+  align-items: center;
+}
+.footer-partners img {
+  display: block;
+  width: 226px;
+  max-width: 100%;
+  height: auto;
+}
+.footer-partners img:first-child {
+  width: 227px;
+}
+.footer-partners > img {
+  width: 193px;
+}
+.footer-partner-tagline {
+  letter-spacing: 2px;
+  white-space: nowrap;
+  font-size: 16px;
+  line-height: 25px;
+  text-transform: none;
+}
+/* margin-top:10px stays at higher specificity: the mobile margin-top:0
+   below must not win (it was dead code before). */
+.site-footer .footer-partner-tagline {
+  margin-top: 10px;
+}
+.footer-legal {
+  grid-column: 1 / -1;
+  max-width: 1040px;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.9px;
+  color: var(--color-surface);
+  opacity: 0.5;
+}
+.footer-legal a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.footer-languages {
+  display: none;
+}
+.footer-form form {
+  margin-top: 13px;
+  gap: 20px;
+}
+.footer-form input:not([type="checkbox"]):not([type="hidden"]) {
+  width: 100%;
+  height: 50px;
+  padding: 0;
+  background: none;
+  color: var(--color-surface);
+  border: 0;
+  border-bottom: 1px solid #fff;
+  border-radius: 0;
+  font: 300 16px var(--font-body);
+}
+.footer-form input::placeholder {
+  color: #ddd;
+  opacity: 0.8;
+}
+.footer-consent {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 16.8px;
+  align-items: center;
+}
+.footer-consent input {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  appearance: none;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  background: none;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  transition:
+    border-color var(--duration-fast) ease,
+    background-color var(--duration-fast) ease;
+}
+.footer-consent input:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 2px;
+}
+@media (hover: hover) {
+  .footer-consent input:hover {
+    border-color: var(--color-gold-light);
+  }
+}
+.footer-consent input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.footer-consent input:checked::before {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 10px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: translateY(-1px) rotate(45deg);
+}
+.footer-consent a {
+  text-decoration: underline;
+}
+.footer-form button[type="submit"] {
+  justify-self: start;
+  width: 160px;
+  height: 50px;
+  border: 1px solid #fff;
+  border-radius: 100px;
+  background: none;
+  color: var(--color-surface);
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 14px;
+}
+.footer-form .form-notice:empty {
+  display: none;
+}
+.footer-links {
+  gap: 16px;
+}
+
+/* ---------- Page variants ---------- */
+body[data-page="/"] > .site-footer,
+body[data-page="/office"] > .site-footer,
+body[data-page="/parking"] > .site-footer {
+  grid-column: 1;
+  grid-row: 2;
+}
+body[data-page="/contact"] > .site-footer {
+  grid-area: 1 / 1;
+  background-image:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.69) 28%, #0000 100%),
+    var(--footer-image);
+}
+body[data-page="/map"] > .site-footer {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+/* ---------- Viewport bands ---------- */
+@media (max-width: 1199px) {
+  .site-footer > .footer-content {
+    gap: 32px;
+    grid-template-columns: 1fr 0.85fr 1.5fr;
+  }
+  .site-footer h1,
+  .site-footer h2 {
+    font-size: 26px;
+    line-height: 34px;
+  }
+  .footer-sales {
+    font-size: 14px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .site-footer > .footer-content {
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1.0240963855421687fr 1fr;
+    gap: 17px 60px;
+  }
+  .footer-sales {
+    grid-area: 1 / 1;
+    line-height: 17px;
+  }
+  .footer-form {
+    grid-area: 1 / 2;
+    max-width: none;
+  }
+  .site-footer h1,
+  .site-footer h2 {
+    font-size: 24px;
+    line-height: 31px;
+  }
+  .footer-partners {
+    grid-area: 2 / 1;
+    grid-template-columns: 227px 187px;
+    margin-left: -22px;
+  }
+  .footer-partners > img {
+    width: 187px;
+  }
+  .footer-partner-tagline {
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 3.1px;
+  }
+  .footer-legal {
+    grid-area: 3 / 1 / 4 / 3;
+    max-width: calc(100% - 64px);
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .footer-form h2 {
+    white-space: nowrap;
+  }
+}
+@media (max-width: 767px) {
+  .footer-sales {
+    font-size: 14px;
+    gap: 20px;
+  }
+  .site-footer > .footer-content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto auto 1fr auto auto;
+    gap: 12px 0;
+  }
+  .footer-form {
+    grid-area: 1 / 1 / 2 / 3;
+  }
+  .footer-form h2 {
+    font-size: 20px;
+    line-height: 26px;
+  }
+  .footer-sales {
+    display: contents;
+  }
+  .footer-sales > h1,
+  .footer-sales > h2 {
+    grid-area: 2 / 1 / 3 / 3;
+    margin-top: 12px;
+    font-size: 20px;
+    line-height: 26px;
+  }
+  .footer-sales > div:not(.footer-links) {
+    grid-area: 3 / 1 / 4 / 2;
+    margin: 0;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.4px;
+  }
+  .footer-sales > p {
+    grid-area: 3 / 2 / 4 / 3;
+    max-width: 155px;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.4px;
+  }
+  .footer-partners {
+    grid-area: 4 / 1 / 5 / 3;
+    grid-template-columns: 150px minmax(0, 1fr);
+    margin-top: 1px;
+  }
+  .footer-partners img:first-child {
+    width: 140px;
+  }
+  .footer-partners > img {
+    width: 118px;
+    margin-left: 8px;
+    justify-self: start;
+  }
+  .footer-partner-tagline {
+    font-size: 10px;
+    line-height: 16px;
+    letter-spacing: 1.1px;
+  }
+  .footer-legal {
+    grid-area: 5 / 1 / 6 / 3;
+    max-width: none;
+    /* Intentional visual fix: was font-size:8px/line-height:10px —
+       unreadable on mobile. Raised to the smallest legible size. */
+    font-size: 10px;
+    line-height: 13px;
+    letter-spacing: 0.4px;
+  }
+  .footer-links {
+    grid-area: 6 / 1 / 7 / 3;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.4px;
+  }
+  .footer-form form,
+  .footer-sales > h1,
+  .footer-sales > h2 {
+    margin-top: 12px;
+  }
+  .footer-form input:not([type="checkbox"]):not([type="hidden"]) {
+    font-size: 14px;
+  }
+  .footer-consent {
+    margin-bottom: 20px;
+    font-size: 12px;
+    line-height: 17px;
+  }
+  .footer-form button[type="submit"] {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  body[data-page^="/parking/floor-"] > .site-footer {
+    --header-height: 0px;
+  }
+}
+
+/* ---------- Shared refinements ---------- */
+.footer-links a,
+.footer-legal a,
+.footer-form button[type="submit"] {
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+@media (hover: hover) {
+  .footer-links a:hover,
+  .footer-legal a:hover {
+    color: #e5cb82;
+  }
+  .footer-form button[type="submit"]:hover {
+    background: #fff;
+    color: #111;
+  }
+}

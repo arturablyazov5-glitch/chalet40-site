@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.env*
+!.env.example
+public/api/config.php
+*.log
+.DS_Store

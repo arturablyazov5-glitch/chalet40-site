@@ -1,0 +1,200 @@
+---
+import type { ContentPage } from "../lib/pages";
+import { parkingCounts, type ParkingFloor } from "../lib/parking";
+import { t, localizedPath, type Locale } from "../i18n";
+import EditorialImage from "./EditorialImage.astro";
+
+interface Props {
+  section: ContentPage["sections"][number];
+  lang: Locale;
+}
+
+const { section, lang } = Astro.props;
+const parkingFloors: ParkingFloor[] = [-1, -2];
+const totals = parkingFloors.flatMap((floor) => parkingCounts(floor));
+const totalOf = (type: "parking" | "storeroom") =>
+  totals.filter((count) => count.type === type).reduce((sum, count) => sum + count.total, 0);
+const facts = [
+  [totalOf("parking"), "home.storyParking"],
+  [totalOf("storeroom"), "home.parkingStorage"],
+] as const;
+---
+
+<section class="parking-scene parking-hero" id="parking-section-0" data-parking-scene="0">
+  <div class="parking-scene-media parking-scene-media--hero">
+    <EditorialImage
+      src={section.media[0]!.src}
+      alt={t(lang, section.media[0]!.altKey)}
+      eager
+      hero
+    />
+  </div>
+  <div class="parking-hero__content">
+    <h1>
+      {t(lang, "parking.heroOverline")} {t(lang, "parking.heroTitle")}
+    </h1>
+    <div class="parking-hero__bottom">
+      <dl class="parking-hero__facts" aria-label={t(lang, section.paragraphs[0]!)} data-parking-hero-facts>
+        {facts.map(([value, label]) => (
+          <div>
+            <dt>{t(lang, label)}</dt>
+            <dd data-count-value>{value}</dd>
+          </div>
+        ))}
+      </dl>
+      <nav class="parking-hero__floors" aria-label={t(lang, "parking.chooseFloor")}>
+        <p>{t(lang, "parking.chooseFloor")}</p>
+        {parkingFloors.map((floor) => (
+          <a href={localizedPath(`/parking/floor${floor}`, lang)}>
+            {t(lang, "parking.floorButton", { floor })}
+          </a>
+        ))}
+      </nav>
+    </div>
+  </div>
+  <a class="parking-scene-scroll" href="#parking-section-1" aria-label={t(lang, "parking.nextSection")}>
+    <svg width="24" height="38" viewBox="0 0 24 38" aria-hidden="true">
+      <rect x="1" y="1" width="22" height="36" rx="11" fill="none" stroke="currentColor" stroke-width="1.5" />
+      <path d="M12 6v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </a>
+</section>
+
+<script>
+  import { animatePropertyDetails } from "../scripts/lot-motion";
+
+  const facts = document.querySelector<HTMLElement>("[data-parking-hero-facts]");
+  if (facts && !matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry?.isIntersecting) return;
+      observer.disconnect();
+      animatePropertyDetails(facts);
+    }, { threshold: 0.4 });
+    observer.observe(facts);
+  }
+</script>
+
+<style>
+  .parking-hero {
+    --parking-hero-bg: #151310;
+    --parking-hero-text: #fff7ea;
+    --parking-hero-accent: #e5c98f;
+    --parking-hero-accent-line: #e5c98f59;
+    --parking-hero-muted: #e1d7cb;
+    --parking-hero-cta-ink: #25211b;
+    background: var(--parking-hero-bg);
+    color: var(--parking-hero-text);
+  }
+  .parking-hero__content {
+    grid-area: 1/1;
+    min-width: 0;
+    min-height: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 48px;
+    width: 100%;
+    max-width: 1680px;
+    margin-inline: auto;
+    padding: calc(var(--header-height) + clamp(32px, 5svh, 64px)) var(--site-gutter) clamp(56px, 7svh, 88px);
+  }
+  .parking-hero h1 {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    text-transform: none;
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+  .parking-hero h1 {
+    max-width: 1100px;
+    font-size: clamp(34px, 5vw, 72px);
+  }
+  .parking-hero__bottom {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 36px;
+    padding-top: 24px;
+    padding-right: 64px;
+    border-top: 1px solid var(--parking-hero-accent-line);
+  }
+  .parking-hero__facts {
+    display: flex;
+    gap: clamp(36px, 5vw, 80px);
+    margin: 0;
+  }
+  .parking-hero__facts > div {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    max-width: 180px;
+  }
+  .parking-hero__facts dt {
+    grid-row: 2;
+    font-size: clamp(13px, 1.2vw, 16px);
+    line-height: 1.3;
+  }
+  .parking-hero__facts dd {
+    grid-row: 1;
+    color: var(--parking-hero-accent);
+    font: 300 clamp(44px, 5.5vw, 76px)/0.95 var(--font-heading);
+    font-variant-numeric: tabular-nums;
+  }
+  .parking-hero__floors {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: clamp(280px, 30vw, 380px);
+    max-width: 100%;
+    flex-shrink: 0;
+  }
+  .parking-hero__floors p {
+    grid-column: 1/-1;
+    color: var(--parking-hero-muted);
+    font-size: 14px;
+    line-height: 1.3;
+    letter-spacing: 0;
+  }
+  .parking-hero__floors a {
+    display: grid;
+    place-items: center;
+    min-height: 54px;
+    padding: 14px 20px;
+    border-radius: 100px;
+    background: var(--parking-hero-text);
+    color: var(--parking-hero-cta-ink);
+    font-size: 15px;
+    line-height: 1.3;
+    transition: background-color 0.2s ease;
+  }
+  .parking-hero__floors a:hover,
+  .parking-hero__floors a:focus-visible {
+    background: var(--parking-hero-accent);
+  }
+  @media (max-width: 767px) {
+    .parking-hero__content {
+      padding: calc(var(--header-height) + 64px) 20px 68px;
+    }
+    .parking-hero h1 {
+      font-size: clamp(24px, 7.2vw, 38px);
+    }
+    .parking-hero__bottom {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 26px;
+      padding-right: 0;
+    }
+    .parking-hero__facts {
+      gap: 38px;
+    }
+    .parking-hero__facts > div {
+      max-width: 140px;
+    }
+    .parking-hero__floors {
+      width: 100%;
+    }
+  }
+</style>

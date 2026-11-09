@@ -1,0 +1,29 @@
+---
+import componentStyles from "./OfficeLanding.css?url";
+import type { ContentPage } from '../lib/pages';
+import { t, localizedPath, markerLines, type Locale } from '../i18n';
+interface Props {page: ContentPage; lang: Locale}
+const {page,lang}=Astro.props;
+const section=page.sections[0]!;
+// Marker positions as fractions of the 5079×3677 photo; client.ts turns them
+// into px offsets using the same cover-fit math for every scene.
+const anchors:Record<string,[string,string]>={golikovsky:["0.60","0.26"],pyatnitskaya:["0.54","0.55"],parking:["0.55","0.83"]};
+---
+<link rel="stylesheet" href={componentStyles} />
+<section class="office-selector">
+  <h1 class="sr-only">{t(lang,section.headings[0]!.key)}</h1>
+  <div class="office-selector__background"><img src="/assets/buildings/pyatnitskaya-day.png" width="5079" height="3677" alt={t(lang,section.media[0]!.altKey)} loading="eager" /></div>
+  <nav class="office-selector__targets" aria-label={t(lang,section.headings[0]!.key)}>
+    {(['golikovsky','pyatnitskaya','parking'] as const).map(id=>{
+      const [l1,l2]=markerLines(id==='parking'?t(lang,'home.undergroundParking'):t(lang,'home.buildingLabel',{name:t(lang,`building.${id}`)}));
+      return <a class={`office-selector__${id}`} href={localizedPath(id==='parking'?'/parking':`/office/${id}`,lang)} data-anchor-x={anchors[id]![0]} data-anchor-y={anchors[id]![1]}>
+        {l2?<>{l1}<br />{l2}</>:l1}
+      </a>})}
+  </nav>
+  <div class="office-meta">
+    <span class="office-meta__scroll"><span>{t(lang,'office.scrollHint')}</span><i aria-hidden="true"></i></span>
+  </div>
+  <noscript><style set:html=".office-selector__targets{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-end;padding:20px}.office-selector__targets a{position:static;transform:none}"></style></noscript>
+</section>
+
+<script>import { initScreenScroll } from "../scripts/screen-scroll"; initScreenScroll({screens: ".office-selector, #footer-contact", wheelMedia: "(min-width: 768px) and (hover: hover) and (prefers-reduced-motion: no-preference)", wheelTall: "native"});</script>

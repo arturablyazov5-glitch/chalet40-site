@@ -1,0 +1,45 @@
+.copy-email-toast {
+  position: fixed;
+  inset: auto auto max(24px, env(safe-area-inset-bottom)) 50%;
+  margin: 0;
+  padding: 9px 15px;
+  max-width: calc(100vw - 32px);
+  border: 0;
+  /* 6px kept: --radius-field (12px) is not visually close for this small
+     toast and would read as a pill. */
+  border-radius: 6px;
+  background: var(--color-strong);
+  color: var(--color-surface);
+  box-shadow: 0 5px 18px #0003;
+  /* Body weight is 300; the toast matches it now (was 400). */
+  font: 300 12px/1.35 var(--font-body);
+  text-align: center;
+  /* No nowrap: long emails must wrap inside max-width instead of
+     overflowing the viewport. */
+  overflow-wrap: break-word;
+  opacity: 0;
+  transform: translateX(-50%) translateY(5px) scale(0.98);
+  transition:
+    opacity 150ms ease,
+    transform 180ms cubic-bezier(0.2, 0.75, 0.3, 1);
+  pointer-events: none;
+  /* No z-index tokens exist; the toast lives in the top layer via
+     popover="manual" anyway, 1000 is just a safe ceiling. */
+  z-index: 1000;
+}
+
+.copy-email-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.copy-email-toast.is-hiding {
+  opacity: 0;
+  transform: translateX(-50%) translateY(3px) scale(0.985);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy-email-toast {
+    transition: none;
+  }
+}

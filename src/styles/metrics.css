@@ -1,0 +1,41 @@
+.metric,
+.metrics {
+  display: flex;
+  flex-direction: column;
+}
+.metrics {
+  justify-content: flex-start;
+  gap: 14px;
+}
+.metric {
+  gap: var(--space-1);
+}
+.metric-label {
+  order: 2;
+  font-size: var(--font-label);
+  line-height: 1.2;
+  letter-spacing: 0.9px;
+  overflow-wrap: anywhere;
+}
+.metric-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  font-size: var(--font-value);
+  line-height: 1.31;
+  color: var(--color-strong);
+  overflow-wrap: anywhere;
+}
+.metric-unit {
+  font-size: var(--font-unit);
+  line-height: 1.2;
+}
+.metric-unit:empty {
+  display: none;
+}
+.count-number { display: inline-grid; vertical-align: baseline; white-space: pre; font-variant-numeric: tabular-nums; }
+.count-final, .count-readout { grid-area: 1 / 1; }
+.is-counting .count-final { color: transparent; }
+.count-readout { inline-size: 0; min-inline-size: 0; color: var(--count-color); pointer-events: none; }
+.count-readout::before { content: attr(data-value); }

@@ -1,0 +1,55 @@
+{
+  "origin": "https://chalet40.moscow",
+  "timezone": "Europe/Moscow",
+  "maxUnits": 4096,
+  "maxHrefUnits": 1200,
+  "limits": {
+    "name": 180,
+    "contact": 180,
+    "lot": 180,
+    "context": 80,
+    "page": 240,
+    "utm": 80
+  },
+  "utmKeys": [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_term",
+    "utm_content"
+  ],
+  "heading": "<b>Новая заявка с сайта Chalet 40</b>",
+  "nameLabel": "<b>Имя:</b>",
+  "contactLabel": "<b>Связь:</b>",
+  "lotLabel": "<b>Помещение:</b>",
+  "pageLabel": "<b>Страница:</b>",
+  "utmLabel": "<b>UTM:</b>",
+  "languageLabel": "<b>Язык:</b>",
+  "methods": {
+    "phone": "Телефон",
+    "whatsapp": "WhatsApp",
+    "telegram": "Telegram",
+    "max": "MAX"
+  },
+  "call": "Позвонить",
+  "write": "Написать",
+  "siteLink": "Открыть сайт",
+  "missingLot": "Не указано",
+  "timeLabel": "<b>Время:</b>",
+  "contexts": {
+    "ru": {
+      "pyatnitskaya": "корпус «Пятницкая»",
+      "golikovsky": "корпус «Голиковский»",
+      "retail": "ритейл",
+      "floor-1": "паркинг, этаж −1",
+      "floor-2": "паркинг, этаж −2"
+    },
+    "en": {
+      "pyatnitskaya": "Pyatnitskaya building",
+      "golikovsky": "Golikovsky building",
+      "retail": "retail",
+      "floor-1": "parking, floor −1",
+      "floor-2": "parking, floor −2"
+    }
+  }
+}

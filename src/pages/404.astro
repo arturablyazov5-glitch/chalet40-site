@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { t } from "../i18n";
+---
+
+<BaseLayout
+  lang="ru"
+  title={t("ru", "error.title")}
+  description={t("ru", "error.description")}
+  noindex
+>
+  <section class="error-page">
+    <h1>404 — {t("ru", "error.title")}</h1>
+    <p>{t("ru", "error.description")}</p>
+    <a class="button button-gold" href="/office/pyatnitskaya">
+      {t("ru", "error.link")}
+    </a>
+    <div lang="en">
+      <h2>{t("en", "error.title")}</h2>
+      <p>{t("en", "error.description")}</p>
+      <a class="button button-gold" href="/en/office/pyatnitskaya">{t("en", "error.link")}</a>
+    </div>
+  </section>
+</BaseLayout>

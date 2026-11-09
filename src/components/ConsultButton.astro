@@ -1,0 +1,17 @@
+---
+import { t, type Locale } from "../i18n";
+
+interface Props {
+  lang: Locale;
+  lot?: string;
+  lotTitle?: string;
+  label?: string;
+}
+
+const { lang, lot, lotTitle, label } = Astro.props;
+---
+
+<button class="button button-gold" type="button" data-consult data-lot={lot} data-lot-title={lotTitle}>
+  {label ?? t(lang, "ui.consult")}
+</button>
+

@@ -1,0 +1,228 @@
+---
+import wordmark from "../../public/assets/brand/chalet-wordmark.svg?raw";
+
+const logo = wordmark.slice(wordmark.indexOf("<svg"));
+
+// Pen strokes reveal the original artwork without changing its outlines or gradient.
+const strokes = [
+  { d: "M73 40C85 30 100 17 98 10C96-1 80 1 63 8C37 18 15 39 7 62C-6 94 15 100 34 96C54 93 81 67 100 47", width: 16, start: 0, duration: 480 },
+  { d: "M124 5C130 15 101 48 85 80", width: 13, start: 447, duration: 195 },
+  { d: "M85 80C94 60 125 36 131 37C144 37 114 62 111 75C111 84 129 66 143 53", width: 14, start: 620, duration: 230 },
+  { d: "M178 49C190 35 172 31 159 40C145 49 131 62 133 73C136 88 159 62 177 48C182 47 169 63 165 72C157 88 181 67 199 48", width: 15, start: 820, duration: 270 },
+  { d: "M225 5C233 15 201 48 189 68C175 91 200 70 221 50", width: 15, start: 1055, duration: 200 },
+  { d: "M219 62C230 61 264 45 252 38C243 29 220 48 214 63C204 89 228 78 260 50", width: 15, start: 1230, duration: 205 },
+  { d: "M289 5C301 13 271 46 255 71C243 91 269 71 286 51", width: 16, start: 1410, duration: 185 },
+  { d: "M272 34C255 28 278 18 300 21Q317 21 326 24", width: 12, start: 1560, duration: 150 },
+];
+---
+
+<div class="home-preloader" aria-hidden="true">
+  <svg class="home-preloader__mark" viewBox="0 0 326 100" focusable="false">
+    <defs>
+      <mask id="chalet-preloader-ink" maskUnits="userSpaceOnUse" x="0" y="0" width="326" height="100">
+        <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+          {strokes.map(({ d, width, start, duration }) => (
+            <path
+              class="home-preloader__stroke"
+              d={d}
+              stroke-width={width}
+              pathLength="1"
+              style={`--start: ${start}ms; --duration: ${duration}ms`}
+            />
+          ))}
+        </g>
+        <rect class="home-preloader__ink" width="326" height="100" fill="#fff" />
+      </mask>
+      <mask id="chalet-preloader-sheen-shape" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="326" height="100">
+        <use href="#chalet-preloader-wordmark" />
+      </mask>
+      <linearGradient id="chalet-preloader-sheen" x1="0" y1="0" x2="1" y2=".28">
+        <stop stop-color="#fff4cd" stop-opacity="0" />
+        <stop offset=".48" stop-color="#fff4cd" stop-opacity=".48" />
+        <stop offset="1" stop-color="#fff4cd" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <g id="chalet-preloader-wordmark" mask="url(#chalet-preloader-ink)" set:html={logo} />
+    <g mask="url(#chalet-preloader-sheen-shape)">
+      <rect class="home-preloader__sheen" x="-108" width="96" height="100" fill="url(#chalet-preloader-sheen)" />
+    </g>
+  </svg>
+</div>
+
+<script is:inline>
+  (() => {
+    const preloader = document.querySelector(".home-preloader");
+    if (!preloader || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // Timings are owned by the stylesheet (--fade-duration, --drawn-duration)
+    // so CSS animations and this script never drift apart.
+    const preloaderStyles = getComputedStyle(preloader);
+    const duration = parseFloat(preloaderStyles.getPropertyValue("--fade-duration")) || 550;
+    const drawnDelay = parseFloat(preloaderStyles.getPropertyValue("--drawn-duration")) || 1850;
+
+    const landWordmark = () => {
+      const mark = preloader.querySelector(".home-preloader__mark");
+      const brand = document.querySelector(".home-hero__brand img");
+      if (!mark?.animate || !brand?.complete || !brand.naturalWidth) return;
+
+      const start = mark.getBoundingClientRect();
+      const lockup = brand.getBoundingClientRect();
+      // Chalet occupies (48.5, 0, 326, 100) in the 428 × 180 collaboration SVG.
+      const left = lockup.left + lockup.width * 48.5 / 428;
+      const width = lockup.width * 326 / 428;
+      const height = lockup.height * 100 / 180;
+      if (!width || left < 0 || lockup.top < 0 ||
+          left + width > innerWidth) return;
+
+      preloader.classList.add("home-preloader--docking");
+      const flight = mark.animate({
+        transform: [
+          "none",
+          `translate(${left - start.left}px, ${lockup.top - start.top}px) scale(${width / start.width}, ${height / start.height})`,
+        ],
+      }, { duration, easing: "cubic-bezier(.46, 0, .22, 1)", fill: "forwards" });
+
+      // Keep the Yudashkin lockup visible while the moving Chalet replaces its gold wordmark.
+      const inset = `inset(${100 / 180 * 100}% 0 0)`;
+      const cover = brand.animate({ clipPath: [inset, inset] }, duration);
+      const listeners = new AbortController();
+      const interrupt = () => {
+        preloader.classList.remove("home-preloader--docking");
+        flight.cancel();
+        cover.cancel();
+        listeners.abort();
+      };
+      window.addEventListener("resize", interrupt, { signal: listeners.signal });
+      window.addEventListener("scroll", interrupt, { passive: true, signal: listeners.signal });
+      flight.addEventListener("finish", () => listeners.abort(), { once: true });
+    };
+
+    const reveal = () => {
+      clearTimeout(deadline);
+      if (preloader.classList.contains("home-preloader--leaving")) return;
+
+      if (preloader.getClientRects().length) {
+        landWordmark();
+        const image = document.querySelector(".home-hero__image img");
+        if (image?.complete && image.naturalWidth) {
+          image.animate?.({ transform: ["scale(1.03)", "scale(1)"] }, {
+            duration: 700,
+            easing: "cubic-bezier(.2, .65, .3, 1)",
+          });
+        }
+      }
+      preloader.classList.add("home-preloader--leaving");
+    };
+    const deadline = setTimeout(reveal, 3300);
+    preloader.classList.add("home-preloader--waiting");
+
+    const drawn = new Promise((resolve) => setTimeout(resolve, drawnDelay));
+    const heroReady = new Promise((resolve) => {
+      const decodeHero = () => {
+        const image = document.querySelector(".home-hero__image img");
+        if (image?.decode) image.decode().then(resolve, resolve);
+        else resolve();
+      };
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", decodeHero, { once: true });
+      } else {
+        decodeHero();
+      }
+    });
+
+    Promise.all([drawn, heroReady]).then(reveal);
+  })();
+</script>
+
+<style>
+  .home-preloader {
+    --fade-duration: 550ms;
+    --fade-easing: cubic-bezier(.45, 0, .3, 1);
+    --drawn-duration: 1850ms;
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: grid;
+    place-items: center;
+    animation: preloader-exit var(--fade-duration) var(--fade-easing) var(--drawn-duration) both;
+  }
+
+  .home-preloader::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #171717;
+  }
+
+  .home-preloader--waiting {
+    animation: none;
+    transition: visibility 0s linear var(--fade-duration);
+  }
+
+  .home-preloader--waiting::before,
+  .home-preloader--waiting .home-preloader__mark {
+    transition: opacity var(--fade-duration) var(--fade-easing);
+  }
+
+  .home-preloader--leaving {
+    visibility: hidden;
+  }
+
+  .home-preloader--leaving::before,
+  .home-preloader--leaving:not(.home-preloader--docking) .home-preloader__mark {
+    opacity: 0;
+  }
+
+  .home-preloader__mark {
+    position: relative;
+    display: block;
+    width: clamp(170px, 27vw, 320px);
+    height: auto;
+    transform-origin: top left;
+  }
+
+  .home-preloader__stroke {
+    visibility: hidden;
+    stroke-dasharray: 1 1;
+    stroke-dashoffset: 1;
+    animation: preloader-draw var(--duration) linear calc(90ms + var(--start)) forwards;
+  }
+
+  .home-preloader__ink {
+    opacity: 0;
+    animation: preloader-ink 50ms ease-out 1.8s forwards;
+  }
+
+  .home-preloader__sheen {
+    animation: preloader-sheen 460ms cubic-bezier(.4, 0, .35, 1) 1.71s both;
+  }
+
+  @keyframes preloader-draw {
+    from { visibility: visible; stroke-dashoffset: 1; }
+    to { visibility: visible; stroke-dashoffset: 0; }
+  }
+
+  @keyframes preloader-ink {
+    to { opacity: 1; }
+  }
+
+  @keyframes preloader-sheen {
+    to { transform: translateX(440px); }
+  }
+
+  @keyframes preloader-exit {
+    from { opacity: 1; visibility: visible; }
+    to { opacity: 0; visibility: hidden; }
+  }
+
+  /* The first keyboard focus should reveal the page immediately. */
+  :global(body:focus-within) .home-preloader {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-preloader {
+      display: none;
+    }
+  }
+</style>

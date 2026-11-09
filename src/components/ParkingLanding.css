@@ -1,0 +1,521 @@
+/* Parking landing — consolidated scene styles.
+   Order: shared layout → scenes → responsive. */
+
+.parking-landing {
+  --parking-scene-muted: #d0d0d0;
+  --parking-scene-image-bg: #171717;
+  --parking-scene-detail: #aaa;
+  --parking-scene-label: #bbb;
+  --parking-scene-hairline: #ffffff55;
+  --parking-scene-fade: #000000e6;
+  --parking-scene-media-tint: none;
+  background: var(--color-strong);
+  color: var(--color-surface);
+}
+
+/* Shared full-bleed scene media (ParkingHero / ParkingSelection). */
+.parking-scene-media {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  grid-area: 1/1;
+  min-width: 0;
+  min-height: 0;
+  contain: size;
+  overflow: hidden;
+}
+.parking-scene-media picture {
+  display: block;
+  grid-area: 1/1;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+.parking-scene-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.parking-scene-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--parking-scene-media-tint);
+  pointer-events: none;
+}
+.parking-scene-media--hero {
+  --parking-scene-media-tint:
+    linear-gradient(90deg, #15131080, transparent 75%),
+    linear-gradient(180deg, #15131059, transparent 42%, #151310e6);
+}
+.parking-scene-media--selection {
+  --parking-scene-media-tint:
+    linear-gradient(90deg, #151310c9, #15131026 75%),
+    linear-gradient(180deg, #15131080, transparent 48%, #151310c9);
+}
+
+/* ===== Scene frame ===== */
+.parking-scene {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  height: 100svh;
+  min-height: 700px;
+  scroll-margin-top: 0;
+}
+.parking-scene-background,
+.parking-scene-content {
+  grid-area: 1/1;
+  min-height: 0;
+}
+.parking-scene-background {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  overflow: hidden;
+  contain: size;
+}
+.parking-scene-background picture {
+  display: block;
+  grid-area: 1/1;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+.parking-scene-background img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.parking-scene-content {
+  z-index: 1;
+  display: grid;
+  align-content: start;
+  padding: 80px var(--site-gutter);
+  min-width: 0;
+}
+.parking-scene h1,
+.parking-scene h2 {
+  font-size: 32px;
+  line-height: 42px;
+  font-weight: 300;
+  text-transform: uppercase;
+  text-wrap: wrap;
+  letter-spacing: 3px;
+}
+.parking-scene p {
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 300;
+  letter-spacing: 0.9px;
+}
+.parking-scene-copy {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+.parking-scene-scroll {
+  position: fixed;
+  right: var(--site-gutter);
+  bottom: 40px;
+  margin: 0;
+  z-index: 20;
+  color: var(--color-surface);
+}
+.parking-scene-scroll[hidden] {
+  display: none;
+}
+
+/* ===== Scene 1 — cover ===== */
+.parking-scene-1 .parking-scene-content {
+  align-content: end;
+  padding-bottom: 70px;
+}
+.parking-scene-1 p {
+  max-width: 740px;
+}
+
+/* ===== Scene 2 — parking dimensions ===== */
+.parking-scene-2 {
+  height: auto;
+  min-height: 100svh;
+}
+.parking-scene-2 .parking-scene-content {
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 40px clamp(32px, 4vw, 80px);
+  align-content: stretch;
+  align-items: center;
+  padding-top: calc(var(--header-height) + var(--site-gutter));
+  padding-bottom: var(--site-gutter);
+}
+.parking-scene-2 .parking-scene-copy {
+  transform: none;
+  gap: 0;
+}
+.parking-scene-2 h2 {
+  max-width: 12ch;
+  margin-bottom: 36px;
+  font-size: clamp(32px, 3.5vw, 52px);
+  line-height: 1.13;
+  letter-spacing: 2px;
+}
+.parking-scene-2 .parking-size-lead {
+  font-size: clamp(17px, 1.4vw, 21px);
+  line-height: 1.4;
+  letter-spacing: 0.1px;
+}
+.parking-scene-2 .parking-size-detail {
+  margin-top: 20px;
+  color: var(--parking-scene-detail);
+  font-size: clamp(13px, 1.06vw, 16px);
+  line-height: 1.5;
+  letter-spacing: 0.1px;
+}
+.parking-scene-2 .parking-sizes-image {
+  min-width: 0;
+  width: 100%;
+}
+.parking-sizes-image {
+  align-self: center;
+}
+.parking-sizes-image svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.parking-size-stats {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+  padding-top: 24px;
+  border-top: 1px solid var(--parking-scene-hairline);
+}
+.parking-size-stat {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  min-width: 0;
+}
+.parking-size-stat-number {
+  font-size: clamp(38px, 4vw, 58px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -1.5px;
+}
+.parking-size-stat-label {
+  max-width: 200px;
+  color: var(--parking-scene-label);
+  font-size: clamp(12px, 1.1vw, 15px);
+  line-height: 1.45;
+  letter-spacing: 0.1px;
+}
+
+/* ===== Scene 3 — charging and storage ===== */
+/* Shared values for every viewport band; per-band overrides live in the
+   media queries below (>=901px, 768–900px, <=767px). */
+.parking-scene-3 {
+  height: 100svh;
+  min-height: 0;
+}
+.parking-scene-3 .parking-scene-content {
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 0;
+  align-content: stretch;
+  align-items: center;
+}
+.parking-scene-3 .parking-scene-copy {
+  grid-area: 1 / 1;
+  min-width: 0;
+  max-width: 100%;
+  gap: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+.parking-scene-3 .parking-scene-copy > h2,
+.parking-scene-3 .parking-scene-copy > p,
+.parking-scene-3 .parking-storage-copy {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+.parking-scene-3 .parking-scene-copy p,
+.parking-scene-3 .parking-storage-copy {
+  margin: 0;
+  color: var(--parking-scene-muted);
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.55;
+  letter-spacing: 0.1px;
+}
+.parking-scene-3 .parking-scene-copy p {
+  max-width: 48ch;
+}
+.parking-scene-3 .parking-storage-copy {
+  align-self: center;
+  max-width: 48ch;
+}
+.parking-scene-3 .parking-waiting-image,
+.parking-scene-3 .parking-storage-image {
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--parking-scene-image-bg);
+}
+.parking-scene-3 .parking-waiting-image picture,
+.parking-scene-3 .parking-storage-image picture {
+  display: contents;
+}
+.parking-scene-3 .parking-waiting-image img,
+.parking-scene-3 .parking-storage-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Scene 3 — wide layout (>=901px). */
+@media (min-width: 901px) {
+  .parking-scene-3 .parking-scene-content {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 32px clamp(32px, 4vw, 72px);
+    padding: calc(var(--header-height) + 32px) var(--site-gutter) 32px;
+  }
+  .parking-scene-3 .parking-scene-copy > h2 {
+    max-width: 24ch;
+    margin: 0 0 20px;
+    font-size: clamp(28px, 3vw, 48px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-transform: none;
+  }
+  .parking-scene-3 .parking-waiting-image {
+    grid-area: 1 / 2 / 3 / 3;
+    height: 100%;
+  }
+  .parking-scene-3 .parking-storage-image {
+    grid-area: 2 / 1;
+    height: 100%;
+  }
+  .parking-scene-3 .parking-storage-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 20%, var(--parking-scene-fade));
+  }
+  .parking-scene-3 .parking-storage-copy {
+    grid-area: 2 / 1;
+    align-self: end;
+    z-index: 1;
+    max-width: 55ch;
+    padding: 24px;
+    color: var(--color-surface);
+    font-size: clamp(13px, 1vw, 16px);
+    line-height: 1.5;
+  }
+}
+
+/* Scene 3 — stacked layout with fixed image aspect (<=900px). */
+@media (max-width: 900px) {
+  .parking-scene-3 {
+    height: auto;
+  }
+  .parking-scene-3 .parking-scene-content {
+    height: auto;
+  }
+  .parking-scene-3 .parking-waiting-image,
+  .parking-scene-3 .parking-storage-image {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* Scene 3 — tablet portrait (768–900px). */
+@media (min-width: 768px) and (max-width: 900px) {
+  .parking-scene-3 .parking-scene-content {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto;
+    gap: 28px;
+    padding: calc(var(--header-height) + 32px) var(--site-gutter) 56px;
+  }
+  .parking-scene-3 .parking-scene-copy > h2 {
+    max-width: 28ch;
+    margin-bottom: 22px;
+    font-size: clamp(26px, 3.3vw, 30px);
+    line-height: 1.16;
+    letter-spacing: 0.7px;
+  }
+  .parking-scene-3 .parking-waiting-image {
+    grid-area: 2 / 1;
+  }
+  .parking-scene-3 .parking-storage-image {
+    grid-area: 3 / 1;
+  }
+  .parking-scene-3 .parking-storage-copy {
+    grid-area: 4 / 1;
+  }
+}
+
+/* ===== Scene 4 — cover ===== */
+.parking-scene-4 .parking-scene-copy {
+  max-width: 540px;
+}
+.parking-scene-1 .parking-scene-background::after,
+.parking-scene-4 .parking-scene-background::after {
+  content: "";
+  grid-area: 1/1;
+}
+.parking-scene-1 .parking-scene-background::after {
+  background: linear-gradient(transparent, var(--color-strong));
+}
+.parking-scene-4 .parking-scene-background::after {
+  background: linear-gradient(var(--color-strong), transparent);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1199px) {
+  .parking-scene p {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .parking-scene h1,
+  .parking-scene h2 {
+    font-size: 24px;
+    line-height: 31px;
+  }
+  .parking-scene-1 .parking-scene-content {
+    padding-bottom: 59px;
+  }
+  .parking-scene-1 .parking-scene-copy p {
+    max-width: 698px;
+  }
+  .parking-scene-2 .parking-scene-content {
+    grid-template-columns: minmax(270px, 0.82fr) minmax(0, 1.18fr);
+    gap: 30px;
+  }
+  .parking-scene-2 h2 {
+    font-size: clamp(30px, 3.4vw, 40px);
+    margin-bottom: 26px;
+  }
+  .parking-scene-4 .parking-scene-copy {
+    max-width: 494px;
+  }
+}
+@media (max-width: 767px) {
+  .parking-scene-content {
+    padding-bottom: 72px;
+  }
+  .parking-scene h1,
+  .parking-scene h2 {
+    font-size: 20px;
+    line-height: 26px;
+  }
+  .parking-scene p {
+    letter-spacing: 0.4px;
+  }
+  .parking-scene-scroll {
+    bottom: 16px;
+  }
+  .parking-scene-1 .parking-scene-content {
+    padding-bottom: 72px;
+  }
+  .parking-scene-1 .parking-scene-copy {
+    gap: 10px;
+  }
+  .parking-scene-2 .parking-scene-content {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 32px;
+    padding-top: calc(var(--header-height) + 28px);
+    padding-bottom: 50px;
+  }
+  .parking-scene-2 h2 {
+    font-size: clamp(30px, 7.8vw, 40px);
+    letter-spacing: 1.5px;
+    margin-bottom: 24px;
+  }
+  .parking-scene-2 .parking-size-lead {
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  .parking-scene-2 .parking-size-detail {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 16px;
+  }
+  .parking-sizes-image {
+    align-self: start;
+  }
+  .parking-size-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 16px;
+  }
+  .parking-size-stat:first-child {
+    grid-column: 1 / -1;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: 18px;
+  }
+  .parking-size-stat-number {
+    font-size: 44px;
+  }
+  .parking-size-stat-label {
+    font-size: 12px;
+  }
+  .parking-scene-3 .parking-scene-content {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto;
+    gap: 22px;
+    padding: calc(var(--header-height) + 28px) var(--site-gutter) 48px;
+  }
+  .parking-scene-3 .parking-scene-copy > h2 {
+    max-width: 100%;
+    margin-bottom: 16px;
+    font-size: clamp(21px, 5.8vw, 24px);
+    line-height: 1.18;
+    letter-spacing: 0.4px;
+  }
+  .parking-scene-3 .parking-scene-copy p {
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .parking-scene-3 .parking-waiting-image {
+    grid-area: 2 / 1;
+  }
+  .parking-scene-3 .parking-storage-image {
+    grid-area: 3 / 1;
+  }
+  .parking-scene-3 .parking-storage-copy {
+    grid-area: 4 / 1;
+    max-width: 100%;
+  }
+  .parking-scene-4 .parking-scene-copy {
+    max-width: 350px;
+  }
+}
+@media (max-width: 380px) {
+  .parking-scene-3 .parking-scene-copy > h2 {
+    font-size: clamp(18px, 5.8vw, 21px);
+    letter-spacing: 0.2px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .parking-scene {
+    scroll-snap-align: start;
+  }
+  .parking-scene-scroll path {
+    animation: parking-mouse 1.8s ease-in-out infinite;
+  }
+}

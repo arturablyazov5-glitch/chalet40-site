@@ -1,0 +1,520 @@
+[
+  {
+    "id": "home",
+    "path": "/",
+    "titleKey": "page.home.title",
+    "descriptionKey": "page.home.description",
+    "sections": [
+      {
+        "role": "hero",
+        "headings": [
+          {
+            "level": 1,
+            "key": "page.home.s0.h0"
+          }
+        ],
+        "paragraphs": [
+          "site.delivery",
+          "page.home.s0.p1"
+        ],
+        "media": [
+          {
+            "src": "editorial/home-building.webp",
+            "altKey": "page.home.s0.alt0"
+          }
+        ],
+        "links": []
+      },
+      {
+        "role": "benefits",
+        "headings": [
+          {
+            "level": 2,
+            "key": "page.home.s1.h0"
+          }
+        ],
+        "paragraphs": [
+          "page.home.s1.p0",
+          "page.home.s1.p1",
+          "page.home.s1.p2",
+          "page.home.s1.p3",
+          "page.home.s1.p4",
+          "page.home.s1.p5",
+          "page.home.s1.p6",
+          "page.home.s1.p7",
+          "page.home.s1.p8",
+          "page.home.s1.p9",
+          "page.home.s1.p10"
+        ],
+        "media": [
+          {
+            "src": "editorial/home-benefits.webp",
+            "altKey": "home.benefitsAlt"
+          }
+        ],
+        "links": []
+      },
+      {
+        "role": "text",
+        "headings": [],
+        "paragraphs": [
+          "page.home.s2.p0",
+          "page.home.s2.p1",
+          "page.home.s2.p2",
+          "page.home.s2.p3",
+          "page.home.s2.p4",
+          "page.home.s2.p5",
+          "page.home.s2.p6"
+        ],
+        "media": [
+          {
+            "src": "editorial/home-story.webp",
+            "altKey": "home.storyAlt"
+          }
+        ],
+        "links": []
+      },
+      {
+        "role": "text",
+        "headings": [
+          {
+            "level": 2,
+            "key": "page.home.s3.h0"
+          }
+        ],
+        "paragraphs": [
+          "page.home.s3.p0"
+        ],
+        "media": [
+          {
+            "src": "editorial/home-overview.jpg",
+            "altKey": "home.slideAlt0"
+          },
+          {
+            "src": "editorial/home-pool.webp",
+            "altKey": "home.slideAlt1"
+          },
+          {
+            "src": "editorial/home-fitness.webp",
+            "altKey": "home.slideAlt2"
+          },
+          {
+            "src": "editorial/home-spa.webp",
+            "altKey": "home.slideAlt3"
+          }
+        ],
+        "links": []
+      },
+      {
+        "role": "parking-cta",
+        "headings": [
+          {
+            "level": 2,
+            "key": "page.home.s4.h0"
+          }
+        ],
+        "paragraphs": [
+          "page.home.s4.p0"
+        ],
+        "media": [
+          {
+            "src": "editorial/home-parking.webp",
+            "altKey": "home.parkingAlt"
+          }
+        ],
+        "links": [
+          {
+            "href": "/parking/floor-1",
+            "key": "page.home.s4.link0"
+          },
+          {
+            "href": "/parking/floor-2",
+            "key": "page.home.s4.link1"
+          }
+        ]
+      }
+    ],
+    "noindex": false
+  },
+  {
+    "id": "about",
+    "path": "/about",
+    "titleKey": "page.about.title",
+    "descriptionKey": "page.about.description",
+    "sections": [
+      {
+        "role": "hero",
+        "headings": [
+          {
+            "level": 1,
+            "key": "page.about.s0.h0"
+          }
+        ],
+        "paragraphs": [
+          "page.about.s0.p0",
+          "page.about.s0.p1"
+        ],
+        "media": [
+          {
+            "src": "editorial/about-building-updated.webp",
+            "altKey": "page.about.s0.alt0"
+          }
+        ],
+        "links": []
+      },
+      {
+        "role": "inventory",
+        "headings": [],
+        "paragraphs": [
+          "page.about.s1.p0",
+          "page.about.s1.p1",
+          "page.about.s1.p2",
+          "page.about.s1.p3",
+          "page.about.s1.p4",
+          "page.about.s1.p5",
+          "page.about.s1.p6"
+        ],
+        "media": [
+          {
+            "src": "editorial/about-courtyard-updated.webp",
+            "altKey": "about.imageAlt0"
+          },
+          {
+            "src": "editorial/about-street.jpg",
+            "altKey": "about.imageAlt1"
+          }
+        ],
+        "links": []
+      },
+      {
+        "role": "story",
+        "headings": [],
+        "paragraphs": [
+          "page.about.s2.p0",
+          "page.about.s2.p1",
+          "page.about.s2.p2",
+          "page.about.s2.p3",
+          "site.delivery"
+        ],
+        "media": [
+          {
+            "src": "editorial/about-night-updated.webp",
+            "altKey": "about.imageAlt2"
+          },
+          {
+            "src": "editorial/about-night-updated.webp",
+            "altKey": "about.galleryAlt0"
+          },
+          {
+            "src": "editorial/about-gallery-1.jpg",
+            "altKey": "about.galleryAlt1"
+          },
+          {
+            "src": "editorial/about-courtyard-updated.webp",
+            "altKey": "about.galleryAlt2"
+          },
+          {
+            "src": "editorial/about-gallery-3.jpg",
+            "altKey": "about.galleryAlt3"
+          },
+          {
+            "src": "editorial/about-building-updated.webp",
+            "altKey": "about.galleryAlt4"
+          }
+        ],
+        "links": []
+      }
+    ],
+    "noindex": false
+  },
+  {
+    "id": "office",
+    "path": "/office",
+    "titleKey": "page.office.title",
+    "descriptionKey": "page.office.description",
+    "sections": [
+      {
+        "role": "office-building-selector",
+        "headings": [
+          {
+            "level": 1,
+            "key": "page.office.s0.h0"
+          }
+        ],
+        "paragraphs": [],
+        "media": [
+          {
+            "src": "editorial/office-building.jpg",
+            "altKey": "page.office.s0.alt0"
+          }
+        ],
+        "links": [
+          {
+            "href": "/office/golikovsky",
+            "key": "page.office.s0.link0"
+          },
+          {
+            "href": "/parking",
+            "key": "page.office.s0.link1"
+          },
+          {
+            "href": "/office/pyatnitskaya",
+            "key": "page.office.s0.link2"
+          }
+        ]
+      }
+    ],
+    "noindex": false
+  },
+  {
+    "id": "map",
+    "path": "/map",
+    "titleKey": "page.map.title",
+    "descriptionKey": "page.map.description",
+    "sections": [
+      {
+        "role": "map",
+        "headings": [
+          {
+            "level": 1,
+            "key": "page.map.s0.h0"
+          }
+        ],
+        "paragraphs": [],
+        "media": [
+          {
+            "src": "editorial/location-map.svg",
+            "altKey": "page.map.s0.alt0"
+          }
+        ],
+        "links": []
+      }
+    ],
+    "noindex": false
+  },
+  {
+    "id": "contact",
+    "path": "/contact",
+    "titleKey": "page.contact.title",
+    "descriptionKey": "page.contact.description",
+    "sections": [
+      {
+        "role": "contacts",
+        "headings": [
+          {
+            "level": 1,
+            "key": "page.contact.s0.h0"
+          }
+        ],
+        "paragraphs": [
+          "page.contact.s0.p0",
+          "page.contact.s0.p1"
+        ],
+        "media": [],
+        "links": [
+          {
+            "href": "mailto:invest@hi-tech.ru",
+            "key": "page.contact.s0.link0"
+          },
+          {
+            "href": "tel:+74952259501",
+            "key": "page.contact.s0.link1"
+          }
+        ]
+      }
+    ],
+    "noindex": false
+  },
+  {
+    "id": "parking",
+    "path": "/parking",
+    "titleKey": "page.parking.title",
+    "descriptionKey": "page.parking.description",
+    "sections": [
+      {
+        "role": "hero",
+        "headings": [
+          {
+            "level": 1,
+            "key": "page.parking.s0.h0"
+          }
+        ],
+        "paragraphs": [
+          "page.parking.s0.p0"
+        ],
+        "media": [
+          {
+            "src": "editorial/parking-original-hero.webp",
+            "altKey": "page.parking.s0.alt0"
+          }
+        ],
+        "links": [
+          {
+            "href": "/parking/floor-1",
+            "key": "page.parking.s0.link0"
+          },
+          {
+            "href": "/parking/floor-2",
+            "key": "page.parking.s0.link1"
+          }
+        ]
+      },
+      {
+        "role": "cover",
+        "headings": [
+          {
+            "level": 2,
+            "key": "page.parking.s1.h0"
+          }
+        ],
+        "paragraphs": [
+          "page.parking.s1.p0"
+        ],
+        "media": [
+          {
+            "src": "editorial/parking-access.webp",
+            "altKey": "page.parking.s1.alt0"
+          }
+        ],
+        "links": []
+      },
+      {
+        "role": "sizes",
+        "headings": [
+          {
+            "level": 2,
+            "key": "page.parking.s2.h0"
+          }
+        ],
+        "paragraphs": [
+          "page.parking.s2.p0",
+          "page.parking.s2.p1",
+          "page.parking.s2.p2",
+          "page.parking.s2.p3"
+        ],
+        "media": [
+          {
+            "src": "editorial/parking-sizes.svg",
+            "altKey": "parking.sizesAlt"
+          }
+        ],
+        "links": [],
+        "stats": [
+          {
+            "value": "22",
+            "labelKey": "parking.statSpaces"
+          },
+          {
+            "value": "7",
+            "labelKey": "parking.statCompact"
+          },
+          {
+            "value": "6",
+            "labelKey": "parking.statStandard"
+          },
+          {
+            "value": "9",
+            "labelKey": "parking.statLarge"
+          },
+          {
+            "value": "10",
+            "labelKey": "parking.statStorage"
+          }
+        ]
+      },
+      {
+        "role": "storage",
+        "headings": [
+          {
+            "level": 2,
+            "key": "page.parking.s3.h0"
+          }
+        ],
+        "paragraphs": [
+          "page.parking.s3.p0",
+          "page.parking.s3.p1"
+        ],
+        "media": [
+          {
+            "src": "editorial/parking-waiting.webp",
+            "altKey": "parking.waitingAlt"
+          },
+          {
+            "src": "editorial/parking-storage-room.webp",
+            "altKey": "page.parking.s3.alt1"
+          }
+        ],
+        "links": []
+      },
+      {
+        "role": "cover",
+        "headings": [
+          {
+            "level": 2,
+            "key": "page.parking.s4.h0"
+          }
+        ],
+        "paragraphs": [
+          "page.parking.s4.p0"
+        ],
+        "media": [
+          {
+            "src": "editorial/parking-ramp.webp",
+            "altKey": "page.parking.s4.alt0"
+          }
+        ],
+        "links": []
+      },
+      {
+        "role": "cta",
+        "headings": [
+          {
+            "level": 2,
+            "key": "page.parking.s5.h0"
+          }
+        ],
+        "paragraphs": [
+          "page.parking.s5.p0"
+        ],
+        "media": [
+          {
+            "src": "editorial/parking-final.webp",
+            "altKey": "parking.finalAlt"
+          }
+        ],
+        "links": [
+          {
+            "href": "/parking/floor-1",
+            "key": "page.parking.s5.link0"
+          },
+          {
+            "href": "/parking/floor-2",
+            "key": "page.parking.s5.link1"
+          }
+        ]
+      }
+    ],
+    "noindex": false
+  },
+  {
+    "id": "privacy",
+    "path": "/privacy",
+    "titleKey": "page.privacy.title",
+    "descriptionKey": "page.privacy.description",
+    "sections": [
+      {
+        "role": "privacy",
+        "headings": [
+          {
+            "level": 1,
+            "key": "privacy.heading"
+          }
+        ],
+        "paragraphs": [],
+        "media": [],
+        "links": []
+      }
+    ],
+    "noindex": false
+  }
+]

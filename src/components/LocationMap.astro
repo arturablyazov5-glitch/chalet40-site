@@ -1,0 +1,21 @@
+---
+import { t, type Locale } from "../i18n";
+import mapSource from "../assets/editorial/location-map.svg?raw";
+interface Props {
+  lang: Locale;
+  altKey: string;
+}
+const { lang, altKey } = Astro.props;
+const [, , mapWidth, mapHeight] = (mapSource.match(/viewBox="([^"]+)"/)?.[1] ?? "")
+  .split(/\s+/)
+  .map(Number);
+---
+
+<img
+  src={`/assets/maps/${lang}.svg`}
+  alt={t(lang, altKey)}
+  width={Math.round(mapWidth)}
+  height={Math.round(mapHeight)}
+  loading="eager"
+  decoding="async"
+/>

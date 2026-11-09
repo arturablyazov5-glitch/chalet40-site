@@ -1,0 +1,286 @@
+---
+import ConsultButton from "./ConsultButton.astro";
+import DownloadLink from "./DownloadLink.astro";
+import componentStyles from "./ParkingFloor.css?url";
+import {
+  getParkingItems,
+  parkingCounts,
+  parkingSizeClass,
+  parkingMetersPerUnit,
+  type ParkingFloor,
+} from "../lib/parking";
+import { parkingSvg } from "../lib/parking-svg";
+import { t, localizedPath, number, currency, type Locale } from "../i18n";
+interface Props {
+  floor: ParkingFloor;
+  lang: Locale;
+}
+const { floor, lang } = Astro.props;
+const items = getParkingItems(floor);
+const first = items[0]!;
+const cards = items.map((item) => ({
+  ...item,
+  sizeClass: parkingSizeClass(item.areaM2),
+  typeText: t(lang, `parking.${item.type}`),
+  lotTitle: t(
+    lang,
+    item.type === "parking" ? "consult.parkingTitle" : "consult.storageTitle",
+    { id: item.id },
+  ),
+  areaText: `${number(lang, item.areaM2)} ${t(lang, "ui.sqm")}`,
+  rateText: currency(lang, item.pricePerM2),
+  totalText: t(lang, "parking.totalValue", {
+    value: number(lang, item.totalPrice),
+  }),
+  priceText: currency(lang, item.totalPrice),
+  statusText: t(
+    lang,
+    item.status === "reserved" ? "ui.reserved" : `parking.${item.status}Short`,
+  ),
+}));
+const firstCard = cards[0]!;
+---
+<link rel="stylesheet" href={componentStyles} />
+
+<div class="parking-page" data-parking>
+  <div class="parking-tooltip" role="tooltip" id="parking-tooltip" hidden>
+    <div>
+      <b data-tip-title></b>
+      <span data-tip-status></span>
+    </div>
+    <dl>
+      <div>
+        <dt>{t(lang, "parking.area")}</dt>
+        <dd data-tip-area></dd>
+      </div>
+      <div data-tip-price-row>
+        <dt>{t(lang, "parking.total")}</dt>
+        <dd data-tip-total></dd>
+      </div>
+    </dl>
+  </div>
+  <nav class="parking-breadcrumbs" aria-label={t(lang, "ui.breadcrumbs")}>
+    <a href={localizedPath("/", lang)}>{t(lang, "nav.home")}</a>
+    <span aria-hidden="true">/</span>
+    <a href={localizedPath("/parking", lang)}>{t(lang, "nav.parking")}</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{t(lang, "parking.floorButton", { floor }).toLocaleLowerCase(lang)}</span>
+  </nav>
+  <div class="parking-page-toolbar">
+    <div>
+      <h1>{t(lang, "parking.pickHint")}</h1>
+    </div>
+    <nav class="parking-floors" aria-label={t(lang, "parking.chooseFloor")}>
+      {([-1, -2] as const).map((level) => (
+        <a
+          href={localizedPath(`/parking/floor${level}`, lang)}
+          aria-current={level === floor ? "page" : undefined}
+        >
+          {t(lang, "parking.floorButton", { floor: level })}
+        </a>
+      ))}
+    </nav>
+  </div>
+  <p class="sr-only">{t(lang, "parking.instructions")}</p>
+  <div class="parking-workspace">
+    <div class="parking-plan-wrap">
+      <div class="parking-stage">
+        <div class="parking-north" role="img" aria-label={t(lang, "ui.north")}>
+          <svg viewBox="0 0 24 28" width="24" height="28" aria-hidden="true">
+            <path d="M12 2 L16 14 L12 11 L8 14 Z" />
+            <text
+              x="12"
+              y="24"
+              text-anchor="middle"
+              font-size="10"
+              font-family="Arial,sans-serif"
+              font-weight="700"
+            >
+              {t(lang, "parking.north")}
+            </text>
+          </svg>
+        </div>
+        <div
+          class="parking-tools"
+          role="group"
+          aria-label={t(lang, "parking.plan", { floor })}
+        >
+          <button
+            type="button"
+            data-zoom-in
+            aria-label={t(lang, "parking.zoomIn")}
+          >
+            +
+          </button>
+          <button
+            type="button"
+            data-zoom-out
+            aria-label={t(lang, "parking.zoomOut")}
+          >
+            −
+          </button>
+        </div>
+        <div
+          class="parking-plan"
+          tabindex="0"
+          aria-label={t(lang, "parking.plan", { floor })}
+          set:html={parkingSvg(floor, lang)}
+        />
+        <div
+          hidden
+          class="parking-scale"
+          data-meters-per-unit={parkingMetersPerUnit}
+          aria-label={t(lang, "parking.scale")}
+          data-meter={t(lang, "ui.m")}
+          data-kilometer={t(lang, "parking.km")}
+        >
+          <div class="scale-bar-line" hidden></div>
+          <span class="scale-bar-label">5 {t(lang, "ui.m")}</span>
+        </div>
+      </div>
+      <div class="parking-map-overlay">
+        <div class="legend" aria-label={t(lang, "parking.status")}>
+          {["available", "reserved", "sold"].map((status) => (
+            <span class="legend-item">
+              <span
+                class:list={["legend-dot", `status-${status}`]}
+                aria-hidden="true"
+              />
+              {t(lang, `parking.${status}Short`)}
+            </span>
+          ))}
+        </div>
+        <div class="parking-counter">
+          {parkingCounts(floor).map((count) => (
+            <span>
+              <b>{count.available}</b>
+              {" " +
+                t(lang, `parking.${count.type}Count`, {
+                  ...count,
+                  available: "",
+                }).trim()}
+            </span>
+          ))}
+        </div>
+        <button type="button" class="parking-reset" data-reset-plan hidden>
+          <span>{t(lang, "parking.reset")}</span>
+        </button>
+      </div>
+    </div>
+    <aside
+      hidden
+      class="parking-card"
+      id="parking-card"
+      aria-labelledby="parking-card-title"
+      data-card
+    >
+      <div class="parking-card-head">
+        <div>
+          <h2 id="parking-card-title">
+            <span data-card-type>{firstCard.typeText}</span>{" "}
+            <span data-card-id>{first.id}</span>
+          </h2>
+          <p class="parking-card-status" data-card-field="status">
+            {firstCard.statusText}
+          </p>
+        </div>
+        <button
+          type="button"
+          data-clear-selection
+          aria-label={t(lang, "ui.close")}
+        >
+          ×
+        </button>
+      </div>
+      <dl>
+        {[
+          ["area", t(lang, "parking.area"), firstCard.areaText],
+
+          ["total", t(lang, "parking.total"), firstCard.totalText],
+        ].map(([key, label, value]) => (
+          <div>
+            <dt>{label}</dt>
+            <dd data-card-field={key === "total" ? undefined : key}>{key === "total" ? <><span data-card-field="total">{currency(lang, first.totalPrice)}</span><small>{t(lang, "ui.vat").replace(/^./u, (c) => c.toUpperCase())}</small></> : value}</dd>
+          </div>
+        ))}
+      </dl>
+      <button
+        type="button"
+        class="parking-panel-consult"
+        data-consult
+        data-lot={first.id}
+        data-lot-title={firstCard.lotTitle}
+      >
+        {t(lang, "parking.request")}
+      </button>
+      <button type="button" class="parking-share" data-share-parking>
+        {t(lang, "parking.share")}
+      </button>
+      <p
+        role="status"
+        class="parking-live"
+        aria-live="polite"
+        data-parking-live
+      ></p>
+    </aside>
+  </div>
+  <div class="parking-bottom">
+    <div class="parking-bottom-actions">
+      <DownloadLink href="/assets/documents/project-declaration.pdf" label={t(lang, "parking.download")} />
+      <ConsultButton lang={lang} />
+    </div>
+  </div>
+  <details class="parking-inventory">
+    <summary>
+      <span>{t(lang, "parking.list")}</span>
+      <span class="parking-inventory-total">{items.length}</span>
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+        <path d="m4 7 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </summary>
+    <section class="parking-inventory__table" aria-labelledby="parking-list-heading">
+      <h2 id="parking-list-heading">{t(lang, "parking.list")}</h2>
+      <div class="table-scroll">
+        <table>
+          <caption>{t(lang, "parking.title", { floor })}</caption>
+          <thead>
+            <tr>
+              {["id", "area", "rate", "total", "status"].map((key) => (
+                <th scope="col">{t(lang, `parking.${key}`)}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {cards.map((item) => (
+              <tr data-parking-row={item.id}>
+                <th scope="row">
+                  <button
+                    type="button"
+                    data-pick-parking={item.id}
+                    aria-controls="parking-card"
+                  >
+                    {item.id}
+                    {item.sizeClass ? ` (${item.sizeClass})` : ""}
+                  </button>
+                  <span class="inventory-type">{item.typeText}</span>
+                </th>
+                <td>{item.areaText}</td>
+                <td>{item.rateText}</td>
+                <td>{item.totalText}</td>
+                <td>{item.statusText}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </details>
+  <script
+    type="application/json"
+    data-parking-items
+    set:html={JSON.stringify(cards).replace(/</g, "\\u003c")}
+  />
+</div>
+<script>
+  import "../scripts/parking";
+</script>

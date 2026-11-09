@@ -1,0 +1,102 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LotPlanView from "../components/LotPlanView.astro";
+import BuildingSelect from "../components/BuildingSelect.astro";
+import { contentView } from "../lib/content-views";
+import ParkingFloorView from "../components/ParkingFloor.astro";
+import { getRoutes, type SiteRoute } from "../lib/routes";
+import { getContentRoutes, pageJsonLd, type PageRoute } from "../lib/pages";
+import { getLots } from "../lib/lots";
+import { lotSeo, lotJsonLd } from "../lib/seo";
+import { getImage } from "astro:assets";
+import { mediaSource } from "../lib/media";
+import { t } from "../i18n";
+import type { ImageMetadata } from "astro";
+type Route = SiteRoute | PageRoute;
+export function getStaticPaths() {
+  return [...getRoutes(), ...getContentRoutes()].map((route) => ({
+    params: {
+      path: route.path.replace(/^\//, "").replace(/\/$/, "") || undefined,
+    },
+    props: { route },
+  }));
+}
+interface Props {
+  route: Route;
+}
+const { route } = Astro.props;
+const { lang } = route;
+const ContentView = "kind" in route && route.kind === "content" ? contentView(route.page.id) : undefined;
+const editorial = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/editorial/*.{jpg,png,webp}",
+  { eager: true },
+);
+let title: string;
+let description: string;
+let jsonLd: Record<string, unknown> | Record<string, unknown>[] | undefined;
+let image = "/assets/brand/logo.svg";
+let noindex = false;
+if ("building" in route) {
+  const seo = route.lot
+    ? lotSeo(route.lot, lang)
+    : {
+        title: t(lang, "seo.select", {
+          building: t(lang, `building.${route.building}`),
+        }),
+        description: t(lang, "seo.selectDescription", {
+          building: t(lang, `building.${route.building}`),
+        }),
+      };
+  title = seo.title;
+  description = seo.description;
+  jsonLd = route.lot ? lotJsonLd(route.lot, lang) : undefined;
+  image = (
+    await getImage({
+      src: mediaSource(
+        (route.lot ?? getLots(route.building)[0]!).media.hero.src,
+      ),
+      width: 1200,
+      format: "webp",
+    })
+  ).src;
+} else if (route.kind === "content") {
+  title = t(lang, route.page.titleKey);
+  description = t(lang, route.page.descriptionKey);
+  jsonLd = pageJsonLd(route.page.id, lang);
+  noindex = route.page.noindex;
+  const media = route.page.sections
+    .flatMap((s) => s.media)
+    .find((m) => !m.src.endsWith(".svg"));
+  if (media) {
+    const src = editorial[`../assets/${media.src}`]?.default;
+    if (src) image = (await getImage({ src, width: 1200, format: "webp" })).src;
+  }
+} else {
+  title = t(lang, "parking.title", { floor: route.floor }) + " | Chalet 40";
+  description = t(lang, "parking.description", { floor: route.floor });
+}
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  image={image}
+  jsonLd={jsonLd}
+  noindex={noindex}
+  lot={"building" in route ? route.lot?.id : undefined}
+>
+  {"building" in route ? (
+    route.lot ? (
+      <LotPlanView lot={route.lot} lang={lang} />
+    ) : (
+      <BuildingSelect building={route.building} lang={lang} />
+    )
+  ) : route.kind === "content" ? (
+    <div class:list={["content-page", `content-${route.page.id}`]}>
+      {ContentView && <ContentView page={route.page} lang={lang} />}
+    </div>
+  ) : (
+    <ParkingFloorView floor={route.floor} lang={lang} />
+  )}
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+import pyatnitskaya from "../data/pyatnitskaya-regions.json";
+import golikovsky from "../data/building-regions.json";
+import {getLot, lotPath, lotText} from "../lib/lots";
+import {localizedPath, type Locale} from "../i18n";
+interface Props {current:string;lang:Locale}
+const {current,lang}=Astro.props;
+const isPyatnitskaya=getLot(current).building !== "golikovsky";
+const regions=isPyatnitskaya ? pyatnitskaya.regions : golikovsky;
+---
+<div class="building-map">
+<svg viewBox={isPyatnitskaya ? "0 0 234 181" : "0 0 261 202"} xmlns="http://www.w3.org/2000/svg" role="img" aria-label={lang === "ru" ? "Выбор помещения в корпусе" : "Select a unit"}>
+{isPyatnitskaya && <g fill="none" class="building-lines" set:html={pyatnitskaya.base.replace(/<svg[^>]*>/, "").replace("</svg>", "")} />}
+{regions.map(region => {const lot=getLot(region.id);const name=lotText(lot,lang).name; return <a href={localizedPath(lotPath(lot),lang)} aria-label={name} class:list={{current:current===region.id}} data-lot-name={name}><path d={region.d}/></a>})}
+</svg>
+<span class="map-tooltip" role="tooltip" hidden></span>
+</div>
+<script>
+document.querySelectorAll('.building-map').forEach(map=>{const tooltip=map.querySelector<HTMLElement>('.map-tooltip')!;map.querySelectorAll<SVGAElement>('a').forEach(link=>{const show=()=>{tooltip.textContent=link.dataset.lotName??'';tooltip.hidden=false};const hide=()=>tooltip.hidden=true;link.addEventListener('pointerenter',show);link.addEventListener('pointerleave',hide);link.addEventListener('focus',show);link.addEventListener('blur',hide)})});
+</script>

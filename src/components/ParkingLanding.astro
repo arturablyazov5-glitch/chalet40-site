@@ -1,0 +1,129 @@
+---
+import componentStyles from "./ParkingLanding.css?url";
+import type { ContentPage } from "../lib/pages";
+import { t, type Locale } from "../i18n";
+import EditorialImage from "./EditorialImage.astro";
+import ParkingHero from "./ParkingHero.astro";
+import ParkingSelection from "./ParkingSelection.astro";
+import sizes from "../assets/editorial/parking-sizes.svg?raw";
+interface Props {
+  page: ContentPage;
+  lang: Locale;
+}
+const { page, lang } = Astro.props;
+const sections = page.sections;
+---
+<link rel="stylesheet" href={componentStyles} />
+
+<div class="content-parking parking-landing">
+  {sections.map((section, index) => {
+    if (section.role === "hero") return <ParkingHero section={section} lang={lang} />;
+    if (section.role === "cta") return <ParkingSelection section={section} lang={lang} />;
+    const cover = section.role === "cover";
+    const title = t(lang, section.headings[0]!.key);
+    return (
+      <section
+        class:list={[
+          "parking-scene",
+          `parking-scene-${index}`,
+          { "parking-cover": cover },
+        ]}
+        id={`parking-section-${index}`}
+        data-parking-scene={index}
+      >
+        {cover && (
+          <div class="parking-scene-background">
+            <EditorialImage
+              src={section.media[0]!.src}
+              alt={t(lang, section.media[0]!.altKey)}
+              hero
+            />
+          </div>
+        )}
+        <div class="parking-scene-content">
+          {section.role === "storage" && (
+            <div class="parking-waiting-image">
+              <EditorialImage
+                src={section.media[0]!.src}
+                alt={t(lang, section.media[0]!.altKey)}
+              />
+            </div>
+          )}
+          <div class="parking-scene-copy">
+            {section.role === "sizes" ? (
+              <>
+                <h2>{title}</h2>
+                <p class="parking-size-lead">{t(lang, section.paragraphs[0]!)}</p>
+                <p class="parking-size-detail">{t(lang, section.paragraphs[1]!)}</p>
+              </>
+            ) : (
+              <>
+                <h2>{title}</h2>
+                {section.paragraphs.map((key, j) =>
+                  section.role === "storage" && j === 1 ? null : (
+                    <p class={`parking-paragraph-${j}`}>{t(lang, key)}</p>
+                  ),
+                )}
+              </>
+            )}
+          </div>
+          {section.role === "sizes" && (
+            <div
+              class="parking-sizes-image"
+              role="img"
+              aria-label={t(lang, "parking.sizesAlt")}
+              set:html={sizes}
+            />
+          )}
+          {section.role === "sizes" && section.stats && (
+            <div class="parking-size-stats" aria-label={t(lang, section.paragraphs[2]!)}>
+              {section.stats.map((stat) => (
+                <div class="parking-size-stat">
+                  <span class="parking-size-stat-number">{stat.value}</span>
+                  <span class="parking-size-stat-label">{t(lang, stat.labelKey)}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          {section.role === "storage" && (
+            <>
+              <div class="parking-storage-image">
+                <EditorialImage
+                  src={section.media[1]!.src}
+                  alt={t(lang, section.media[1]!.altKey)}
+                />
+              </div>
+              <p class="parking-storage-copy">
+                {t(lang, section.paragraphs[1]!)}
+              </p>
+            </>
+          )}
+        </div>
+      </section>
+    );
+  })}
+</div>
+<script>
+  import { initScreenScroll } from "../scripts/screen-scroll";
+  const screens = Array.from(document.querySelectorAll<HTMLElement>(
+    ".parking-landing > .parking-scene, body[data-page='/parking'] > #footer-contact",
+  ));
+  const indicator = document.querySelector<HTMLAnchorElement>(".parking-scene-scroll");
+  const updateIndicator = () => {
+    if (!indicator) return;
+    const next = screens.find(screen => screen.getBoundingClientRect().top > innerHeight * .4);
+    indicator.hidden = !next;
+    if (next) indicator.href = `#${next.id}`;
+  };
+  addEventListener("scroll", updateIndicator, {passive: true});
+  addEventListener("resize", updateIndicator);
+  updateIndicator();
+  initScreenScroll({
+    screens: ".parking-landing > .parking-scene, body[data-page='/parking'] > #footer-contact",
+    arrowKeys: true,
+    touch: true,
+    blockWheelEditable: true,
+    wheelTall: "step",
+    wheelDeltaThreshold: 30,
+  });
+</script>

@@ -1,0 +1,396 @@
+[
+  {
+    "ids": ["tspan2216"],
+    "widths": [97.808],
+    "key": "map.label0"
+  },
+  {
+    "ids": ["tspan2676"],
+    "widths": [69.537],
+    "key": "map.label1"
+  },
+  {
+    "ids": ["tspan2678"],
+    "widths": [97.003],
+    "key": "map.label2"
+  },
+  {
+    "ids": ["tspan2682"],
+    "widths": [79.519],
+    "key": "map.label3"
+  },
+  {
+    "ids": ["tspan2686"],
+    "widths": [90.859],
+    "key": "map.label4"
+  },
+  {
+    "ids": ["tspan2688"],
+    "widths": [72.8],
+    "key": "map.label5"
+  },
+  {
+    "ids": ["tspan2692"],
+    "widths": [32.744],
+    "key": "map.label6"
+  },
+  {
+    "ids": ["tspan2696"],
+    "widths": [59.933],
+    "key": "map.label7"
+  },
+  {
+    "ids": ["tspan2698"],
+    "widths": [49.085],
+    "key": "map.label8"
+  },
+  {
+    "ids": ["tspan2746"],
+    "widths": [50.106],
+    "key": "map.label9"
+  },
+  {
+    "ids": ["tspan2748"],
+    "widths": [71.409],
+    "key": "map.label10"
+  },
+  {
+    "ids": ["tspan2750"],
+    "widths": [48.944],
+    "key": "map.label11"
+  },
+  {
+    "ids": ["tspan3248"],
+    "widths": [59.689],
+    "key": "map.label12"
+  },
+  {
+    "ids": ["tspan3598"],
+    "widths": [68.506],
+    "key": "map.label13"
+  },
+  {
+    "ids": ["tspan3600"],
+    "widths": [54.846],
+    "key": "map.label14"
+  },
+  {
+    "ids": ["tspan4926"],
+    "widths": [43.006],
+    "key": "map.label15"
+  },
+  {
+    "ids": ["tspan4970"],
+    "widths": [69.328],
+    "key": "map.label16"
+  },
+  {
+    "ids": ["tspan4986"],
+    "widths": [19.896],
+    "key": "map.label17"
+  },
+  {
+    "ids": ["tspan5002"],
+    "widths": [20.072],
+    "key": "map.label18"
+  },
+  {
+    "ids": ["tspan5018"],
+    "widths": [21.256],
+    "key": "map.label19"
+  },
+  {
+    "ids": ["tspan5034"],
+    "widths": [21.168],
+    "key": "map.label20"
+  },
+  {
+    "ids": ["tspan5038"],
+    "widths": [84.488],
+    "key": "map.label21"
+  },
+  {
+    "ids": ["tspan5254"],
+    "widths": [95.033],
+    "key": "map.label22"
+  },
+  {
+    "ids": ["tspan5258"],
+    "widths": [81.736],
+    "key": "map.label23"
+  },
+  {
+    "ids": ["tspan5778"],
+    "widths": [74.067],
+    "key": "map.label24"
+  },
+  {
+    "ids": ["tspan5782"],
+    "widths": [102.6],
+    "key": "map.label25"
+  },
+  {
+    "ids": ["tspan6578"],
+    "widths": [57.942],
+    "key": "map.label26"
+  },
+  {
+    "ids": ["tspan6580"],
+    "widths": [30.618],
+    "key": "map.label27"
+  },
+  {
+    "ids": ["tspan6608"],
+    "widths": [63.064],
+    "key": "map.label28"
+  },
+  {
+    "ids": ["tspan6610"],
+    "widths": [57.968],
+    "key": "map.label29"
+  },
+  {
+    "ids": ["tspan6612"],
+    "widths": [60.847],
+    "key": "map.label30"
+  },
+  {
+    "ids": ["tspan6614"],
+    "widths": [61.839],
+    "key": "map.label31"
+  },
+  {
+    "ids": ["tspan6630"],
+    "widths": [20.424],
+    "key": "map.label32"
+  },
+  {
+    "ids": ["tspan6646"],
+    "widths": [20.424],
+    "key": "map.label33"
+  },
+  {
+    "ids": ["tspan6650"],
+    "widths": [57.212],
+    "key": "map.label34"
+  },
+  {
+    "ids": ["tspan6652"],
+    "widths": [48.742],
+    "key": "map.label35"
+  },
+  {
+    "ids": ["tspan6654"],
+    "widths": [64.646],
+    "key": "map.label36"
+  },
+  {
+    "ids": ["tspan6656"],
+    "widths": [33.928],
+    "key": "map.label37"
+  },
+  {
+    "ids": ["tspan6660"],
+    "widths": [35.361],
+    "key": "map.label38"
+  },
+  {
+    "ids": ["tspan6662"],
+    "widths": [35.972],
+    "key": "map.label39"
+  },
+  {
+    "ids": ["tspan6664"],
+    "widths": [57.591],
+    "key": "map.label40"
+  },
+  {
+    "ids": ["tspan6890"],
+    "widths": [57.751],
+    "key": "map.label41"
+  },
+  {
+    "ids": ["tspan6892"],
+    "widths": [63.353],
+    "key": "map.label42"
+  },
+  {
+    "ids": ["tspan7602"],
+    "widths": [51.664],
+    "key": "map.label43"
+  },
+  {
+    "ids": ["tspan8482"],
+    "widths": [40.493],
+    "key": "map.label44"
+  },
+  {
+    "ids": ["tspan8484"],
+    "widths": [77.342],
+    "key": "map.label45"
+  },
+  {
+    "ids": ["tspan8486"],
+    "widths": [63.904],
+    "key": "map.label46"
+  },
+  {
+    "ids": ["tspan9566"],
+    "widths": [23.857],
+    "key": "map.label47"
+  },
+  {
+    "ids": ["tspan9568"],
+    "widths": [48.019],
+    "key": "map.label48"
+  },
+  {
+    "ids": [
+      "tspan2452",
+      "tspan2456",
+      "tspan2460",
+      "tspan2464",
+      "tspan2468",
+      "tspan2472",
+      "tspan2476",
+      "tspan2480"
+    ],
+    "widths": [5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2],
+    "key": "map.label49"
+  },
+  {
+    "ids": [
+      "tspan2484",
+      "tspan2488",
+      "tspan2492",
+      "tspan2496",
+      "tspan2500",
+      "tspan2504",
+      "tspan2508",
+      "tspan2512"
+    ],
+    "widths": [5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2],
+    "key": "map.label50"
+  },
+  {
+    "ids": [
+      "tspan2644",
+      "tspan2648",
+      "tspan2652",
+      "tspan2656",
+      "tspan2660",
+      "tspan2664",
+      "tspan2668",
+      "tspan2672"
+    ],
+    "widths": [5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2],
+    "key": "map.label51"
+  },
+  {
+    "ids": [
+      "tspan2702",
+      "tspan2706",
+      "tspan2710",
+      "tspan2714",
+      "tspan2718",
+      "tspan2722",
+      "tspan2726",
+      "tspan2730",
+      "tspan2734",
+      "tspan2738",
+      "tspan2742"
+    ],
+    "widths": [6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5],
+    "key": "map.label52"
+  },
+  {
+    "ids": [
+      "tspan5042",
+      "tspan5046",
+      "tspan5050",
+      "tspan5054",
+      "tspan5058",
+      "tspan5062",
+      "tspan5066",
+      "tspan5070",
+      "tspan5074",
+      "tspan5078",
+      "tspan5082",
+      "tspan5086",
+      "tspan5090",
+      "tspan5094",
+      "tspan5098",
+      "tspan5102"
+    ],
+    "widths": [
+      5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2,
+      5.2
+    ],
+    "key": "map.label53"
+  },
+  {
+    "ids": [
+      "tspan5106",
+      "tspan5110",
+      "tspan5114",
+      "tspan5118",
+      "tspan5122",
+      "tspan5126",
+      "tspan5130",
+      "tspan5134",
+      "tspan5138",
+      "tspan5142",
+      "tspan5146",
+      "tspan5150",
+      "tspan5154"
+    ],
+    "widths": [5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2],
+    "key": "map.label54"
+  },
+  {
+    "ids": [
+      "tspan5158",
+      "tspan5162",
+      "tspan5166",
+      "tspan5170",
+      "tspan5174",
+      "tspan5178",
+      "tspan5182",
+      "tspan5186",
+      "tspan5190",
+      "tspan5194",
+      "tspan5198",
+      "tspan5202"
+    ],
+    "widths": [5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2],
+    "key": "map.label55"
+  },
+  {
+    "ids": [
+      "tspan5206",
+      "tspan5210",
+      "tspan5214",
+      "tspan5218",
+      "tspan5222",
+      "tspan5226",
+      "tspan5230",
+      "tspan5234",
+      "tspan5238",
+      "tspan5242",
+      "tspan5246",
+      "tspan5250"
+    ],
+    "widths": [5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2, 5.2],
+    "key": "map.label56"
+  },
+  {
+    "ids": ["tspan6600"],
+    "widths": [7.8],
+    "key": "map.label57"
+  },
+  {
+    "ids": ["tspan8674"],
+    "widths": [7.8],
+    "key": "map.label58"
+  }
+]

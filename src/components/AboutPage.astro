@@ -1,0 +1,181 @@
+---
+import componentStyles from "./AboutPage.css?url";
+import type { ContentPage } from "../lib/pages";
+import { pageText } from "../lib/pages";
+import { t, type Locale } from "../i18n";
+import EditorialImage from "./EditorialImage.astro";
+interface Props {
+  page: ContentPage;
+  lang: Locale;
+}
+const { page, lang } = Astro.props;
+const section = (role: string) => {
+  const found = page.sections.find((s) => s.role === role);
+  if (!found) throw new Error(`About page: missing section role "${role}"`);
+  return found;
+};
+const intro = section("hero");
+const inventory = section("inventory");
+const story = section("story");
+const heading = t(lang, intro.headings[0]!.key);
+// RU-only line break heuristic ("— ваш ..."); EN heading renders as a single line.
+const headingLines = lang === "ru" ? heading.match(/^(.*—)\s+(ваш .*)$/i) : null;
+// Only these paragraphs get a bold lead-in (was: inline key checks in the template).
+const BOLD_LEAD_KEYS = new Set(["page.about.s2.p0", "page.about.s2.p3"]);
+const boldParts = (key: string) => {
+  if (!BOLD_LEAD_KEYS.has(key)) return null;
+  const text = pageText(lang, key);
+  const lead = key === "page.about.s2.p0"
+    ? (lang === "ru" ? "Пятницкая 40 ШАЛЕ" : "Pyatnitskaya 40 Chalet")
+    : (lang === "ru" ? "ШАЛЕ" : "Chalet");
+  return text.startsWith(lead) ? { lead, rest: text.slice(lead.length) } : null;
+};
+const inventoryIntro = pageText(lang, inventory.paragraphs[1]!);
+const inventoryIntroMatch = inventoryIntro.match(/^([\s\S]*?)(\d+)([\s\S]*)$/u);
+const inventoryLead = inventoryIntroMatch?.[1]?.trim() ?? inventoryIntro;
+const inventoryTail = inventoryIntroMatch?.[3]?.trim() ?? "";
+const inventoryItem = (key: string) => {
+  const text = pageText(lang, key).replace(/^[—–-]\s*/u, "").trim();
+  const match = text.match(/^(\d+)\s+(.+)$/u);
+  return {
+    quantity: match?.[1] ?? "",
+    description: match?.[2] ?? text,
+  };
+};
+// paragraphs[0] is the lead-in, [1] the total, [2..4] unit types, [5..] facilities.
+const inventoryTypes = inventory.paragraphs.slice(2, 5).map(inventoryItem);
+const inventoryFacilities = inventory.paragraphs.slice(5).map(inventoryItem);
+// Fallback for the total is the sum of unit-type quantities — never a hardcoded number.
+const inventoryTotalFallback = inventoryTypes.reduce(
+  (sum, item) => sum + (Number(item.quantity) || 0),
+  0,
+);
+const inventoryTotal =
+  inventoryIntroMatch?.[2] ?? (inventoryTotalFallback ? String(inventoryTotalFallback) : "");
+const blocks = [
+  { kind: "prose", paragraphs: [inventory.paragraphs[0]!], image: inventory.media[0]! },
+  { kind: "inventory", paragraphs: inventory.paragraphs.slice(1), image: inventory.media[1]! },
+  { kind: "prose", paragraphs: story.paragraphs.slice(0, 2), image: story.media[0]! },
+];
+const finalLead = boldParts(story.paragraphs[3]!);
+---
+<link rel="stylesheet" href={componentStyles} />
+
+<article class="about-page">
+  <header class="about-introduction">
+    <h1>{headingLines ? <>{headingLines[1]}<br />{headingLines[2]}</> : heading}</h1>
+    <div>
+      {intro.paragraphs.map((key) => (
+        <p>{pageText(lang, key)}</p>
+      ))}
+    </div>
+  </header>
+  <figure class="about-page__photo about-first-photo">
+    <EditorialImage
+      src={intro.media[0]!.src}
+      alt={t(lang, intro.media[0]!.altKey)}
+      eager
+      hero
+    />
+  </figure>
+  {blocks.map((block) => (
+    <>
+      {block.kind === "inventory" ? (
+        <section class="about-inventory" aria-labelledby="about-inventory-title">
+          <div class="about-inventory__inner">
+            <header class="about-inventory__heading">
+              <h2 id="about-inventory-title">
+                <span class="about-inventory__lead">{inventoryLead.split("\n").map((line, i) => <Fragment>{i > 0 && <br />}{line}</Fragment>)}</span>
+                <span class="about-inventory__total">
+                  <strong data-count-value>{inventoryTotal}</strong>
+                  <span>{inventoryTail}</span>
+                </span>
+              </h2>
+            </header>
+            <ul class="about-inventory__types">
+              {inventoryTypes.map((item) => (
+                <li class="about-inventory__type">
+                  <span class="about-inventory__quantity" data-count-value>{item.quantity}</span>
+                  <p>{item.description}</p>
+                </li>
+              ))}
+            </ul>
+            <ul class="about-inventory__facilities">
+              {inventoryFacilities.map((item) => (
+                <li>
+                  <span class="about-inventory__quantity" data-count-value>{item.quantity}</span>
+                  <p>{item.description}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : (
+        <div class="about-page__prose">
+          {block.paragraphs.map((key) => {
+            const parts = boldParts(key);
+            return <p>{parts ? <><strong>{parts.lead}</strong>{parts.rest}</> : pageText(lang, key)}</p>;
+          })}
+        </div>
+      )}
+      <figure class="about-page__photo">
+        <EditorialImage
+          src={block.image.src}
+          alt={t(lang, block.image.altKey)}
+          hero
+        />
+      </figure>
+    </>
+  ))}
+  <div class="about-page__prose about-final-prose">
+    <p>{pageText(lang, story.paragraphs[2]!)}{" "}{finalLead ? <><strong>{finalLead.lead}</strong>{finalLead.rest}</> : pageText(lang, story.paragraphs[3]!)}</p>
+    <p>{pageText(lang, story.paragraphs[4]!)}</p>
+  </div>
+</article>
+<style>
+  .about-page__photo img {
+    will-change: transform;
+  }
+</style>
+<script>
+  const photos = [...document.querySelectorAll<HTMLElement>(".about-page__photo")];
+  const motion = matchMedia("(prefers-reduced-motion: reduce)");
+  let frame = 0;
+  const render = () => {
+    frame = 0;
+    for (const photo of photos) {
+      const image = photo.querySelector<HTMLImageElement>("img");
+      if (!image) continue;
+      const box = photo.getBoundingClientRect();
+      if (motion.matches) image.style.transform = "";
+      else if (box.bottom > -innerHeight && box.top < innerHeight * 2) {
+        const offset = Math.max(-innerHeight * 0.2, Math.min(innerHeight * 0.2, innerHeight * 0.015 - box.top * 0.18));
+        image.style.transform = `translateY(${offset}px)`;
+      }
+    }
+  };
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+  addEventListener("scroll", schedule, { passive: true });
+  addEventListener("resize", schedule, { passive: true });
+  motion.addEventListener("change", schedule);
+  schedule();
+  addEventListener("pagehide", () => {
+    removeEventListener("scroll", schedule);
+    removeEventListener("resize", schedule);
+    motion.removeEventListener("change", schedule);
+    if (frame) cancelAnimationFrame(frame);
+  }, { once: true });
+</script>
+
+<script>
+  import { animatePropertyDetails } from "../scripts/lot-motion";
+  const inventory = document.querySelector<HTMLElement>(".about-inventory");
+  if (inventory && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry?.isIntersecting) return;
+      observer.disconnect();
+      animatePropertyDetails(inventory, undefined, { duration: 1200 });
+    }, { threshold: 0.3 });
+    observer.observe(inventory);
+  }
+</script>

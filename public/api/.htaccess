@@ -1,0 +1,4 @@
+Options -Indexes
+<FilesMatch "(?i)^config.*$">
+ Require all denied
+</FilesMatch>

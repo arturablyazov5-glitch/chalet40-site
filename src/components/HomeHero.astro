@@ -1,0 +1,81 @@
+---
+import EditorialImage from "./EditorialImage.astro";
+import { t, type Locale } from "../i18n";
+import { deliveryText, siteData } from "../data/site";
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const headingLines = t(lang, "page.home.s0.h0").split("\n");
+---
+
+<section class="home-hero">
+  <div class="home-hero__image">
+    <EditorialImage
+      src="editorial/home-building.webp"
+      alt={t(lang, "page.home.s0.alt0")}
+      eager
+      hero
+      highResolution
+    />
+  </div>
+  <div class="home-hero__copy">
+    <img
+      class="home-hero__emblem"
+      src="/assets/brand/home-emblem.svg"
+      width="64"
+      height="75"
+      loading="eager"
+      decoding="async"
+      alt="Пятницкая 40"
+    />
+    <h1>{headingLines.map((line, index) => <span>{index > 0 && " "}{line}</span>)}</h1>
+    <div class="home-hero__delivery">
+      <span>{t(lang, "header.delivery")}</span>
+      <b data-count-value>{deliveryText(lang)}</b>
+    </div>
+    <div class="home-hero__brand">
+      <img
+        src="/assets/brand/collaboration-home.svg"
+        alt="Chalet × Valentin Yudashkin"
+        width="400"
+        height="168"
+        loading="eager"
+        decoding="async"
+      />
+      <p>{t(lang, "page.home.s0.p1")}</p>
+    </div>
+    <div class="home-hero__contacts">
+      <a href={siteData.contacts.emailHref}>{siteData.contacts.email}</a>
+      <a href={siteData.contacts.phoneHref}>{siteData.contacts.phone}</a>
+    </div>
+  </div>
+</section>
+<script>import { animatePropertyDetails } from "../scripts/lot-motion";
+const delivery = document.querySelector<HTMLElement>(".home-hero__delivery");
+if (delivery) animatePropertyDetails(delivery, delivery.querySelector("span")!);</script>
+
+<script>
+  const brand = document.querySelector<HTMLElement>(".home-hero__brand");
+  const logo = brand?.querySelector("img");
+  const caption = brand?.querySelector("p");
+  if (logo && caption) {
+    const fitCaption = () => {
+      const width = logo.clientWidth;
+      const scale = logo.getBoundingClientRect().width / width;
+      // Pin the caption to the logo width: without it the nowrap text would
+      // widen the auto grid track instead of letter-spacing to fit.
+      caption.style.width = `${width}px`;
+      caption.style.setProperty("--brand-caption-spacing", "0px");
+      const range = document.createRange();
+      range.selectNodeContents(caption);
+      const naturalWidth = range.getBoundingClientRect().width / scale;
+      const letters = Array.from(caption.textContent ?? "").length;
+      caption.style.setProperty("--brand-caption-spacing", `${Math.max(0, (width - naturalWidth) / letters)}px`);
+    };
+    const observer = new ResizeObserver(fitCaption);
+    observer.observe(brand!);
+    window.addEventListener("pagehide", () => observer.disconnect(), { once: true });
+    document.fonts.ready.then(fitCaption).catch(() => fitCaption());
+  }
+</script>

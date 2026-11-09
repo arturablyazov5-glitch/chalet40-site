@@ -1,0 +1,56 @@
+{
+  "menu": [
+    {
+      "href": "/about",
+      "key": "menu.item0"
+    },
+    {
+      "href": "/office",
+      "key": "menu.item1"
+    },
+    {
+      "href": "/retail",
+      "key": "menu.item2"
+    },
+    {
+      "href": "/parking",
+      "key": "menu.item3"
+    },
+    {
+      "href": "/map",
+      "key": "menu.item4"
+    },
+    {
+      "href": "/contact",
+      "key": "menu.item5"
+    }
+  ],
+  "contacts": {
+    "email": "invest@hi-tech.ru",
+    "emailHref": "mailto:invest@hi-tech.ru",
+    "phone": "+7 (495) 225-95-01",
+    "phoneHref": "tel:+74952259501"
+  },
+  "footerLinks": [
+    {
+      "href": "https://hitbroker.ru",
+      "key": "footer.link0",
+      "external": true
+    },
+    {
+      "href": "https://t.me/hitechdevelopment",
+      "key": "footer.link1",
+      "external": true
+    }
+  ],
+  "legalLinks": [
+    {
+      "href": "https://наш.дом.рф/сервисы/каталог-новостроек/объект/71477",
+      "key": "footer.legal0"
+    },
+    {
+      "href": "https://hitdev.ru/",
+      "key": "footer.legal1"
+    }
+  ]
+}

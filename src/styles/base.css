@@ -1,0 +1,188 @@
+@font-face {
+  font-family: "Chalet Helvetica";
+  src: url(/assets/fonts/helvetica-light.woff) format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-20BC, U+20BE-10FFFF;
+}
+@font-face {
+  font-family: "Chalet Helvetica";
+  src: url(/assets/fonts/helvetica-regular.woff) format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-20BC, U+20BE-10FFFF;
+}
+@font-face {
+  font-family: "Chalet Helvetica";
+  src: local("HelveticaNeue-Light"), local("Helvetica Neue Light"), local("Arial");
+  font-weight: 300;
+  unicode-range: U+20BD;
+}
+@font-face {
+  font-family: "Chalet Helvetica";
+  src: local("HelveticaNeue"), local("Helvetica Neue"), local("Arial");
+  font-weight: 400;
+  unicode-range: U+20BD;
+}
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+input,
+select,
+textarea {
+  font: inherit;
+}
+a,
+button,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+a,
+button {
+  touch-action: manipulation;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+  font: inherit;
+}
+a {
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-inline-size: 100%;
+}
+dd,
+dl,
+figure,
+h1,
+h2,
+p {
+  margin: 0;
+}
+h1,
+h2 {
+  font-weight: 300;
+}
+/* Client-driven panels use hidden to override their component display. */
+[hidden] {
+  display: none !important;
+}
+.skip-link:not(:focus) {
+  position: fixed;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link:focus {
+  display: block;
+  padding: var(--space-3);
+  text-align: center;
+  background: var(--color-gold-light);
+}
+.eyebrow {
+  font-size: var(--font-caption);
+  line-height: 1.22;
+  letter-spacing: var(--letter-caption);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+/* Override component transition shorthands for reduced motion.
+   Keyframe animations are already restricted to no-preference media queries. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  ::after,
+  ::before {
+    transition-duration: 0.01ms !important;
+  }
+}
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+}
+.error-page {
+  display: grid;
+  gap: 24px;
+  padding: 80px var(--page-gutter);
+}
+.error-page > div {
+  display: grid;
+  gap: 12px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  dialog[open] {
+    animation: reveal 0.18s ease-out;
+  }
+  @keyframes reveal {
+    0% {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes parking-slide {
+    0% {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+}
+.sr-only {
+  /* Accessible labels remain in the accessibility tree without occupying space. */
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes menu-slide {
+    0% {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes parking-mouse {
+    0%,
+    to {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(4px);
+    }
+  }
+}
+
+/* TT Runs trial: local design evaluation; see notes/font-licensing.md. */
+@font-face{font-family:"TT Runs";src:url('/assets/fonts/tt-runs-light.woff') format('woff');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"TT Runs";src:url('/assets/fonts/tt-runs-regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+:root{--font-heading:"TT Runs","Chalet Helvetica",sans-serif}
+h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);overflow-wrap:break-word}

@@ -1,0 +1,109 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ConsultDialog from "../components/ConsultDialog.astro";
+import HomePreloader from "../components/HomePreloader.astro";
+import { t, localizedPath, unlocalizedPath, type Locale } from "../i18n";
+import "../styles/global.css";
+import { siteData } from "../data/site";
+interface Props {
+  lang: Locale;
+  title: string;
+  description: string;
+  image?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+  lot?: string;
+}
+const {
+  lang,
+  title,
+  description,
+  image = "/assets/brand/logo.svg",
+  jsonLd,
+  noindex = false,
+  lot,
+} = Astro.props;
+const site = Astro.site!;
+const path = unlocalizedPath(Astro.url.pathname).replace(/\/$/, "") || "/";
+const url = (path: string) => new URL(path, site).href;
+const canonical = url(localizedPath(path, lang));
+const graph = [
+  {
+    "@type": "Organization",
+    "@id": url("/#organization"),
+    name: "Пятницкая 40 Chalet",
+    url: site.href,
+    logo: url("/assets/brand/logo.svg"),
+    telephone: siteData.contacts.phone,
+    email: siteData.contacts.email,
+  },
+  {
+    "@type": "WebSite",
+    "@id": url("/#website"),
+    url: site.href,
+    name: "Пятницкая 40 Chalet",
+    inLanguage: ["ru", "en"],
+    publisher: { "@id": url("/#organization") },
+  },
+  ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []),
+];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {["ru", "en", "x-default"].map((code) => (
+      <link
+        rel="alternate"
+        hreflang={code}
+        href={url(localizedPath(path, code === "en" ? "en" : "ru"))}
+      />
+    ))}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={lang === "ru" ? "ru_RU" : "en_GB"} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={url(image)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap.xml" />
+    {noindex && <meta name="robots" content="noindex,follow" />}
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@graph": graph,
+      }).replace(/</g, "\\u003c")}
+    />
+  </head>
+  <body
+    data-plan-page={lot ? "true" : undefined}
+    data-page={path}
+    data-lang={lang}
+    data-lot={lot}
+    data-lot-title={lot ? t(lang, `lot.${lot}.name`) : undefined}
+  >
+    {path === "/" && <HomePreloader />}
+    <a class="skip-link" href="#main">
+      {t(lang, "nav.skip")}
+    </a>
+    {!lot && <Header lang={lang} />}
+    <main id="main">
+      <slot />
+    </main>
+    {path !== "/map" && !["/office/pyatnitskaya", "/office/golikovsky", "/retail"].includes(path) && !lot && <Footer lang={lang} />}
+    <ConsultDialog lang={lang} />
+    <div class="copy-email-toast" data-copy-email-toast popover="manual" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+    <script>
+      import "../scripts/client";
+      import "../scripts/copy-email";
+    </script>
+  </body>
+</html>

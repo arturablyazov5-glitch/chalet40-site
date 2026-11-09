@@ -1,0 +1,244 @@
+/* Header: grid with burger trigger / identity / language switch.
+   Markup always renders both .site-header and .site-header-home
+   (see Header.astro), so home overrides below always apply. */
+.site-header {
+  height: 69px;
+  min-height: 69px;
+  padding: 0 var(--site-gutter) 0 32px;
+  border: 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  align-items: center;
+  background: var(--color-surface);
+  color: var(--color-strong);
+  border-radius: 16px;
+}
+.site-header-home {
+  height: 64px;
+  min-height: 64px;
+}
+
+.menu-trigger {
+  justify-self: start;
+  justify-items: start;
+  display: grid;
+  align-items: center;
+  width: 38px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.site-header-home .menu-trigger {
+  width: auto;
+  height: auto;
+}
+.menu-trigger img {
+  width: 28px;
+  height: auto;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+.site-header-home .menu-trigger img {
+  width: 32px;
+}
+@media (hover: hover) {
+  .menu-trigger:hover img { opacity: 0.55; }
+}
+
+.header-identity {
+  justify-self: center;
+  display: block;
+}
+.header-address {
+  display: block;
+  width: 302px;
+  height: auto;
+  transition: filter 0.2s ease;
+}
+@media (hover: hover) {
+  .menu-trigger:hover img,
+  .header-identity:hover .header-address,
+  .header-language:hover {
+    filter: brightness(0);
+  }
+}
+
+.header-language {
+  --header-gold-light: #f7eac8;
+  --header-gold: #e4c269;
+  justify-self: end;
+  background: radial-gradient(circle, var(--header-gold-light) 0, var(--header-gold) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 14px;
+  letter-spacing: 0.9px;
+}
+
+/* Side navigation dialog */
+.navigation-dialog {
+  --nav-backdrop: #0008;
+  --nav-current: #ece3bc;
+  --nav-hover: #a28a40;
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 340px;
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  border: 0;
+  padding: 46px 40px 38px;
+  margin: 0;
+  background: var(--color-surface);
+  color: var(--color-strong);
+  font: 300 24px/1.4 var(--font-body);
+  overflow-y: auto;
+}
+.navigation-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+.navigation-dialog::backdrop {
+  background: var(--nav-backdrop);
+}
+.navigation-close {
+  position: fixed;
+  top: 5px;
+  left: min(300px, calc(100vw - 40px));
+  display: grid;
+  place-items: center;
+  padding: 0;
+  width: 30px;
+  height: 36px;
+  font: 300 36px/1 var(--font-body);
+  border: 0;
+  background: none;
+  color: var(--color-strong);
+  cursor: pointer;
+}
+.navigation-dialog nav {
+  display: grid;
+  gap: 10px;
+}
+.navigation-dialog nav a {
+  line-height: 34px;
+}
+.navigation-dialog nav [aria-current="page"] {
+  color: var(--nav-current);
+}
+.navigation-bottom {
+  margin-top: auto;
+  padding-top: 48px;
+  display: grid;
+  gap: 24px;
+  font-size: 12px;
+  line-height: 20px;
+}
+.navigation-contacts {
+  display: grid;
+}
+.navigation-contacts b {
+  font-weight: 700;
+}
+.navigation-social {
+  display: flex;
+  gap: 8px;
+}
+.navigation-bottom button {
+  justify-self: start;
+  margin-top: 4px;
+}
+.nojs-navigation {
+  padding: 10px var(--site-gutter);
+}
+.nojs-navigation a {
+  display: block;
+  padding: 8px;
+}
+
+/* Keyboard focus: tighter than the global :focus-visible (offset 4px) */
+.menu-trigger:focus-visible,
+.header-language:focus-visible,
+.navigation-dialog a:focus-visible,
+.navigation-close:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Transitions + hover states (kept as distinct patterns per element type:
+   opacity fade for icon buttons/images, gold color for text links) */
+.header-language,
+.navigation-dialog a,
+.navigation-close {
+  transition: color 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, filter 0.2s ease;
+}
+@media (hover: hover) {
+  .header-language:hover { opacity: 0.55; }
+  .navigation-dialog nav a:hover,
+  .navigation-languages a:hover,
+  .navigation-contacts a:hover,
+  .navigation-close:hover { color: var(--nav-hover); }
+  .navigation-social a:hover { opacity: 0.6; }
+}
+
+/* Breakpoints (existing values preserved) */
+@media (max-width: 1199px) {
+  .site-header,
+  .site-header-home {
+    height: 56px;
+    min-height: 56px;
+  }
+  .site-header {
+    padding-left: 24px;
+  }
+}
+@media (min-width: 640px) and (max-width: 767px) {
+  .site-header {
+    padding-block: 14px;
+  }
+}
+@media (max-width: 767px) {
+  .site-header {
+    gap: 12px;
+  }
+  .header-identity {
+    min-width: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .header-address {
+    width: 200px;
+  }
+}
+@media (max-width: 639px) {
+  .site-header {
+    padding-left: 24px;
+  }
+  .site-header-home .menu-trigger {
+    width: auto;
+  }
+  .site-header-home .menu-trigger img {
+    width: 28px;
+  }
+  .navigation-dialog {
+    padding: 40px 25px 25px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .navigation-dialog[open] {
+    animation: menu-slide 0.3s ease both;
+  }
+  .navigation-dialog[open].is-closing {
+    animation: menu-slide 0.3s ease reverse both;
+  }
+  .navigation-dialog.is-closing::backdrop {
+    animation: menu-backdrop-out 0.3s ease both;
+  }
+  @keyframes menu-backdrop-out {
+    to { background: transparent; }
+  }
+}

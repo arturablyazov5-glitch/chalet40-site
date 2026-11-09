@@ -1,0 +1,258 @@
+---
+import DownloadLink from "./DownloadLink.astro";
+import BuildingDiagram from "./BuildingDiagram.astro";
+import plans from "../data/plans.json";
+import componentStyles from "./LotPlanView.css?url";
+import type { Lot } from "../lib/lots";
+import { buildingPath, lotText, lotMetrics, priceText } from "../lib/lots";
+import { t, localizedPath, currency, number, type Locale } from "../i18n";
+import LotImage from "./LotImage.astro";
+import ConsultButton from "./ConsultButton.astro";
+interface Props {
+  lot: Lot;
+  lang: Locale;
+}
+const { lot, lang } = Astro.props;
+const text = lotText(lot, lang);
+interface PlanVariant {
+  src: string;
+  kind: "floor" | "terrace";
+  floor: number | null;
+  area: number;
+}
+const variants = ((plans as Record<string, PlanVariant[]>)[lot.id] ?? []).slice();
+// Floors ascending, terrace last — same effective order the old label sort produced.
+variants.sort(
+  (a, b) =>
+    Number(a.kind === "terrace") - Number(b.kind === "terrace") ||
+    (a.floor ?? 0) - (b.floor ?? 0),
+);
+const capitalize = (s: string) => s.replace(/^./u, (c) => c.toUpperCase());
+const planLabel = (v: PlanVariant) =>
+  capitalize(
+    v.kind === "terrace"
+      ? t(lang, "plan.tabTerrace")
+      : t(lang, "plan.tabFloor", { floor: v.floor ?? 0 }),
+  );
+const planCaption = (v: PlanVariant) =>
+  v.kind === "terrace"
+    ? t(lang, "plan.captionTerrace")
+    : t(lang, "plan.captionFloor", { floor: v.floor ?? 0 });
+const terraceArea = variants
+  .filter((v) => v.kind === "terrace")
+  .reduce((sum, v) => sum + v.area, 0);
+const totalLotArea =
+  Math.round((lot.area + terraceArea) * 100) / 100;
+const metricAreaLabels = {
+  floor: { ru: t("ru", "plan.metricFloor"), en: t("en", "plan.metricFloor") },
+  terrace: {
+    ru: t("ru", "plan.metricTerrace"),
+    en: t("en", "plan.metricTerrace"),
+  },
+};
+---
+<link rel="stylesheet" href={componentStyles} />
+
+<div class="page-shell" data-plan-switcher data-plan-labels={JSON.stringify(metricAreaLabels)}>
+  <div class="page-header">
+    <a
+      class="back-link eyebrow"
+      href={localizedPath(buildingPath(lot.building), lang)}
+    >
+      <svg class="link-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8H2.5m0 0L7 3.5M2.5 8 7 12.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      {t(lang, "ui.back")}
+    </a>
+    <a class="brand" href={localizedPath("/", lang)}>
+      <img
+        src="/assets/brand/home-address.svg"
+        width="300"
+        height="13"
+        alt="Пятницкая 40 Chalet"
+        loading="eager"
+        decoding="async"
+      />
+    </a>
+    <div class="lot-heading-tools">
+      <h1 class="page-heading eyebrow">{text.name}</h1>
+      <nav class="lot-language" aria-label={t(lang, "nav.language")}>
+        <a href={localizedPath(Astro.url.pathname.replace(/^\/en(?=\/|$)/, ""), "ru")} lang="ru" aria-current={lang === "ru" ? "page" : undefined}>RU</a>
+        <a href={localizedPath(Astro.url.pathname.replace(/^\/en(?=\/|$)/, ""), "en")} lang="en" aria-current={lang === "en" ? "page" : undefined}>EN</a>
+      </nav>
+    </div>
+  </div>
+  <article class="property-layout" aria-label={text.name}>
+    <div class="property-details">
+      <dl class="metrics" aria-label={t(lang, "ui.metrics")}>
+        <div class="metric"><dt class="metric-label">{t(lang, "plan.totalArea")}</dt><dd class="metric-value"><span>{totalLotArea.toLocaleString(lang === "ru" ? "ru-RU" : "en-GB")}</span><span class="metric-unit">{t(lang,"ui.sqm")}</span></dd></div>
+        {lotMetrics(lot, lang).map((m) => (
+          <div class="metric" data-metric={m.key}>
+            <dt class="metric-label">{m.key === "area" && variants.length > 1 ? t(lang, "plan.metricFloor") : m.label}</dt>
+            <dd class="metric-value" data-original-value={m.value}>
+              <span data-metric-number data-count-value>{m.key === "area" && variants[0] ? variants[0].area.toLocaleString(lang === "ru" ? "ru-RU" : "en-GB") : m.value}</span>
+              <span class="metric-unit">{m.unit}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+      {variants.length > 1 && (
+        <fieldset class="plan-level-control">
+          <legend>{t(lang, "plan.switcher")}</legend>
+          <div class="plan-tabs">
+            {variants.map((variant, i) => <label><input type="radio" name={`plan-level-${lot.id}`} value={i} data-plan-area={variant.area} data-plan-tab={i} data-plan-kind={variant.kind} data-plan-floor={variant.kind === "floor" && variant.floor !== null ? number(lang, variant.floor) : ""} checked={i === 0} /><span>{planLabel(variant)}</span></label>)}
+          </div>
+        </fieldset>
+      )}
+      <figure class="render-preview">
+        <button
+          class="image-button"
+          type="button"
+          data-zoom
+          aria-label={t(lang, "ui.zoom")}
+        >
+          <LotImage
+            src={lot.media.render.src}
+            alt={t(lang, `lot.${lot.id}.alt.render`)}
+          />
+        </button>
+        <figcaption>{t(lang, "ui.render")}</figcaption>
+      </figure>
+    </div>
+    <figure class="property-figure room-plan">
+      {variants.length ? <div>
+
+        {variants.map((variant, i) => <button class="image-button" type="button" data-zoom data-plan-panel={i} hidden={i !== 0}><img src={variant.src} alt={`${text.name} — ${planLabel(variant)}`} /></button>)}
+      </div> : <button class="image-button" type="button" data-zoom aria-label={t(lang, "ui.zoom")}><LotImage src={lot.media.plan.src} alt={t(lang, `lot.${lot.id}.alt.plan`)} eager /></button>}
+      <figcaption class="lot-description">{text.description}</figcaption>
+    </figure>
+    {lot.media.floor && (
+      <figure class="property-figure floor-plan">
+        {variants.length > 1 ? variants.map((variant, i) => <div data-secondary-plan={i} hidden={i !== 0}>
+          <button class="image-button" type="button" data-zoom aria-label={t(lang, "ui.zoom")}><img src={variant.src} alt={`${text.name} — ${planLabel(variant)}`} /></button>
+          <figcaption class="eyebrow">{planCaption(variant)}</figcaption>
+        </div>) : <>
+        <button
+          class="image-button"
+          type="button"
+          data-zoom
+          aria-label={t(lang, "ui.zoom")}
+        >
+          <LotImage
+            src={lot.media.floor.src}
+            alt={t(lang, `lot.${lot.id}.alt.floor`)}
+          />
+        </button>
+        <figcaption class="eyebrow">{t(lang, "ui.floorPlan")}</figcaption>
+        </>}
+      </figure>
+    )}
+    {lot.media.building && (
+      <figure class:list={["property-figure", "building-plan", { "building-plan-only": !lot.media.floor }]}>
+        <BuildingDiagram current={lot.id} lang={lang} />
+        <figcaption class="eyebrow">
+          {t(lang, "building.diagramCaption", {
+            name: t(lang, `building.${lot.building}`),
+          })}
+        </figcaption>
+      </figure>
+    )}
+    <hr class="property-divider" />
+    <section class="price" aria-label={t(lang, "ui.price")}>
+      <p class="price-primary">
+        {lot.status === "available" && lot.pricePerSqm
+          ? `${currency(lang, lot.pricePerSqm)} ${t(lang, "ui.perArea")}`
+          : t(lang, `ui.${lot.status}`)}
+      </p>
+      {lot.status === "available" && (
+        <p class="price-total">{priceText(lot, lang)}</p>
+      )}
+    </section>
+    <div class="property-actions">
+      <ConsultButton lang={lang} lot={lot.id} lotTitle={text.name} />
+      <DownloadLink href={lot.document} label={t(lang, "ui.download")} />
+    </div>
+    <figure class="compass" aria-label={t(lang, "ui.north")}>
+      <figcaption>N</figcaption>
+      <img
+        src="/assets/icons/compass.svg"
+        width="52"
+        height="52"
+        alt=""
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  </article>
+</div>
+
+<script>
+function revealLetters(element: HTMLElement) {
+ if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+ const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+ const nodes: Text[] = [];
+ while(walker.nextNode()) nodes.push(walker.currentNode as Text);
+ let index = 0;
+ for (const node of nodes) {
+   const fragment = document.createElement('span');
+   fragment.style.whiteSpace = 'pre';
+   for (const letter of node.textContent ?? '') {
+     if (/\s/.test(letter)) { fragment.append(document.createTextNode(letter)); continue; }
+     const span = document.createElement('span');
+     span.textContent = letter;
+     span.style.display = 'inline';
+     fragment.append(span);
+     span.animate([{opacity:0}, {opacity:1}], {duration:280, delay:Math.min(index++ * 14, 220), fill:'backwards', easing:'cubic-bezier(.2,.7,.3,1)'});
+   }
+   node.replaceWith(fragment);
+ }
+}
+document.querySelectorAll('[data-plan-switcher]').forEach(switcher => {
+ switcher.querySelectorAll<HTMLInputElement>('[data-plan-tab]').forEach(tab => tab.addEventListener('change', () => {
+ const terrace = tab.dataset.planKind === 'terrace';
+ const planFloor = tab.dataset.planFloor ?? '';
+ const areaLabels = JSON.parse((switcher as HTMLElement).dataset.planLabels ?? '{}') as Record<'floor' | 'terrace', {ru: string; en: string}>;
+ const areaLabel = (terrace ? areaLabels.terrace : areaLabels.floor)?.[document.documentElement.lang === 'en' ? 'en' : 'ru'];
+ switcher.querySelectorAll<HTMLElement>('[data-metric]').forEach(metric => {
+   const key = metric.dataset.metric;
+   metric.hidden = terrace && key === 'floor';
+   if (key === 'area') {
+     const label = metric.querySelector<HTMLElement>('.metric-label');
+     const value = metric.querySelector<HTMLElement>('[data-original-value]');
+     if(label && areaLabel) { if(!label.dataset.originalLabel) label.dataset.originalLabel=label.textContent??''; label.textContent=areaLabel; }
+     if(label) revealLetters(label);
+     if(value) {
+       const number = value.querySelector<HTMLElement>('[data-metric-number]');
+       const unit = value.querySelector<HTMLElement>('.metric-unit');
+       unit?.getAnimations().forEach(animation => animation.cancel());
+       const oldLeft = unit?.getBoundingClientRect().left;
+       if(number) {
+         number.textContent = Number(tab.dataset.planArea).toLocaleString(document.documentElement.lang==='en' ? 'en-GB' : 'ru-RU');
+         revealLetters(number);
+       }
+       if(unit && oldLeft !== undefined && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+         const offset = oldLeft - unit.getBoundingClientRect().left;
+         unit.animate([{transform:`translateX(${offset}px)`},{transform:'translateX(0)'}], {duration:360,easing:'cubic-bezier(.22,1,.36,1)'});
+       }
+     }
+   }
+   if (key === 'floor' && !terrace && planFloor) {
+     const value = metric.querySelector<HTMLElement>('[data-original-value]');
+     const numberEl = value?.querySelector<HTMLElement>('[data-metric-number]');
+     if(numberEl) { numberEl.textContent = planFloor; revealLetters(numberEl); }
+     else if(value) { value.textContent = planFloor; revealLetters(value); }
+   }
+ });
+ switcher.querySelectorAll<HTMLElement>('[data-secondary-plan]').forEach(panel => { panel.hidden = panel.dataset.secondaryPlan !== tab.dataset.planTab; });
+ switcher.querySelectorAll<HTMLElement>('[data-plan-panel]').forEach(panel => {
+   const active = panel.dataset.planPanel === tab.dataset.planTab;
+   panel.getAnimations().forEach(animation => animation.cancel());
+   panel.hidden = !active;
+   if (active && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+     panel.animate([
+       { opacity: 0, transform: 'translateY(5px)' },
+       { opacity: 1, transform: 'translateY(0)' },
+     ], { duration: 220, easing: 'cubic-bezier(.2,.7,.3,1)' });
+   }
+ });
+ }));
+});
+</script>

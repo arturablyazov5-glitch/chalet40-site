@@ -1,0 +1,321 @@
+---
+import officeStyles from "./OfficeLanding.css?url";
+import componentStyles from "./HomeLanding.css?url";
+import type { ContentPage } from "../lib/pages";
+import { t, localizedPath, markerLines, type Locale } from "../i18n";
+import HomeHero from "./HomeHero.astro";
+import EditorialImage from "./EditorialImage.astro";
+interface Props {
+  page: ContentPage;
+  lang: Locale;
+}
+const { page, lang } = Astro.props;
+const [, benefits, story, gallery, parking] = page.sections;
+const storyFacts = [
+  [2, "home.storyMansions"],
+  [10, "home.storyUnits"],
+  [22, "home.storyParking"],
+] as const;
+const parkingFeatures = [
+  { label: "home.parkingLift", path: "M5 21V3h14v18M9 8l3-3 3 3M12 5v6M9 16l3 3 3-3M12 13v6" },
+  { label: "home.parkingCharging", path: "M7 3v5m6-5v5M5 8h10v4a5 5 0 0 1-10 0V8Zm5 9v4m9-15-2 5h4l-2 5" },
+  { label: "home.parkingSecurity", path: "M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6l-8-3Zm-4 9 3 3 5-6" },
+] as const;
+const benefitPairs = [
+  [benefits!.headings[0]!.key, benefits!.paragraphs[0]!],
+  ...[1, 3, 5, 7, 9].map((i) => [
+    benefits!.paragraphs[i]!,
+    benefits!.paragraphs[i + 1]!,
+  ]),
+];
+// Marker positions as fractions of the 5079×3677 photo; client.ts turns them
+// into px offsets using the same cover-fit math for every scene.
+const markerAnchors: Record<string, [string, string]> = {
+  golikovsky: ["0.60", "0.26"],
+  pyatnitskaya: ["0.54", "0.55"],
+  parking: ["0.55", "0.83"],
+};
+---
+<link rel="stylesheet" href={componentStyles} />
+<link rel="stylesheet" href={officeStyles} />
+
+<div class="home-landing">
+  <HomeHero lang={lang} />
+  <section
+    class="home-scene home-benefits"
+    data-home-scene="benefits"
+  >
+    <div class="home-scene-background">
+      <EditorialImage
+        src={benefits!.media[0]!.src}
+        alt={t(lang, benefits!.media[0]!.altKey)}
+        hero
+      />
+    </div>
+    <div class="home-benefit-list">
+      {benefitPairs.map(([title, copy], i) => (
+        <div class="home-benefit">
+          <img
+            src={`/assets/brand/benefit-${i}.svg`}
+            alt=""
+            width="32"
+            height="32"
+            loading="lazy"
+            decoding="async"
+          />
+          <div>
+            <h2>{t(lang, title!)}</h2>
+            <p>{t(lang, copy!)}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+  <section class="home-scene home-story" data-home-scene="story" aria-labelledby="home-story-title">
+    <div class="home-story-visual">
+      <div class="home-scene-background">
+        <EditorialImage
+          src={story!.media[0]!.src}
+          alt={t(lang, story!.media[0]!.altKey)}
+          hero
+        />
+      </div>
+      <div class="home-story-intro">
+        <h2 id="home-story-title">{t(lang, "home.storyTitle")}</h2>
+        <ul class="home-story-facts" role="list" data-count-group>
+          {storyFacts.map(([value, label]) => (
+            <li>
+              <strong data-count-value>{value}</strong>
+              <span>{t(lang, label)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <div class="home-story-copy">
+      <div>
+        <h3>{t(lang, "home.storyProgramme")}</h3>
+        <p>{t(lang, story!.paragraphs[0]!)}</p>
+        <ul>
+          {story!.paragraphs.slice(1, 5).map((key) => (
+            <li>{t(lang, key)}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="home-story-neighbourhood">
+        <h3>{t(lang, "home.storyNeighbourhood")}</h3>
+        {story!.paragraphs.slice(5).map((key) => (
+          <p>{t(lang, key)}</p>
+        ))}
+      </div>
+    </div>
+  </section>
+  <div
+    class="home-gallery"
+    tabindex="0"
+    aria-label={t(lang, "home.galleryLabel")}
+    data-home-gallery
+  >
+    {gallery!.media.slice(0, 3).map((image, index) => (
+      <section
+        class:list={[
+          "home-scene",
+          "home-gallery-scene",
+          `home-gallery-scene-${index}`,
+        ]}
+        data-home-scene={`gallery-${index}`}
+      >
+        <div class="home-scene-background" data-background-cycle={index === 2 ? "5000" : undefined}>
+          <div class="home-background-frame is-active">{index === 0 ? <img src="/assets/buildings/pyatnitskaya-day.png" width="5079" height="3677" alt={t(lang, image.altKey)} loading="lazy" /> : <EditorialImage src={image.src} alt={t(lang, image.altKey)} hero />}</div>
+          {index === 2 && <div class="home-background-frame"><EditorialImage src={gallery!.media[3]!.src} alt={t(lang, gallery!.media[3]!.altKey)} hero /></div>}
+        </div>
+        {index === 1 && <div class="home-photo-points home-photo-points--pool">
+          <div class="home-photo-point" style="--point-x:62%;--point-y:65%">
+            <button type="button" aria-label={lang === "ru" ? "Бассейн" : "Pool"} aria-describedby="photo-point-pool"><span aria-hidden="true">+</span></button>
+            <div class="home-photo-point__tip" role="tooltip" id="photo-point-pool">
+              <strong>{lang === "ru" ? "Бассейн" : "Swimming pool"}</strong>
+              <p>{lang === "ru" ? "15-метровый бассейн в составе инфраструктуры Пятницкая 40 Chalet." : "A 15-metre swimming pool within Pyatnitskaya 40 Chalet."}</p>
+            </div>
+          </div>
+        </div>}
+        {index === 2 && <div class="home-photo-points">
+          {[
+            { name: lang === "ru" ? "Фитнес" : "Fitness", text: lang === "ru" ? "Фитнес и залы для гимнастики и йоги — в инфраструктуре комплекса." : "Fitness, gymnastics and yoga spaces form part of the complex.", x: "27%", y: "49%", frame: "0" },
+            { name: lang === "ru" ? "Спа" : "Spa", text: lang === "ru" ? "Спа, сауна и хаммам дополняют инфраструктуру для отдыха." : "Spa, sauna and hammam complement the wellness amenities.", x: "67%", y: "62%", frame: "1" },
+          ].map((point, index) => <div class="home-photo-point" data-photo-frame={point.frame} hidden={point.frame !== "0"} style={`--point-x:${point.x};--point-y:${point.y}`}>
+            <button type="button" aria-label={point.name} aria-describedby={`photo-point-${index}`}><span aria-hidden="true">+</span></button>
+            <div class="home-photo-point__tip" role="tooltip" id={`photo-point-${index}`}><strong>{point.name}</strong><p>{point.text}</p></div>
+          </div>)}
+        </div>}
+        {index === 2 && <div class="home-cycle-progress" aria-hidden="true"><span><i></i></span><span><i></i></span></div>}
+        {index === 0 && <noscript><style set:html=".office-selector__targets{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-end;padding:20px}.office-selector__targets a{position:static;transform:none}"></style></noscript>}
+        {index === 0 ? (
+          <nav
+            class="office-selector__targets"
+            aria-label={t(lang, "page.chooseOffice")}
+          >
+            {[
+              ["golikovsky", "/office/golikovsky"],
+              ["pyatnitskaya", "/office/pyatnitskaya"],
+              ["parking", "/parking"],
+            ].map(([building, path]) => {
+              const [l1, l2] = markerLines(
+                building === "parking"
+                  ? t(lang, "home.undergroundParking")
+                  : t(lang, "home.buildingLabel", {
+                      name: t(lang, `building.${building}`),
+                    }),
+              );
+              return (
+              <a
+                class={`office-selector__${building}`}
+                href={localizedPath(path!, lang)}
+                data-anchor-x={markerAnchors[building!]![0]}
+                data-anchor-y={markerAnchors[building!]![1]}
+              >
+                {l2 ? <>{l1}<br />{l2}</> : l1}
+              </a>
+              );
+            })}
+          </nav>
+        ) : index === 1 ? (
+          <h2 class="home-gallery-caption">
+            {t(lang, "home.architecturePrefix")} <b>GINZBURG ARCHITECTS</b>
+          </h2>
+        ) : (
+          <div class="home-gallery-caption home-services-copy">
+            <div class="home-mobile-neighbourhood">
+              {story!.paragraphs.slice(5).map((key) => <p>{t(lang, key)}</p>)}
+            </div>
+            <p class="home-services-description">{t(lang, gallery!.paragraphs[0]!)}</p>
+
+          </div>
+        )}
+      </section>
+    ))}
+    <section
+      class="home-scene home-parking-scene"
+      data-home-scene="parking"
+    >
+      <div class="home-scene-background" data-background-cycle="5000">
+        <div class="home-background-frame is-active"><EditorialImage
+          src={parking!.media[0]!.src}
+          alt={t(lang, parking!.media[0]!.altKey)}
+          hero
+        /></div>
+        <div class="home-background-frame"><EditorialImage src="editorial/parking-access.webp" alt={t(lang, "page.parking.s1.alt0")} hero /></div>
+        <div class="home-background-frame"><EditorialImage src="editorial/parking-ramp.webp" alt={t(lang, "page.parking.s4.alt0")} hero /></div>
+        <div class="home-background-frame"><EditorialImage src="editorial/parking-final.webp" alt={t(lang, "parking.finalAlt")} hero /></div>
+      </div>
+
+      <div class="home-cycle-progress" aria-hidden="true"><span><i></i></span><span><i></i></span><span><i></i></span><span><i></i></span></div>
+      <div class="home-parking-copy">
+        <h2>{t(lang, parking!.headings[0]!.key).replace(/\n/g, " ").replace(" Паркинг", " паркинг")}</h2>
+        <ul class="home-parking-features" role="list">
+          {parkingFeatures.map(({ label, path }) => (
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d={path} />
+              </svg>
+              <span>{t(lang, label)}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="home-parking-bottom">
+          <dl class="home-parking-facts" aria-label={t(lang, parking!.paragraphs[0]!)} data-count-group>
+            <div>
+              <dt>{t(lang, "home.storyParking")}</dt>
+              <dd data-count-value>22</dd>
+            </div>
+            <div>
+              <dt>{t(lang, "home.parkingStorage")}</dt>
+              <dd data-count-value>10</dd>
+            </div>
+          </dl>
+          <a class="home-parking-cta" href={localizedPath("/parking", lang)}>
+            {t(lang, "home.parkingCta")}
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<script>
+  import { animatePropertyDetails } from "../scripts/lot-motion";
+
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  if (!reducedMotion.matches && "IntersectionObserver" in window) {
+    const counterObserver = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        counterObserver.unobserve(entry.target);
+        animatePropertyDetails(entry.target as HTMLElement);
+      }
+    }, { threshold: 0.4 });
+    document.querySelectorAll("[data-count-group]").forEach((group) => counterObserver.observe(group));
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-background-cycle]").forEach((cycle) => {
+    const frames = Array.from(cycle.querySelectorAll<HTMLElement>(".home-background-frame"));
+    const progress=cycle.closest('.home-scene')?.querySelector<HTMLElement>('.home-cycle-progress');
+    const bars=Array.from(progress?.querySelectorAll<HTMLElement>('i') ?? []);
+    let progressAnimation: Animation | undefined;
+    const drawProgress=()=>{progressAnimation?.cancel();bars.forEach((bar,i)=>bar.style.transform=i<index?'scaleX(1)':'scaleX(0)');progressAnimation=bars[index]?.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:Number(cycle.dataset.backgroundCycle),easing:'linear',fill:'forwards'});};
+    let index = 0;
+    let timer: number | undefined;
+    const stop = () => { window.clearInterval(timer); timer = undefined; progressAnimation?.cancel(); };
+    const start = () => {
+      if (timer || reducedMotion.matches || document.hidden) return;
+      drawProgress();
+      timer = window.setInterval(() => {
+        if (cycle.closest("section")?.querySelector(".home-photo-point:hover, .home-photo-point:focus-within")) return;
+        frames[index]?.classList.remove("is-active");
+        index = (index + 1) % frames.length;
+        frames[index]?.classList.add("is-active");
+        cycle.closest("section")?.querySelectorAll<HTMLElement>("[data-photo-frame]").forEach(point => {
+          point.hidden = Number(point.dataset.photoFrame) !== index;
+        });
+        drawProgress();
+      }, Number(cycle.dataset.backgroundCycle));
+    };
+    let visible = false;
+    const update = () => { if (visible && !reducedMotion.matches && !document.hidden) start(); else stop(); };
+    new IntersectionObserver(([entry]) => { visible = !!entry?.isIntersecting; update(); }, { threshold: 0.5 }).observe(cycle);
+    reducedMotion.addEventListener("change", update);
+    document.addEventListener("visibilitychange", update);
+  });
+</script>
+<script>
+  import { initScreenScroll } from "../scripts/screen-scroll";
+
+  const viewer = document.querySelector<HTMLElement>("[data-home-gallery]");
+  const footer = document.querySelector<HTMLElement>("#footer-contact");
+  if (viewer && footer) {
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    const ignoreKey = (event: KeyboardEvent) =>
+      event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey ||
+      document.querySelector("dialog[open]") ||
+      (event.target instanceof Element && event.target.closest("input, textarea, select, [contenteditable]:not([contenteditable='false'])"));
+
+    viewer.addEventListener("keydown", (event) => {
+      if (ignoreKey(event) || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+      event.preventDefault();
+      viewer.scrollBy({
+        left: viewer.clientWidth * (event.key === "ArrowRight" ? 1 : -1),
+        behavior: reducedMotion.matches ? "instant" : "smooth",
+      });
+    });
+
+    initScreenScroll({
+      screens: ".home-landing > .home-hero, .home-landing > .home-scene, .home-landing > .home-gallery, #footer-contact",
+      arrowKeys: true,
+      touch: true,
+      wheelTall: "native",
+      endBoundary: footer,
+      horizontal: viewer,
+      handledAtEnd: true,
+    });
+  }
+</script>
+
+

@@ -1,0 +1,37 @@
+Options -Indexes -MultiViews
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+RewriteEngine On
+# Keep ACME renewal accessible; deny all other hidden segments and source maps.
+RewriteRule (^|/)\.(?!well-known/acme-challenge(?:/|$)) - [F,END]
+RewriteRule \.map$ - [F,END,NC]
+RewriteRule (^|/)config[^/]*$ - [F,END,NC]
+<FilesMatch "(?i)^config.*$">
+ Require all denied
+</FilesMatch>
+# /en/ is the canonical EN home. /en remains a non-redirecting compatibility alias.
+RewriteRule ^en/?$ en/index.html [END]
+RewriteRule ^api/consult/?$ api/consult.php [END]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+RewriteRule ^(.+?)/?$ $1/index.html [END]
+<IfModule mod_deflate.c>
+ <IfModule mod_filter.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml application/xml text/plain
+ </IfModule>
+</IfModule>
+<IfModule mod_headers.c>
+ <FilesMatch "\.(avif|webp|png|jpe?g|svg|woff2?|css|js)$">
+  Header set Cache-Control "public, max-age=3600"
+ </FilesMatch>
+ Header set Cache-Control "public, max-age=31536000, immutable" "expr=%{REQUEST_URI} =~ m#^/_astro/# && %{REQUEST_STATUS} == 200"
+ <FilesMatch "\.html$">
+  Header set Cache-Control "public, max-age=0, must-revalidate"
+ </FilesMatch>
+ Header always set X-Content-Type-Options "nosniff"
+ Header always set Referrer-Policy "strict-origin-when-cross-origin"
+ Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+ Header always set X-Frame-Options "DENY"
+</IfModule>
+# CSP Report-Only with the final inline-script hashes is appended during build.
+# These Apache rules do not configure Timeweb's Nginx frontend; see README.

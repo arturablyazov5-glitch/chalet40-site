@@ -1,0 +1,118 @@
+{
+  "capital": [
+    {
+      "src": "/assets/plans/capital/floor-3.svg",
+      "kind": "floor",
+      "floor": 3,
+      "area": 113.7
+    },
+    {
+      "src": "/assets/plans/capital/floor-4.svg",
+      "kind": "floor",
+      "floor": 4,
+      "area": 85.8
+    }
+  ],
+  "benefit": [
+    {
+      "src": "/assets/plans/benefit/floor-2.svg",
+      "kind": "floor",
+      "floor": 2,
+      "area": 146.9
+    }
+  ],
+  "value": [
+    {
+      "src": "/assets/plans/value/floor-2.svg",
+      "kind": "floor",
+      "floor": 2,
+      "area": 112.5
+    }
+  ],
+  "gain": [
+    {
+      "src": "/assets/plans/gain/floor-3.svg",
+      "kind": "floor",
+      "floor": 3,
+      "area": 143.7
+    },
+    {
+      "src": "/assets/plans/gain/terrace.svg",
+      "kind": "terrace",
+      "floor": null,
+      "area": 63
+    }
+  ],
+  "success": [
+    {
+      "src": "/assets/plans/success/floor-2.svg",
+      "kind": "floor",
+      "floor": 2,
+      "area": 110.3
+    }
+  ],
+  "flow": [
+    {
+      "src": "/assets/plans/flow/floor-1.svg",
+      "kind": "floor",
+      "floor": 1,
+      "area": 54.7
+    },
+    {
+      "src": "/assets/plans/flow/floor-minus-1.svg",
+      "kind": "floor",
+      "floor": -1,
+      "area": 81.3
+    }
+  ],
+  "spa": [
+    {
+      "src": "/assets/plans/spa/floor-1.svg",
+      "kind": "floor",
+      "floor": 1,
+      "area": 187.1
+    }
+  ],
+  "traffic": [
+    {
+      "src": "/assets/plans/traffic/floor-minus-1.svg",
+      "kind": "floor",
+      "floor": -1,
+      "area": 78.5
+    },
+    {
+      "src": "/assets/plans/traffic/floor-1.svg",
+      "kind": "floor",
+      "floor": 1,
+      "area": 122.9
+    }
+  ],
+  "revenue": [
+    {
+      "src": "/assets/plans/revenue/floor-3.svg",
+      "kind": "floor",
+      "floor": 3,
+      "area": 112.5
+    },
+    {
+      "src": "/assets/plans/revenue/terrace.svg",
+      "kind": "terrace",
+      "floor": null,
+      "area": 39.5
+    }
+  ],
+  "fortune": [
+    {
+      "src": "/assets/plans/fortune/floor-3.svg",
+      "kind": "floor",
+      "floor": 3,
+      "area": 149.9
+    },
+    {
+      "src": "/assets/plans/fortune/floor-4.svg",
+      "kind": "floor",
+      "floor": 4,
+      "area": 121.3
+    }
+  ]
+}

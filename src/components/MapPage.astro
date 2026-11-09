@@ -1,0 +1,33 @@
+---
+import componentStyles from "./MapPage.css?url";
+import type { ContentPage } from "../lib/pages";
+import { t, type Locale } from "../i18n";
+import LocationMap from "./LocationMap.astro";
+import mapSource from "../assets/editorial/location-map.svg?raw";
+interface Props { page: ContentPage; lang: Locale }
+const { page, lang } = Astro.props;
+const [, , mapAspectW, mapAspectH] = (mapSource.match(/viewBox="([^"]+)"/)?.[1] ?? "")
+  .split(/\s+/)
+  .map(Number);
+const mapStyle = `--map-aspect-w: ${mapAspectW}; --map-aspect-h: ${mapAspectH}`;
+---
+<link rel="stylesheet" href={componentStyles} />
+<div class="location-map" style={mapStyle}>
+  <h1 class="sr-only">{t(lang, page.sections[0]!.headings[0]!.key)}</h1>
+  <div class="location-map__continuation" aria-hidden="true">
+    <img class="location-map__side location-map__side--left" src="/assets/maps/continuation-left.svg" alt="" />
+    <img class="location-map__side location-map__side--right" src="/assets/maps/continuation-right.svg" alt="" />
+  </div>
+  <LocationMap lang={lang} altKey={page.sections[0]!.media[0]!.altKey} />
+</div>
+<script>
+  const map = document.querySelector<HTMLElement>(".location-map");
+  if (map) {
+    const center = () => {
+      map.scrollLeft = Math.max(0, (map.scrollWidth - map.clientWidth) / 2);
+    };
+    center();
+    new ResizeObserver(center).observe(map);
+    window.addEventListener("load", center, { once: true });
+  }
+</script>

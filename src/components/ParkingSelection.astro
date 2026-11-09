@@ -1,0 +1,226 @@
+---
+import type { ContentPage } from "../lib/pages";
+import { parkingCounts } from "../lib/parking";
+import { t, localizedPath, type Locale } from "../i18n";
+import EditorialImage from "./EditorialImage.astro";
+
+interface Props {
+  section: ContentPage["sections"][number];
+  lang: Locale;
+}
+
+const { section, lang } = Astro.props;
+const title = t(lang, section.headings[0]!.key).replace(/\n/g, " ");
+const floors = ([-1, -2] as const).map((floor) => ({
+  floor,
+  counts: parkingCounts(floor),
+}));
+const labels = { parking: "parking.spacesLabel", storeroom: "parking.storageLabel" };
+---
+
+<section class="parking-scene parking-selection" id="parking-section-5" data-parking-scene="5" aria-labelledby="parking-selection-title">
+  <div class="parking-scene-media parking-scene-media--selection">
+    <EditorialImage
+      src={section.media[0]!.src}
+      alt={t(lang, section.media[0]!.altKey)}
+      hero
+    />
+  </div>
+  <div class="parking-selection__content">
+    <div class="parking-selection__copy">
+      <h2 id="parking-selection-title">
+        {title}
+      </h2>
+      <p>{t(lang, section.paragraphs[0]!)}</p>
+    </div>
+    <nav class="parking-selection__floors" aria-label={t(lang, "parking.chooseFloor")}>
+      {floors.map(({ floor, counts }) => (
+        <a class="parking-floor-choice" href={localizedPath(`/parking/floor${floor}`, lang)}>
+          <div class="parking-floor-choice__heading">
+            <span class="parking-floor-choice__level">
+              <strong>−{Math.abs(floor)}</strong>
+              <span>{t(lang, "parking.levelUnit")}</span>
+            </span>
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+              <circle cx="14" cy="14" r="14" fill="#f2f2f2" />
+              <path d="M8 14h11m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <dl>
+            {counts.map(({ type, total }) => (
+              <div>
+                <dt>{t(lang, labels[type])}</dt>
+                <dd>{total}</dd>
+              </div>
+            ))}
+          </dl>
+          <span class="parking-floor-choice__action">{t(lang, "parking.openPlan")}</span>
+        </a>
+      ))}
+    </nav>
+  </div>
+</section>
+
+<style>
+  .parking-selection {
+    --parking-selection-bg: #151310;
+    --parking-selection-text: #fff7ea;
+    --parking-selection-muted: #e1d7cb;
+    --parking-selection-card: #fff;
+    --parking-selection-card-ink: #25211b;
+    --parking-selection-card-muted: #5e5850;
+    --parking-selection-card-line: #25211b26;
+    --parking-selection-card-hover: #f3f3f3;
+    background: var(--parking-selection-bg);
+    color: var(--parking-selection-text);
+  }
+  .parking-selection__content {
+    grid-area: 1/1;
+    min-width: 0;
+    min-height: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+    width: 100%;
+    max-width: 1680px;
+    margin-inline: auto;
+    padding: calc(var(--header-height) + 36px) var(--site-gutter) 56px;
+  }
+  .parking-selection__copy {
+    max-width: 1100px;
+  }
+  .parking-selection h2 {
+    display: grid;
+    gap: 2px;
+    margin: 0 0 20px;
+    font-size: clamp(34px, 4.5vw, 64px);
+    line-height: 1.08;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    text-transform: none;
+    text-wrap: balance;
+  }
+  .parking-selection__copy p {
+    max-width: 44ch;
+    color: var(--parking-selection-muted);
+    font-size: clamp(14px, 1.25vw, 17px);
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+  .parking-selection__floors {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    width: min(100%, 720px);
+  }
+  .parking-floor-choice {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 16px;
+    padding: 22px 24px;
+    border: 0;
+    border-radius: 20px;
+    background: var(--parking-selection-card);
+    color: var(--parking-selection-card-ink);
+    transition: background-color 180ms ease;
+  }
+  .parking-floor-choice__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--parking-selection-card-ink);
+  }
+  .parking-floor-choice__level {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .parking-floor-choice__level strong {
+    font: 300 clamp(36px, 3.5vw, 48px)/1 var(--font-heading);
+    font-variant-numeric: tabular-nums;
+  }
+  .parking-floor-choice__level > span {
+    font-size: 14px;
+  }
+  .parking-floor-choice svg {
+    flex-shrink: 0;
+  }
+  .parking-floor-choice dl {
+    display: grid;
+    align-content: start;
+    gap: 5px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .parking-floor-choice dl > div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .parking-floor-choice dt {
+    color: var(--parking-selection-card-muted);
+  }
+  .parking-floor-choice dd {
+    font-variant-numeric: tabular-nums;
+  }
+  .parking-floor-choice__action {
+    padding-top: 12px;
+    border-top: 1px solid var(--parking-selection-card-line);
+    font-size: 13px;
+  }
+  .parking-floor-choice:hover,
+  .parking-floor-choice:focus-visible {
+    background: var(--parking-selection-card-hover);
+  }
+  .parking-floor-choice:focus-visible {
+    outline-color: var(--color-surface);
+  }
+  @media (max-width: 767px) {
+    .parking-selection__content {
+      gap: 28px;
+      padding: calc(var(--header-height) + 32px) 20px 68px;
+    }
+    .parking-selection h2 {
+      margin-bottom: 14px;
+      font-size: clamp(26px, 7.2vw, 38px);
+    }
+    .parking-selection__copy p {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .parking-selection__floors {
+      gap: 12px;
+    }
+    .parking-floor-choice {
+      gap: 14px;
+      padding: 16px 14px;
+      border-radius: 16px;
+    }
+    .parking-floor-choice__level {
+      display: grid;
+      gap: 4px;
+    }
+    .parking-floor-choice__level strong {
+      font-size: 36px;
+    }
+    .parking-floor-choice__level > span,
+    .parking-floor-choice dl,
+    .parking-floor-choice__action {
+      font-size: 12px;
+    }
+    .parking-floor-choice dl > div {
+      gap: 6px;
+    }
+    .parking-floor-choice dt {
+      min-width: 0;
+    }
+    .parking-floor-choice dd {
+      flex-shrink: 0;
+    }
+  }
+</style>

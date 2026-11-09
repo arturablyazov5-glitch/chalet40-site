@@ -1,0 +1,82 @@
+body {
+  margin: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: 300 16px/1.4 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+body[data-plan-page] {
+  --header-height: 0px;
+}
+
+/* Overlay pages: header sits above page content.
+   Two stacking mechanisms coexist (z-index values intentionally unchanged):
+   - "/", "/contact", "/map", "/office": header z-index 10 (lower layer)
+   - "/parking" and all other pages: header z-index 990 (top layer, see below)
+   The grid-area/align-self declarations are legacy from a grid-overlay
+   layout; the header is position:fixed (out of flow), so they are inert
+   but kept for clarity of intent. */
+body[data-page="/"],
+body[data-page="/contact"],
+body[data-page="/map"],
+body[data-page="/office"],
+body[data-page="/parking"] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+body[data-page="/"] > .site-header,
+body[data-page="/contact"] > .site-header,
+body[data-page="/map"] > .site-header,
+body[data-page="/office"] > .site-header {
+  grid-area: 1/1;
+  align-self: start;
+  z-index: 10;
+}
+body[data-page="/parking"] > .site-header {
+  grid-area: 1/1;
+  align-self: start;
+}
+body[data-page="/"] > main,
+body[data-page="/contact"] > main,
+body[data-page="/map"] > main,
+body[data-page="/office"] > main,
+body[data-page="/parking"] > main {
+  grid-area: 1/1;
+}
+
+/* Default header positioning: fixed top bar on every page.
+   On overlay pages the page-specific z-index rules above win by specificity. */
+body > .site-header,
+body[data-page="/parking"] > .site-header {
+  position: fixed;
+  inset: 8px 8px auto;
+  z-index: 990;
+}
+/* /map: header collapses to a burger-only pill on the left. */
+body[data-page="/map"] > .site-header {
+  right: auto;
+  width: max-content;
+  grid-template-columns: auto;
+  padding: 0 20px;
+  box-shadow: 0 8px 24px #00000010;
+}
+body:has(> .site-header) > main {
+  padding-top: var(--header-height);
+}
+body[data-page="/"] > main,
+body[data-page="/contact"] > main,
+body[data-page="/map"] > main,
+body[data-page="/office"] > main,
+body[data-page="/parking"] > main,
+body:has(.building-select) > main {
+  padding-top: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:has(body[data-page="/"]),
+  html:has(body[data-page="/parking"]) {
+    scroll-snap-type: y proximity;
+  }
+}

@@ -1,0 +1,334 @@
+{
+  "floors": [
+    {
+      "floor": -1,
+      "svg": "editorial/parking-floor-1.svg"
+    },
+    {
+      "floor": -2,
+      "svg": "editorial/parking-floor-2.svg"
+    }
+  ],
+  "items": [
+    {
+      "id": "P1",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 26.5,
+      "pricePerM2": 1000000,
+      "totalPrice": 26500000,
+      "status": "available",
+      "svg": "#p1"
+    },
+    {
+      "id": "P2",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 23.25,
+      "pricePerM2": 1000000,
+      "totalPrice": 23300000,
+      "status": "available",
+      "svg": "#p2"
+    },
+    {
+      "id": "P3",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 24.7,
+      "pricePerM2": 1000000,
+      "totalPrice": 24700000,
+      "status": "available",
+      "svg": "#p3"
+    },
+    {
+      "id": "P4",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 24.7,
+      "pricePerM2": 1000000,
+      "totalPrice": 24700000,
+      "status": "available",
+      "svg": "#p4"
+    },
+    {
+      "id": "P5",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 24.7,
+      "pricePerM2": 1000000,
+      "totalPrice": 24700000,
+      "status": "available",
+      "svg": "#p5"
+    },
+    {
+      "id": "P6",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 13.25,
+      "pricePerM2": 1000000,
+      "totalPrice": 13300000,
+      "status": "available",
+      "svg": "#p6"
+    },
+    {
+      "id": "P7",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 13.25,
+      "pricePerM2": 1000000,
+      "totalPrice": 13300000,
+      "status": "available",
+      "svg": "#p7"
+    },
+    {
+      "id": "P8",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 13.25,
+      "pricePerM2": 1000000,
+      "totalPrice": 13300000,
+      "status": "available",
+      "svg": "#p8"
+    },
+    {
+      "id": "P9",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 13.25,
+      "pricePerM2": 1000000,
+      "totalPrice": 13300000,
+      "status": "available",
+      "svg": "#p9"
+    },
+    {
+      "id": "P10",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 13.25,
+      "pricePerM2": 1000000,
+      "totalPrice": 13300000,
+      "status": "available",
+      "svg": "#p10"
+    },
+    {
+      "id": "P11",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 13.25,
+      "pricePerM2": 1000000,
+      "totalPrice": 13300000,
+      "status": "reserved",
+      "svg": "#p11"
+    },
+    {
+      "id": "P12",
+      "floor": -2,
+      "type": "parking",
+      "areaM2": 13.25,
+      "pricePerM2": 1000000,
+      "totalPrice": 13300000,
+      "status": "reserved",
+      "svg": "#p12"
+    },
+    {
+      "id": "P13",
+      "floor": -1,
+      "type": "parking",
+      "areaM2": 26.5,
+      "pricePerM2": 1000000,
+      "totalPrice": 26500000,
+      "status": "available",
+      "svg": "#p13"
+    },
+    {
+      "id": "P14",
+      "floor": -1,
+      "type": "parking",
+      "areaM2": 23.25,
+      "pricePerM2": 1000000,
+      "totalPrice": 23300000,
+      "status": "available",
+      "svg": "#p14"
+    },
+    {
+      "id": "P15",
+      "floor": -1,
+      "type": "parking",
+      "areaM2": 24.7,
+      "pricePerM2": 1000000,
+      "totalPrice": 24700000,
+      "status": "available",
+      "svg": "#p15"
+    },
+    {
+      "id": "P16",
+      "floor": -1,
+      "type": "parking",
+      "areaM2": 24.7,
+      "pricePerM2": 1000000,
+      "totalPrice": 24700000,
+      "status": "available",
+      "svg": "#p16"
+    },
+    {
+      "id": "P17",
+      "floor": -1,
+      "type": "parking",
+      "areaM2": 17.11,
+      "pricePerM2": 1000000,
+      "totalPrice": 17100000,
+      "status": "available",
+      "svg": "#p17"
+    },
+    {
+      "id": "P18",
+      "floor": -1,
+      "type": "parking",
+      "areaM2": 17.92,
+      "pricePerM2": 1000000,
+      "totalPrice": 17900000,
+      "status": "available",
+      "svg": "#p18"
+    },
+    {
+      "id": "P19",
+      "floor": -1,
+      "type": "parking",
+      "areaM2": 16,
+      "pricePerM2": 1000000,
+      "totalPrice": 16000000,
+      "status": "available",
+      "svg": "#p19"
+    },
+    {
+      "id": "P20",
+      "floor": -1,
+      "type": "parking",
+      "areaM2": 16,
+      "pricePerM2": 1000000,
+      "totalPrice": 16000000,
+      "status": "available",
+      "svg": "#p20"
+    },
+    {
+      "id": "P21",
+      "floor": -1,
+      "type": "parking",
+      "areaM2": 14.31,
+      "pricePerM2": 1000000,
+      "totalPrice": 14300000,
+      "status": "available",
+      "svg": "#p21"
+    },
+    {
+      "id": "P22",
+      "floor": -1,
+      "type": "parking",
+      "areaM2": 17.22,
+      "pricePerM2": 1000000,
+      "totalPrice": 17200000,
+      "status": "available",
+      "svg": "#p22"
+    },
+    {
+      "id": "K1",
+      "floor": -2,
+      "type": "storeroom",
+      "areaM2": 5.2,
+      "pricePerM2": 1200000,
+      "totalPrice": 6200000,
+      "status": "available",
+      "svg": "#k1"
+    },
+    {
+      "id": "K2",
+      "floor": -2,
+      "type": "storeroom",
+      "areaM2": 4.3,
+      "pricePerM2": 1200000,
+      "totalPrice": 5200000,
+      "status": "available",
+      "svg": "#k2"
+    },
+    {
+      "id": "K3",
+      "floor": -2,
+      "type": "storeroom",
+      "areaM2": 4.2,
+      "pricePerM2": 1200000,
+      "totalPrice": 5000000,
+      "status": "available",
+      "svg": "#k3"
+    },
+    {
+      "id": "K4",
+      "floor": -2,
+      "type": "storeroom",
+      "areaM2": 4,
+      "pricePerM2": 1200000,
+      "totalPrice": 4800000,
+      "status": "available",
+      "svg": "#k4"
+    },
+    {
+      "id": "K5",
+      "floor": -2,
+      "type": "storeroom",
+      "areaM2": 2.3,
+      "pricePerM2": 1200000,
+      "totalPrice": 2800000,
+      "status": "available",
+      "svg": "#k5"
+    },
+    {
+      "id": "K6",
+      "floor": -2,
+      "type": "storeroom",
+      "areaM2": 4.2,
+      "pricePerM2": 1200000,
+      "totalPrice": 5000000,
+      "status": "available",
+      "svg": "#k6"
+    },
+    {
+      "id": "K7",
+      "floor": -2,
+      "type": "storeroom",
+      "areaM2": 5.3,
+      "pricePerM2": 1200000,
+      "totalPrice": 6400000,
+      "status": "available",
+      "svg": "#k7"
+    },
+    {
+      "id": "K8",
+      "floor": -2,
+      "type": "storeroom",
+      "areaM2": 3.5,
+      "pricePerM2": 1200000,
+      "totalPrice": 4200000,
+      "status": "available",
+      "svg": "#k8"
+    },
+    {
+      "id": "K9",
+      "floor": -2,
+      "type": "storeroom",
+      "areaM2": 5,
+      "pricePerM2": 1200000,
+      "totalPrice": 6000000,
+      "status": "available",
+      "svg": "#k9"
+    },
+    {
+      "id": "K10",
+      "floor": -2,
+      "type": "storeroom",
+      "areaM2": 7.1,
+      "pricePerM2": 1200000,
+      "totalPrice": 8500000,
+      "status": "available",
+      "svg": "#k10"
+    }
+  ]
+}
