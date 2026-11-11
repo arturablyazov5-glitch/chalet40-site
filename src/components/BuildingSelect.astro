@@ -23,21 +23,17 @@ const { building, lang } = Astro.props;
 const lots = getLots(building);
 const first = lots[0]!;
 const specOrder = ["floor", "ceiling", "terrace", "roofTerrace"] as const;
-const specsText = (lot: Lot) => {
-  const metrics = lotMetrics(lot, lang);
-  return specOrder
-    .map((key) => metrics.find((m) => m.key === key))
-    .filter((m) => m !== undefined)
-    .map((m) => `${m!.label} ${m!.value}${m!.unit ? ` ${m!.unit}` : ""}`)
-    .join(" · ");
-};
+const specMetrics = (lot: Lot) =>
+  specOrder
+    .map((key) => lotMetrics(lot, lang).find((m) => m.key === key))
+    .filter((m) => m !== undefined);
 const selection = lots.map((lot) => ({
   id: lot.id,
   path: localizedPath(lotPath(lot), lang),
   name: lotText(lot, lang).name,
   areaText: number(lang, lot.area),
   bodyDescription: lotText(lot, lang).description,
-  specsText: specsText(lot),
+  specs: specMetrics(lot),
   statusText: t(lang, `ui.${lot.status}`),
   rateText:
     lot.status === "available" && lot.pricePerSqm
@@ -49,7 +45,7 @@ const selection = lots.map((lot) => ({
 }));
 const initial = selection[0]!;
 const usesPyatnitskayaRender = building === "pyatnitskaya" || building === "retail";
-const interactiveRegions = hitRegions.filter(region => lots.some(lot => lot.id === region.id));
+const interactiveRegions = hitRegions;
 
 ---
 <link rel="stylesheet" href={componentStyles} />
@@ -60,22 +56,24 @@ const interactiveRegions = hitRegions.filter(region => lots.some(lot => lot.id =
   data-building-path={localizedPath(buildingPath(building), lang)}
   data-initial-lot={first.id}
 >
-  {lots.map((lot, i) => (
+  {usesPyatnitskayaRender ? (
+    <div class="selection-background">
+      <img src="/assets/buildings/pyatnitskaya-day.webp" width="5079" height="3677" alt={t(lang, `building.${building}`)} loading="eager" />
+      <svg class="selection-hit-map" viewBox="0 0 5079 3677" preserveAspectRatio="xMidYMid slice" aria-label={t(lang,"ui.select")}>
+        <defs><mask id="lot-spotlight" maskUnits="userSpaceOnUse" x="0" y="0" width="5079" height="3677"><rect width="5079" height="3677" fill="white"/><path data-spotlight-hole d={hitRegions.find(region=>region.id===first.id)?.d} fill="black"/></mask></defs>
+        <rect class="selection-dimmer" width="5079" height="3677" fill="black" mask="url(#lot-spotlight)" />
+        {interactiveRegions.map(region => { const target= getLots().find(l=>l.id===region.id)!;const own=target.building===building;const zoneName=t(lang,`building.${target.building}`);return <a href={localizedPath(own?lotPath(target):buildingPath(target.building),lang)} {...(own?{"data-select-lot":target.id}:{"data-hit-zone":target.building})} aria-label={own?lotText(target,lang).name:zoneName} data-hit-id={target.id} data-hit-name={own?`${lotText(target,lang).name} · ${number(lang,target.area)} ${t(lang,"ui.sqm")}`:zoneName}><path d={region.d}/></a>; })}
+      </svg>
+      <span class="map-tooltip" role="tooltip" data-render-tooltip hidden></span>
+    </div>
+  ) : lots.map((lot, i) => (
     <div class="selection-background" data-slide={lot.id} hidden={i !== 0}>
-      {usesPyatnitskayaRender ? <img src="/assets/buildings/pyatnitskaya-day.webp" width="5079" height="3677" alt={t(lang, `building.${building}`)} loading={i === 0 ? "eager" : "lazy"} /> : (
       <LotImage
         src={lot.media.hero.src}
         alt={t(lang, `lot.${lot.id}.alt.hero`)}
         eager={i === 0}
         hero
       />
-      )}
-      {usesPyatnitskayaRender && <svg class="selection-hit-map" viewBox="0 0 5079 3677" preserveAspectRatio="xMidYMid slice" aria-label={t(lang,"ui.select")}>
-        <defs><mask id={`lot-spotlight-${lot.id}`} maskUnits="userSpaceOnUse" x="0" y="0" width="5079" height="3677"><rect width="5079" height="3677" fill="white"/><path data-spotlight-hole d={hitRegions.find(region=>region.id===lot.id)?.d} fill="black"/></mask></defs>
-        <rect class="selection-dimmer" width="5079" height="3677" fill="black" mask={`url(#lot-spotlight-${lot.id})`} />
-        {interactiveRegions.map(region => { const target= getLots().find(l=>l.id===region.id)!;return <a href={localizedPath(lotPath(target),lang)} data-select-lot={target.id} aria-label={lotText(target,lang).name} data-hit-id={target.id} data-hit-name={`${lotText(target,lang).name} · ${number(lang,target.area)} ${t(lang,"ui.sqm")}`}><path d={region.d}/></a>; })}
-      </svg>}
-      <span class="map-tooltip" role="tooltip" data-render-tooltip hidden></span>
     </div>
   ))}
   <div class="selection-inner">
@@ -102,7 +100,17 @@ const interactiveRegions = hitRegions.filter(region => lots.some(lot => lot.id =
         <h1 data-select-heading>{initial.name}</h1>
         <p class="lot-status" data-select-status>{t(lang, `ui.${first.status}`)}</p>
         <dl class="metrics"><div class="metric"><dt class="metric-label">{t(lang,"metric.area")}</dt><dd class="metric-value"><span data-select-area data-count-value>{initial.areaText}</span><span class="metric-unit">{t(lang,"ui.sqm")}</span></dd></div></dl>
-        <p class="lot-specs" data-select-specs>{initial.specsText}</p>
+        <dl class="lot-specs" data-select-specs>
+          {specMetrics(first).map((m) => (
+            <div class="metric">
+              <dt class="metric-label">{m!.label}</dt>
+              <dd class="metric-value">
+                <span>{m!.value}</span>
+                {m!.unit ? <span class="metric-unit">{m!.unit}</span> : null}
+              </dd>
+            </div>
+          ))}
+        </dl>
         <p data-select-description>{initial.bodyDescription}</p>
       </div>
       <div class="selection-bottom">
@@ -145,15 +153,22 @@ const interactiveRegions = hitRegions.filter(region => lots.some(lot => lot.id =
 </section>
 
 <script>
-document.querySelectorAll<HTMLElement>('[data-slide]').forEach(slide=>{
+document.querySelectorAll<HTMLElement>('.selection-background').forEach(slide=>{
  const tooltip=slide.querySelector<HTMLElement>('[data-render-tooltip]');
  const hole=slide.querySelector<SVGPathElement>('[data-spotlight-hole]');
- const restore=()=>{const current=slide.querySelector('[data-hit-id="'+slide.dataset.slide+'"] path'); if(hole && current) hole.setAttribute('d',current.getAttribute('d')??'');};
+ if(!hole) return;
+ const select=slide.closest<HTMLElement>('[data-select]');
+ const currentPath=()=>{const id=document.body.dataset.lot||select?.dataset.initialLot;const link=slide.querySelector(`[data-select-lot="${id}"]`);return link?.querySelector('path')?.getAttribute('d')??'';};
+ const restore=()=>{hole.setAttribute('d',currentPath());};
  slide.querySelectorAll<SVGAElement>('[data-hit-name]').forEach(link=>{
  const hide=()=>{if(tooltip) tooltip.hidden=true;restore()};
- link.addEventListener('pointerenter',()=>{const path=link.querySelector('path');if(hole && path) hole.setAttribute('d',path.getAttribute('d')??'');if(tooltip && !matchMedia('(prefers-reduced-motion: reduce)').matches) tooltip.animate([{opacity:0},{opacity:1}],{duration:160,easing:'ease-out'});});
+ link.addEventListener('pointerenter',()=>{
+  const zone=link.dataset.hitZone;
+  if(zone){const zoneLinks=[...slide.querySelectorAll<SVGAElement>(`[data-hit-zone="${zone}"]`)];zoneLinks.forEach(z=>z.classList.add('is-zone-hover'));if(hole)hole.setAttribute('d',zoneLinks.map(z=>z.querySelector('path')?.getAttribute('d')??'').join(' '));}
+  else{const path=link.querySelector('path');if(hole && path) hole.setAttribute('d',path.getAttribute('d')??'');}
+  if(tooltip && !matchMedia('(prefers-reduced-motion: reduce)').matches) tooltip.animate([{opacity:0},{opacity:1}],{duration:160,easing:'ease-out'});});
  link.addEventListener('pointermove',event=>{if(!tooltip)return;const rect=slide.getBoundingClientRect();tooltip.textContent=link.dataset.hitName??'';tooltip.hidden=false;tooltip.style.left=`${Math.min(rect.width-90,Math.max(50,event.clientX-rect.left))}px`;tooltip.style.top=`${event.clientY-rect.top-48}px`;});
- link.addEventListener('pointerleave',hide);link.addEventListener('click',hide);
+ link.addEventListener('pointerleave',()=>{const zone=link.dataset.hitZone;if(zone)slide.querySelectorAll<SVGAElement>(`[data-hit-zone="${zone}"]`).forEach(z=>z.classList.remove('is-zone-hover'));hide();});link.addEventListener('click',hide);
  });
 });
 </script>

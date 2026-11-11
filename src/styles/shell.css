@@ -8,9 +8,6 @@ body {
 body:has(dialog[open]) {
   overflow: hidden;
 }
-body[data-plan-page] {
-  --header-height: 0px;
-}
 
 /* Overlay pages: header sits above page content.
    Two stacking mechanisms coexist (z-index values intentionally unchanged):

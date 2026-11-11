@@ -9,6 +9,9 @@
 .about-introduction {
   padding: 36px var(--site-gutter) 51px;
 }
+.about-introduction .breadcrumbs {
+  margin-bottom: 28px;
+}
 .about-introduction h1 {
   width: 100%;
   margin-bottom: 48px;

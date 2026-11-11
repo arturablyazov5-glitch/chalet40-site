@@ -261,10 +261,11 @@ for (const form of document.querySelectorAll<HTMLFormElement>(
   });
 }
 
+type SelectionSpec = { key: string; value: string; unit: string; label: string };
 type Selection = {
   areaText: string;
   bodyDescription: string;
-  specsText: string;
+  specs: SelectionSpec[];
   statusText: string;
   rateText: string;
   totalText: string;
@@ -323,7 +324,20 @@ if (select) {
         "[data-slide]",
       ))
         slide.hidden = slide.dataset.slide !== id;
-      if (
+      const hole = select.querySelector<SVGPathElement>(
+        "[data-spotlight-hole]",
+      );
+      if (hole) {
+        const link = select.querySelector(`[data-select-lot="${id}"] path`);
+        hole.setAttribute("d", link?.getAttribute("d") ?? "");
+        select
+          .querySelectorAll(".is-zone-hover")
+          .forEach((el) => el.classList.remove("is-zone-hover"));
+        const tooltip = select.querySelector<HTMLElement>(
+          "[data-render-tooltip]",
+        );
+        if (tooltip) tooltip.hidden = true;
+      } else if (
         displayed !== id &&
         !matchMedia("(prefers-reduced-motion: reduce)").matches
       ) {
@@ -355,13 +369,38 @@ if (select) {
       for (const [selector, value] of Object.entries({
         "[data-select-area]": choice.areaText,
         "[data-select-description]": choice.bodyDescription,
-        "[data-select-specs]": choice.specsText,
         "[data-select-status]": choice.statusText,
         "[data-select-rate]": choice.rateText,
         "[data-select-total]": choice.totalText,
       })) {
         const node = select.querySelector(selector);
         if (node) node.textContent = value;
+      }
+      const specsNode = select.querySelector<HTMLElement>(
+        "[data-select-specs]",
+      );
+      if (specsNode) {
+        specsNode.textContent = "";
+        for (const spec of choice.specs) {
+          const item = document.createElement("div");
+          item.className = "metric";
+          const term = document.createElement("dt");
+          term.className = "metric-label";
+          term.textContent = spec.label;
+          const value = document.createElement("dd");
+          value.className = "metric-value";
+          const amount = document.createElement("span");
+          amount.textContent = spec.value;
+          value.append(amount);
+          if (spec.unit) {
+            const unit = document.createElement("span");
+            unit.className = "metric-unit";
+            unit.textContent = spec.unit;
+            value.append(unit);
+          }
+          item.append(term, value);
+          specsNode.append(item);
+        }
       }
       const price = select.querySelector<HTMLElement>(".selection-price");
       if (price) price.hidden = !choice.rateText;

@@ -2,7 +2,6 @@
 import { t, localizedPath, unlocalizedPath, type Locale } from "../i18n";
 import { siteData } from "../data/site";
 import ConsultButton from "./ConsultButton.astro";
-import menuBurgerSvg from "../../public/assets/brand/menu-burger.svg?raw";
 import phoneSvg from "../../public/assets/brand/phone.svg?raw";
 import whatsappSvg from "../../public/assets/brand/whatsapp.svg?raw";
 // Inline small icons as data URIs: same <img> markup and CSS, zero HTTP requests.
@@ -26,14 +25,7 @@ const other = lang === "ru" ? "en" : "ru";
     aria-expanded="false"
     aria-label={t(lang, "nav.menu")}
   >
-    <img
-      src={svgDataUri(menuBurgerSvg)}
-      width="38"
-      height="38"
-      alt=""
-      loading="eager"
-      decoding="async"
-    />
+    <span class="menu-burger" aria-hidden="true"></span>
   </button>
   {path !== "/map" && <>
     <a
@@ -41,17 +33,7 @@ const other = lang === "ru" ? "en" : "ru";
       href={localizedPath("/", lang)}
       aria-label={t(lang, "nav.home")}
     >
-      
-        <img
-          class="header-address"
-          src="/assets/brand/home-address.svg"
-          alt={t(lang, "header.address")}
-          width="302"
-          height="16"
-          loading="eager"
-          decoding="async"
-        />
-      
+      <span class="header-address">{t(lang, "header.address")}</span>
     </a>
     <a
       class="header-language"

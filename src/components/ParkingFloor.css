@@ -715,17 +715,6 @@ body:has(.parking-page) {
   }
 }
 
-.parking-breadcrumbs {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  padding-top: 20px;
-  color: var(--parking-ui-muted);
-  font-size: 12px;
-}
-.parking-breadcrumbs a { text-underline-offset: 3px; }
-.parking-breadcrumbs a:hover { text-decoration: underline; }
 .parking-card dl > div {
   display: grid;
   grid-template-columns: 1fr;

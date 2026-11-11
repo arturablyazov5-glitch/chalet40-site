@@ -25,9 +25,10 @@
   --gold-deep: #d6b56b;
   --gold-rich: #e3c780;
   --gold-highlight: #f3e3b7;
+  --gradient-gold: radial-gradient(circle, #e6d3a3 0, #a67c33 100%);
   --color-focus: #8b671a;
   /* Typography scale. */
-  --font-body: "Chalet Helvetica", Helvetica, Arial, sans-serif;
+  --font-body: "Medeo Sans", "Chalet Helvetica", Helvetica, Arial, sans-serif;
   --font-caption: 14px;
   --font-label: 16px;
   --font-value: 32px;

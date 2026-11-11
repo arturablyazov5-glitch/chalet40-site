@@ -1,6 +1,7 @@
 ---
 import ConsultButton from "./ConsultButton.astro";
 import DownloadLink from "./DownloadLink.astro";
+import Breadcrumbs from "./Breadcrumbs.astro";
 import componentStyles from "./ParkingFloor.css?url";
 import {
   getParkingItems,
@@ -59,13 +60,14 @@ const firstCard = cards[0]!;
       </div>
     </dl>
   </div>
-  <nav class="parking-breadcrumbs" aria-label={t(lang, "ui.breadcrumbs")}>
-    <a href={localizedPath("/", lang)}>{t(lang, "nav.home")}</a>
-    <span aria-hidden="true">/</span>
-    <a href={localizedPath("/parking", lang)}>{t(lang, "nav.parking")}</a>
-    <span aria-hidden="true">/</span>
-    <span aria-current="page">{t(lang, "parking.floorButton", { floor }).toLocaleLowerCase(lang)}</span>
-  </nav>
+  <Breadcrumbs
+    lang={lang}
+    items={[
+      { href: localizedPath("/", lang), label: t(lang, "nav.home") },
+      { href: localizedPath("/parking", lang), label: t(lang, "nav.parking") },
+      { label: t(lang, "parking.floorButton", { floor }).toLocaleLowerCase(lang) },
+    ]}
+  />
   <div class="parking-page-toolbar">
     <div>
       <h1>{t(lang, "parking.pickHint")}</h1>

@@ -1,0 +1,26 @@
+---
+import { t, type Locale } from "../i18n";
+import styles from "./Breadcrumbs.css?url";
+interface Crumb {
+  href?: string;
+  label: string;
+}
+interface Props {
+  lang: Locale;
+  items: Crumb[];
+}
+const { lang, items } = Astro.props;
+---
+<link rel="stylesheet" href={styles} />
+<nav class="breadcrumbs" aria-label={t(lang, "ui.breadcrumbs")}>
+  {items.map((item, i) => (
+    <>
+      {i > 0 && <span aria-hidden="true">/</span>}
+      {item.href ? (
+        <a href={item.href}>{item.label}</a>
+      ) : (
+        <span aria-current="page">{item.label}</span>
+      )}
+    </>
+  ))}
+</nav>

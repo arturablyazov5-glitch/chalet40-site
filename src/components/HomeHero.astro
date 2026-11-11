@@ -20,15 +20,6 @@ const headingLines = t(lang, "page.home.s0.h0").split("\n");
     />
   </div>
   <div class="home-hero__copy">
-    <img
-      class="home-hero__emblem"
-      src="/assets/brand/home-emblem.svg"
-      width="64"
-      height="75"
-      loading="eager"
-      decoding="async"
-      alt="Пятницкая 40"
-    />
     <h1>{headingLines.map((line, index) => <span>{index > 0 && " "}{line}</span>)}</h1>
     <div class="home-hero__delivery">
       <span>{t(lang, "header.delivery")}</span>

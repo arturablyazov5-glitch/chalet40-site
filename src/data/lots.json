@@ -176,47 +176,6 @@
     "document": "/assets/documents/pyatnitskaya.pdf"
   },
   {
-    "id": "traffic",
-    "building": "pyatnitskaya",
-    "area": 201.4,
-    "terrace": null,
-    "roofTerrace": null,
-    "ceiling": [
-      3.4,
-      4.6
-    ],
-    "floors": [
-      -1,
-      1
-    ],
-    "pricePerSqm": 3000000,
-    "totalPrice": 604000000,
-    "status": "available",
-    "media": {
-      "plan": {
-        "src": "properties/traffic/plan.svg",
-        "width": 720,
-        "height": 300
-      },
-      "building": {
-        "src": "properties/traffic/building.svg",
-        "width": 234,
-        "height": 181
-      },
-      "render": {
-        "src": "properties/traffic/render.jpg",
-        "width": 1680,
-        "height": 1008
-      },
-      "hero": {
-        "src": "properties/traffic/render.jpg",
-        "width": 1680,
-        "height": 1008
-      }
-    },
-    "document": "/assets/documents/pyatnitskaya.pdf"
-  },
-  {
     "id": "capital",
     "building": "golikovsky",
     "area": 199.5,
@@ -409,6 +368,47 @@
       },
       "hero": {
         "src": "properties/flow/render.webp",
+        "width": 1680,
+        "height": 1008
+      }
+    },
+    "document": "/assets/documents/pyatnitskaya.pdf"
+  },
+  {
+    "id": "traffic",
+    "building": "retail",
+    "area": 201.4,
+    "terrace": null,
+    "roofTerrace": null,
+    "ceiling": [
+      3.4,
+      4.6
+    ],
+    "floors": [
+      -1,
+      1
+    ],
+    "pricePerSqm": 3000000,
+    "totalPrice": 604000000,
+    "status": "available",
+    "media": {
+      "plan": {
+        "src": "properties/traffic/plan.svg",
+        "width": 720,
+        "height": 300
+      },
+      "building": {
+        "src": "properties/traffic/building.svg",
+        "width": 234,
+        "height": 181
+      },
+      "render": {
+        "src": "properties/traffic/render.jpg",
+        "width": 1680,
+        "height": 1008
+      },
+      "hero": {
+        "src": "properties/traffic/render.jpg",
         "width": 1680,
         "height": 1008
       }

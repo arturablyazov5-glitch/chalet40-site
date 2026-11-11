@@ -8,7 +8,11 @@ import { t } from "../src/i18n";
 test("source ordering, exact prices, ranges and reserved lot", () => {
   assert.deepEqual(
     getLots("pyatnitskaya").map((l) => l.id),
-    ["gain", "value", "profit", "revenue", "traffic"],
+    ["gain", "value", "profit", "revenue"],
+  );
+  assert.deepEqual(
+    getLots("retail").map((l) => l.id),
+    ["flow", "traffic"],
   );
   assert.deepEqual(
     getLots("golikovsky").map((l) => l.id),
@@ -20,7 +24,7 @@ test("source ordering, exact prices, ranges and reserved lot", () => {
   assert.equal(getLot("profit").totalPrice, null);
   assert.deepEqual(getLot("traffic").ceiling, [3.4, 4.6]);
   assert.deepEqual(getLot("traffic").floors, [-1, 1]);
-  assert.equal(lotPath(getLot("traffic")), "/office/pyatnitskaya/traffic");
+  assert.equal(lotPath(getLot("traffic")), "/retail/traffic");
 });
 test("schema rejects string prices, missing available prices and descending ranges", () => {
   const lot = getLot("value");

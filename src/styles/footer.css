@@ -32,8 +32,16 @@
   /* Effective min-height (shared-gutter refinement, formerly the last
      minified patch). All earlier calc() variants were always overridden. */
   min-height: calc(100svh - var(--header-height) - 12px - var(--site-gutter));
-  align-items: start;
+  align-items: center;
   align-content: initial;
+}
+.footer-top {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 0.81fr 0.74fr 1.35fr;
+  gap: 60px;
+  align-items: start;
+  min-width: 0;
 }
 .site-footer h1,
 .site-footer h2 {
@@ -104,7 +112,7 @@
 }
 .footer-legal {
   grid-column: 1 / -1;
-  max-width: 1040px;
+  width: 100%;
   font-size: 16px;
   line-height: 19px;
   letter-spacing: 0.9px;
@@ -176,8 +184,8 @@
 .footer-consent input:checked::before {
   content: "";
   display: block;
-  width: 5px;
-  height: 10px;
+  width: 4px;
+  height: 8px;
   border-right: 2px solid #fff;
   border-bottom: 2px solid #fff;
   transform: translateY(-1px) rotate(45deg);
@@ -224,6 +232,9 @@ body[data-page="/map"] > .site-footer {
 
 /* ---------- Viewport bands ---------- */
 @media (max-width: 1199px) {
+  .footer-top {
+    display: contents;
+  }
   .site-footer > .footer-content {
     gap: 32px;
     grid-template-columns: 1fr 0.85fr 1.5fr;
@@ -271,7 +282,6 @@ body[data-page="/map"] > .site-footer {
   }
   .footer-legal {
     grid-area: 3 / 1 / 4 / 3;
-    max-width: calc(100% - 64px);
     font-size: 14px;
     line-height: 17px;
   }

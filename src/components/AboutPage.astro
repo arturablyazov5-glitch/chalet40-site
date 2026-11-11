@@ -2,8 +2,9 @@
 import componentStyles from "./AboutPage.css?url";
 import type { ContentPage } from "../lib/pages";
 import { pageText } from "../lib/pages";
-import { t, type Locale } from "../i18n";
+import { t, localizedPath, type Locale } from "../i18n";
 import EditorialImage from "./EditorialImage.astro";
+import Breadcrumbs from "./Breadcrumbs.astro";
 interface Props {
   page: ContentPage;
   lang: Locale;
@@ -63,6 +64,13 @@ const finalLead = boldParts(story.paragraphs[3]!);
 
 <article class="about-page">
   <header class="about-introduction">
+    <Breadcrumbs
+      lang={lang}
+      items={[
+        { href: localizedPath("/", lang), label: t(lang, "nav.home") },
+        { label: t(lang, "nav.about") },
+      ]}
+    />
     <h1>{headingLines ? <>{headingLines[1]}<br />{headingLines[2]}</> : heading}</h1>
     <div>
       {intro.paragraphs.map((key) => (
